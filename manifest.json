@@ -1,0 +1,25 @@
+{
+"short_name": "BulkCollaze",
+"name": "BulkCollaze Batch Collage Maker",
+"description": "Ultra-fast batch collage maker and grid splitter for high-resolution images.",
+"icons": [
+{
+"src": "icon-192.png",
+"type": "image/png",
+"sizes": "192x192",
+"purpose": "any maskable"
+},
+{
+"src": "icon-512.png",
+"type": "image/png",
+"sizes": "512x512",
+"purpose": "any maskable"
+}
+],
+"start_url": "./index.html",
+"background_color": "#0f172a",
+"theme_color": "#16a34a",
+"display": "standalone",
+"orientation": "any",
+"categories": ["utilities", "photo", "productivity"]
+}
