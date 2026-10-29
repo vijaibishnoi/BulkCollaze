@@ -63,7 +63,7 @@
                         <span>BulkCollaze</span>
                         <span id="pwaBadge" class="text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-semibold">Lite</span>
                     </h1>
-                    <p class="text-xs text-slate-500">Multi-photo grid generator</p>
+                    <p class="text-xs text-slate-500">Fast multi-photo grid generator</p>
                 </div>
             </div>
             <!-- Header Actions -->
@@ -726,15 +726,20 @@
         function drawCellImage(ctx, img, cell) {
             ctx.save();
 
-            if (state.radius > 0) {
-                ctx.beginPath();
-                ctx.roundRect(cell.x, cell.y, cell.w, cell.h, state.radius);
-                ctx.clip();
+            const centerX = cell.x + cell.w / 2;
+            const centerY = cell.y + cell.h / 2;
+
+            // Move origin to center of cell first
+            ctx.translate(centerX, centerY);
+
+            // Apply corner radius clipping relative to translated origin
+            ctx.beginPath();
+            if (state.radius > 0 && typeof ctx.roundRect === 'function') {
+                ctx.roundRect(-cell.w / 2, -cell.h / 2, cell.w, cell.h, state.radius);
             } else {
-                ctx.beginPath();
-                ctx.rect(cell.x, cell.y, cell.w, cell.h);
-                ctx.clip();
+                ctx.rect(-cell.w / 2, -cell.h / 2, cell.w, cell.h);
             }
+            ctx.clip();
 
             let imgW = img.naturalWidth || img.width;
             let imgH = img.naturalHeight || img.height;
@@ -760,11 +765,6 @@
 
             const renderW = effectiveImgW * scale;
             const renderH = effectiveImgH * scale;
-
-            const centerX = cell.x + cell.w / 2;
-            const centerY = cell.y + cell.h / 2;
-
-            ctx.translate(centerX, centerY);
 
             if (needRotate) {
                 ctx.rotate(90 * Math.PI / 180);
