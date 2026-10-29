@@ -1,24 +1,23 @@
+```html
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="h-full bg-slate-50 text-slate-800">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#16a34a">
+    <meta name="theme-color" content="#2563eb">
     <meta name="description" content="Ultra-fast batch collage maker & grid splitter PWA">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BulkCollaze">
     
-    <title>BulkCollaze PWA</title>
+    <title>BulkCollaze App</title>
     
     <!-- PWA Web App Manifest -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
 
-    <!-- Tailwind CSS -->
+    <!-- Lightweight Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- JSZip & FileSaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -30,273 +29,254 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0fdf4',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
                         }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="h-full flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+<body class="h-full flex flex-col bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Header -->
-    <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex-none shadow-md">
+    <!-- Super Light Top Header -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 px-4 sm:px-6 py-3 shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-lg shadow-brand-600/20">
-                    <i class="fa-solid fa-border-all text-xl"></i>
+                <div class="w-10 h-10 bg-brand-50 border border-brand-100 rounded-xl flex items-center justify-center text-xl shadow-inner">
+                    🖼️
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                    <h1 class="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
                         <span>BulkCollaze</span>
-                        <span id="pwaBadge" class="hidden text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/30 px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">PWA</span>
+                        <span id="pwaBadge" class="hidden text-[10px] bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full font-semibold">Lite</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Ultra-fast batch collage maker & grid splitter</p>
+                    <p class="text-xs text-slate-500">Multi-photo grids</p>
                 </div>
             </div>
-            <!-- Action buttons header -->
-            <div class="flex items-center space-x-3">
-                <!-- PWA Install Button -->
-                <button id="pwaInstallBtn" class="hidden bg-slate-800 hover:bg-slate-700 border border-slate-700 text-brand-400 font-medium px-3.5 py-2 rounded-xl text-sm transition-all duration-200 flex items-center space-x-2">
-                    <i class="fa-solid fa-download"></i>
+            <!-- Header Actions -->
+            <div class="flex items-center space-x-2">
+                <button id="pwaInstallBtn" class="hidden bg-slate-100 hover:bg-slate-200 text-brand-700 font-semibold px-3 py-1.5 rounded-xl text-xs border border-slate-200 transition-all flex items-center space-x-1.5">
+                    <span>📲</span>
                     <span>Install App</span>
                 </button>
-                <button id="exportMainBtn" disabled class="disabled:opacity-40 disabled:cursor-not-allowed bg-brand-600 hover:bg-brand-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all duration-200 shadow-md shadow-brand-600/30 flex items-center space-x-2">
-                    <i id="exportMainIcon" class="fa-solid fa-file-zipper"></i>
-                    <span id="exportMainText">Download All (ZIP)</span>
+                <button id="exportMainBtn" disabled class="disabled:opacity-40 disabled:cursor-not-allowed bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-sm flex items-center space-x-1.5">
+                    <span>📦</span>
+                    <span id="exportMainText">Download ZIP</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Offline Notification Banner -->
-    <div id="offlineBanner" class="hidden bg-amber-600/90 text-white text-xs font-semibold px-4 py-2 text-center flex items-center justify-center space-x-2">
-        <i class="fa-solid fa-wifi"></i>
-        <span>You are currently offline. BulkCollaze works 100% offline!</span>
+    <!-- Offline Alert Banner -->
+    <div id="offlineBanner" class="hidden bg-amber-500 text-white text-xs font-medium px-4 py-1.5 text-center flex items-center justify-center space-x-2">
+        <span>📡</span>
+        <span>Working Offline. All features active!</span>
     </div>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 overflow-y-auto max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Main Content Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- Controls Sidebar -->
-        <section class="lg:col-span-4 xl:col-span-4 space-y-6">
+        <!-- Left Controls Sidebar -->
+        <section class="lg:col-span-4 space-y-4">
             
-            <!-- 1. Upload Section -->
-            <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/70 shadow-xl backdrop-blur-sm space-y-4">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-between">
-                    <span class="flex items-center space-x-2">
-                        <i class="fa-solid fa-cloud-arrow-up text-brand-500"></i>
-                        <span>1. Upload Photos</span>
+            <!-- 1. Photo Upload Card -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <span class="flex items-center space-x-1.5">
+                        <span>📁</span>
+                        <span>1. Select Images</span>
                     </span>
-                    <span id="fileCountBadge" class="hidden text-xs bg-brand-500/20 text-brand-400 px-2 py-0.5 rounded-full font-bold">0 Photos</span>
-                </h2>
+                    <span id="fileCountBadge" class="hidden bg-brand-100 text-brand-700 px-2.5 py-0.5 rounded-full font-bold">0 Photos</span>
+                </div>
 
-                <div id="dropzone" class="border-2 border-dashed border-slate-600 hover:border-brand-500 bg-slate-900/50 hover:bg-slate-900 transition-all rounded-xl p-6 text-center cursor-pointer group">
+                <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50/80 hover:bg-white transition-all rounded-xl p-5 text-center cursor-pointer group">
                     <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
-                    <i class="fa-solid fa-images text-3xl text-slate-500 group-hover:text-brand-500 transition-colors mb-2"></i>
-                    <p class="text-sm font-medium text-slate-200">Drag & drop your photos here</p>
-                    <p class="text-xs text-slate-400 mt-1">or click to select multiple files</p>
+                    <div class="text-3xl mb-1 group-hover:scale-110 transition-transform">📸</div>
+                    <p class="text-xs font-semibold text-slate-800">Tap or Drop Photos Here</p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Select multiple images together</p>
                 </div>
             </div>
 
-            <!-- 2. Grid & Batch Configuration -->
-            <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/70 shadow-xl backdrop-blur-sm space-y-5">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-2">
-                    <i class="fa-solid fa-sliders text-brand-500"></i>
-                    <span>2. Batch & Layout Settings</span>
-                </h2>
+            <!-- 2. Format & Layout Config -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-4">
+                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
+                    <span>⚙️</span>
+                    <span>2. Layout & Export Settings</span>
+                </div>
 
-                <!-- Export Format Selection -->
+                <!-- Export Format Selector -->
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-2">Export Format</label>
+                    <label class="block text-xs font-medium text-slate-500 mb-1.5">Export File Format</label>
                     <div class="grid grid-cols-3 gap-2">
-                        <button type="button" data-format="png" class="fmt-btn active py-2 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white flex items-center justify-center space-x-1">
-                            <i class="fa-solid fa-file-image"></i>
-                            <span>PNG</span>
-                        </button>
-                        <button type="button" data-format="jpg" class="fmt-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700 flex items-center justify-center space-x-1">
-                            <i class="fa-solid fa-file-jpeg"></i>
-                            <span>JPG</span>
-                        </button>
-                        <button type="button" data-format="pdf" class="fmt-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700 flex items-center justify-center space-x-1">
-                            <i class="fa-solid fa-file-pdf"></i>
-                            <span>PDF</span>
-                        </button>
+                        <button type="button" data-format="png" class="fmt-btn active py-2 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white shadow-sm">PNG</button>
+                        <button type="button" data-format="jpg" class="fmt-btn py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">JPG</button>
+                        <button type="button" data-format="pdf" class="fmt-btn py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">PDF</button>
                     </div>
                 </div>
 
                 <!-- JPG Quality Slider -->
-                <div id="jpgQualityContainer" class="hidden pt-2 border-t border-slate-700/60">
-                    <div class="flex justify-between text-xs font-medium text-slate-300 mb-1">
-                        <span>JPG Compression Quality</span>
-                        <span id="jpgQualityVal" class="text-brand-400 font-bold">90%</span>
+                <div id="jpgQualityContainer" class="hidden pt-2 border-t border-slate-100">
+                    <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                        <span>JPG Quality</span>
+                        <span id="jpgQualityVal" class="text-brand-600 font-bold">90%</span>
                     </div>
-                    <input type="range" id="jpgQualityInput" min="10" max="100" value="90" class="w-full accent-brand-500 bg-slate-700 h-1.5 rounded-lg cursor-pointer">
+                    <input type="range" id="jpgQualityInput" min="10" max="100" value="90" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
                 </div>
 
-                <!-- Photos per collage -->
+                <!-- Photos Per Collage Splitter -->
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-2 flex justify-between">
-                        <span>Photos per Collage Grid</span>
-                        <span id="photosPerCollageVal" class="text-brand-400 font-bold">4 Photos</span>
-                    </label>
-                    <div class="grid grid-cols-5 gap-2">
-                        <button type="button" data-count="2" class="count-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700">2</button>
-                        <button type="button" data-count="4" class="count-btn active py-2 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white">4</button>
-                        <button type="button" data-count="6" class="count-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700">6</button>
-                        <button type="button" data-count="8" class="count-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700">8</button>
-                        <button type="button" data-count="9" class="count-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700">9</button>
+                    <div class="flex justify-between text-xs font-medium text-slate-600 mb-1.5">
+                        <span>Photos per Collage Page</span>
+                        <span id="photosPerCollageVal" class="text-brand-600 font-bold">4 Photos</span>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1">
+                        <button type="button" data-count="2" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">2</button>
+                        <button type="button" data-count="3" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">3</button>
+                        <button type="button" data-count="4" class="count-btn active py-1.5 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white shadow-sm">4</button>
+                        <button type="button" data-count="6" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">6</button>
+                        <button type="button" data-count="8" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">8</button>
+                        <button type="button" data-count="9" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">9</button>
+                        <button type="button" data-count="12" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50">12</button>
                     </div>
                 </div>
 
-                <!-- Page / Canvas Aspect Ratio -->
+                <!-- Aspect Ratio Preset (A4 as Default First Option) -->
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-2">Collage Aspect Ratio</label>
-                    <select id="aspectRatioSelect" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 focus:border-brand-500 focus:outline-none">
+                    <label class="block text-xs font-medium text-slate-500 mb-1.5">Canvas Aspect Ratio</label>
+                    <select id="aspectRatioSelect" class="w-full bg-white border border-slate-200 text-slate-800 text-xs rounded-xl p-2.5 focus:border-brand-500 focus:outline-none shadow-sm">
+                        <option value="A4" selected>A4 Print Page (210 x 297 mm)</option>
                         <option value="1:1">1:1 Square (1200 x 1200 px)</option>
                         <option value="4:5">4:5 Instagram Portrait (1080 x 1350 px)</option>
                         <option value="9:16">9:16 Mobile Story (1080 x 1920 px)</option>
-                        <option value="16:9">16:9 Landscape (1920 x 1080 px)</option>
-                        <option value="A4">A4 Print Page Ratio (210 x 297)</option>
+                        <option value="16:9">16:9 Widescreen (1920 x 1080 px)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 3. Photo & Margin Customizations -->
-            <div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700/70 shadow-xl backdrop-blur-sm space-y-5">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center space-x-2">
-                    <i class="fa-solid fa-crop-simple text-brand-500"></i>
-                    <span>3. Photo & Canvas Fit</span>
-                </h2>
+            <!-- 3. Photo Fit & Spacing Options -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-4">
+                <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
+                    <span>✂️</span>
+                    <span>3. Fit, Spacing & Borders</span>
+                </div>
 
-                <!-- Image Fitting Options -->
+                <!-- Contain vs Cover Strategy -->
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-2">Image Crop & Fit Strategy</label>
+                    <label class="block text-xs font-medium text-slate-500 mb-1.5">Photo Display Strategy</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="button" id="fitContainBtn" class="fit-btn active py-2 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white flex items-center justify-center space-x-1">
-                            <i class="fa-solid fa-expand"></i>
+                        <button type="button" id="fitContainBtn" class="fit-btn active py-2 text-xs font-bold rounded-xl border border-brand-500 bg-brand-600 text-white shadow-sm flex items-center justify-center space-x-1">
+                            <span>🔍</span>
                             <span>100% Fit (No Crop)</span>
                         </button>
-                        <button type="button" id="fitCoverBtn" class="fit-btn py-2 text-xs font-bold rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 hover:bg-slate-700 flex items-center justify-center space-x-1">
-                            <i class="fa-solid fa-scissors"></i>
-                            <span>Fill Cell (Crop)</span>
+                        <button type="button" id="fitCoverBtn" class="fit-btn py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 flex items-center justify-center space-x-1">
+                            <span>✂️</span>
+                            <span>Fill Cell</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Auto-Rotate Toggle -->
-                <div class="flex items-center justify-between pt-2 border-t border-slate-700/60">
+                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
                     <div>
-                        <span class="block text-xs font-medium text-slate-200">Auto-Rotate for Best Fit</span>
-                        <span class="block text-[11px] text-slate-400">Rotates photo 90° if frame aspect ratio matches better</span>
+                        <span class="block text-xs font-semibold text-slate-800">Auto-Rotate Photos</span>
+                        <span class="block text-[10px] text-slate-500">Auto-rotates to match best cell orientation</span>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="autoRotateToggle" checked class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+                        <div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
                     </label>
                 </div>
 
-                <!-- Spacing Sliders -->
-                <div class="space-y-4 pt-2 border-t border-slate-700/60">
+                <!-- Sliders -->
+                <div class="space-y-3 pt-2 border-t border-slate-100">
                     <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-300 mb-1">
-                            <span>Inner Photo Spacing</span>
-                            <span id="spacingVal" class="text-brand-400 font-bold">16px</span>
+                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                            <span>Photo Spacing</span>
+                            <span id="spacingVal" class="text-brand-600 font-bold">16px</span>
                         </div>
-                        <input type="range" id="spacingInput" min="0" max="60" value="16" class="w-full accent-brand-500 bg-slate-700 h-1.5 rounded-lg cursor-pointer">
+                        <input type="range" id="spacingInput" min="0" max="120" value="16" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
                     </div>
 
                     <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-300 mb-1">
-                            <span>Outer Page Margin</span>
-                            <span id="marginVal" class="text-brand-400 font-bold">20px</span>
+                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                            <span>Page Margin</span>
+                            <span id="marginVal" class="text-brand-600 font-bold">20px</span>
                         </div>
-                        <input type="range" id="marginInput" min="0" max="80" value="20" class="w-full accent-brand-500 bg-slate-700 h-1.5 rounded-lg cursor-pointer">
+                        <input type="range" id="marginInput" min="0" max="120" value="20" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
                     </div>
 
                     <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-300 mb-1">
-                            <span>Photo Corner Radius</span>
-                            <span id="radiusVal" class="text-brand-400 font-bold">12px</span>
+                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                            <span>Corner Radius</span>
+                            <span id="radiusVal" class="text-brand-600 font-bold">12px</span>
                         </div>
-                        <input type="range" id="radiusInput" min="0" max="40" value="12" class="w-full accent-brand-500 bg-slate-700 h-1.5 rounded-lg cursor-pointer">
+                        <input type="range" id="radiusInput" min="0" max="50" value="12" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
                     </div>
 
-                    <!-- Canvas Background Color -->
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-medium text-slate-300">Collage Background Color</span>
-                        <div class="flex items-center space-x-2">
-                            <input type="color" id="bgColorInput" value="#ffffff" class="w-8 h-8 rounded-lg cursor-pointer border-0 bg-transparent">
-                        </div>
+                    <!-- Background Color -->
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-xs font-medium text-slate-700">Page Background Color</span>
+                        <input type="color" id="bgColorInput" value="#ffffff" class="w-8 h-8 rounded-lg cursor-pointer border border-slate-200 bg-transparent p-0.5">
                     </div>
                 </div>
-
             </div>
 
-            <!-- Generate Trigger Button -->
-            <button id="generateBtn" disabled class="w-full py-3.5 bg-brand-600 hover:bg-brand-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-2xl shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <!-- Trigger Button -->
+            <button id="generateBtn" disabled class="w-full py-3 bg-brand-600 hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5">
+                <span>✨</span>
                 <span>Re-Generate Collages</span>
             </button>
         </section>
 
-        <!-- Main Display / Preview Area -->
-        <section class="lg:col-span-8 xl:col-span-8 flex flex-col space-y-4">
+        <!-- Right Preview Grid Area -->
+        <section class="lg:col-span-8 flex flex-col space-y-4">
             
-            <!-- Output Header Summary -->
-            <div class="bg-slate-800/90 rounded-2xl p-4 border border-slate-700/70 shadow-lg flex items-center justify-between">
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex items-center justify-between">
                 <div>
-                    <h2 class="text-base font-semibold text-slate-200">Generated Collages</h2>
-                    <p id="summaryText" class="text-xs text-slate-400">Upload photos to preview auto-split collages.</p>
+                    <h2 class="text-sm font-bold text-slate-900">Collage Output Preview</h2>
+                    <p id="summaryText" class="text-xs text-slate-500">Upload images to auto-generate fixed grids.</p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <button id="downloadPdfDocBtn" class="hidden bg-red-600 hover:bg-red-500 text-white font-medium px-3 py-1.5 rounded-lg text-xs transition-colors flex items-center space-x-1.5">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        <span>Download Multi-Page PDF</span>
+                    <button id="downloadPdfDocBtn" class="hidden bg-rose-600 hover:bg-rose-700 text-white font-medium px-3 py-1.5 rounded-xl text-xs transition-colors flex items-center space-x-1 shadow-sm">
+                        <span>📄</span>
+                        <span>Multi-Page PDF</span>
                     </button>
-                    <div id="statusBadge" class="text-xs bg-slate-700 text-slate-300 font-medium px-3 py-1 rounded-full">
+                    <div id="statusBadge" class="text-xs bg-slate-100 text-slate-600 font-medium px-3 py-1 rounded-full border border-slate-200">
                         Ready
                     </div>
                 </div>
             </div>
 
             <!-- Canvas Grid Container -->
-            <div id="previewContainer" class="flex-1 bg-slate-900/60 rounded-2xl border border-slate-800/80 p-6 min-h-[500px] flex flex-col items-center justify-center">
+            <div id="previewContainer" class="flex-1 bg-white rounded-2xl border border-slate-200 p-4 min-h-[480px] flex flex-col items-center justify-center shadow-sm">
                 
-                <!-- Initial Empty State -->
-                <div id="emptyState" class="text-center space-y-4 max-w-sm">
-                    <div class="w-20 h-20 mx-auto rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 text-3xl">
-                        <i class="fa-solid fa-photo-film"></i>
+                <!-- Initial Placeholder -->
+                <div id="emptyState" class="text-center space-y-3 max-w-sm p-6">
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-50 text-brand-600 border border-brand-100 flex items-center justify-center text-3xl">
+                        🖼️
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-300">No Photos Loaded Yet</h3>
-                        <p class="text-xs text-slate-400 mt-1">Upload 20+ photos on the left, set photos-per-collage to 4, and let the app split them into 5 collages instantly!</p>
+                        <h3 class="text-sm font-bold text-slate-800">No Collages Generated Yet</h3>
+                        <p class="text-xs text-slate-500 mt-1">Select photos to group them into identical cell-sized collage grids!</p>
                     </div>
                 </div>
 
-                <!-- Collages Grid View -->
-                <div id="collagesGrid" class="w-full grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <!-- Collages Dynamic Grid -->
+                <div id="collagesGrid" class="w-full grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
             </div>
         </section>
@@ -308,16 +288,12 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => {
-                        console.log('PWA ServiceWorker registered successfully:', reg.scope);
-                    })
-                    .catch(err => {
-                        console.warn('PWA ServiceWorker registration failed:', err);
-                    });
+                    .then(reg => console.log('SW Registered:', reg.scope))
+                    .catch(err => console.warn('SW Register Failed:', err));
             });
         }
 
-        // PWA Installation Handling
+        // PWA Installation
         let deferredPrompt = null;
         const pwaInstallBtn = document.getElementById('pwaInstallBtn');
         const pwaBadge = document.getElementById('pwaBadge');
@@ -341,10 +317,9 @@
         window.addEventListener('appinstalled', () => {
             pwaInstallBtn.classList.add('hidden');
             pwaBadge.classList.remove('hidden');
-            console.log('BulkCollaze installed as PWA');
         });
 
-        // Online/Offline status listeners
+        // Online/Offline status
         const offlineBanner = document.getElementById('offlineBanner');
         function updateOnlineStatus() {
             if (navigator.onLine) {
@@ -357,11 +332,11 @@
         window.addEventListener('offline', updateOnlineStatus);
         updateOnlineStatus();
 
-        // Global Application State
+        // App State
         const state = {
             images: [],
             photosPerCollage: 4,
-            aspectRatio: '1:1',
+            aspectRatio: 'A4',
             fitMode: 'contain', 
             autoRotate: true,
             spacing: 16,
@@ -383,7 +358,6 @@
         const generateBtn = document.getElementById('generateBtn');
         const exportMainBtn = document.getElementById('exportMainBtn');
         const exportMainText = document.getElementById('exportMainText');
-        const exportMainIcon = document.getElementById('exportMainIcon');
         const downloadPdfDocBtn = document.getElementById('downloadPdfDocBtn');
         const summaryText = document.getElementById('summaryText');
         const statusBadge = document.getElementById('statusBadge');
@@ -391,15 +365,15 @@
         const jpgQualityInput = document.getElementById('jpgQualityInput');
         const jpgQualityVal = document.getElementById('jpgQualityVal');
 
-        // Format Selection Handlers
+        // Format Selection
         document.querySelectorAll('.fmt-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.fmt-btn').forEach(b => {
-                    b.classList.remove('border-brand-500', 'bg-brand-600', 'text-white');
-                    b.classList.add('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+                    b.classList.remove('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+                    b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
                 });
-                btn.classList.add('border-brand-500', 'bg-brand-600', 'text-white');
-                btn.classList.remove('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+                btn.classList.add('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+                btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
 
                 state.exportFormat = btn.dataset.format;
                 if (state.exportFormat === 'jpg') {
@@ -427,24 +401,22 @@
 
         function updateExportButtonText() {
             if (state.exportFormat === 'pdf') {
-                exportMainIcon.className = 'fa-solid fa-file-zipper';
-                exportMainText.textContent = 'ZIP of PDF Pages';
+                exportMainText.textContent = 'ZIP of PDFs';
             } else {
-                exportMainIcon.className = 'fa-solid fa-file-zipper';
-                exportMainText.textContent = `Download All (${state.exportFormat.toUpperCase()} ZIP)`;
+                exportMainText.textContent = `Download All (${state.exportFormat.toUpperCase()})`;
             }
         }
 
-        // Preset inputs
+        // Photos Per Collage Count Selectors
         const photosPerCollageVal = document.getElementById('photosPerCollageVal');
         document.querySelectorAll('.count-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.count-btn').forEach(b => {
-                    b.classList.remove('border-brand-500', 'bg-brand-600', 'text-white');
-                    b.classList.add('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+                    b.classList.remove('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+                    b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
                 });
-                btn.classList.add('border-brand-500', 'bg-brand-600', 'text-white');
-                btn.classList.remove('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+                btn.classList.add('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+                btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
                 state.photosPerCollage = parseInt(btn.dataset.count);
                 photosPerCollageVal.textContent = `${state.photosPerCollage} Photos`;
                 renderCollages();
@@ -456,76 +428,69 @@
         const fitCoverBtn = document.getElementById('fitCoverBtn');
 
         fitContainBtn.addEventListener('click', () => {
-            fitContainBtn.classList.add('border-brand-500', 'bg-brand-600', 'text-white');
-            fitContainBtn.classList.remove('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
-            fitCoverBtn.classList.remove('border-brand-500', 'bg-brand-600', 'text-white');
-            fitCoverBtn.classList.add('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+            fitContainBtn.classList.add('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+            fitContainBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+            fitCoverBtn.classList.remove('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+            fitCoverBtn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
             state.fitMode = 'contain';
             renderCollages();
         });
 
         fitCoverBtn.addEventListener('click', () => {
-            fitCoverBtn.classList.add('border-brand-500', 'bg-brand-600', 'text-white');
-            fitCoverBtn.classList.remove('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
-            fitContainBtn.classList.remove('border-brand-500', 'bg-brand-600', 'text-white');
-            fitContainBtn.classList.add('border-slate-700', 'bg-slate-900/60', 'text-slate-300');
+            fitCoverBtn.classList.add('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+            fitCoverBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+            fitContainBtn.classList.remove('border-brand-500', 'bg-brand-600', 'text-white', 'shadow-sm');
+            fitContainBtn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
             state.fitMode = 'cover';
             renderCollages();
         });
 
-        // Slider Listeners
-        const spacingInput = document.getElementById('spacingInput');
-        const marginInput = document.getElementById('marginInput');
-        const radiusInput = document.getElementById('radiusInput');
-        const bgColorInput = document.getElementById('bgColorInput');
-        const autoRotateToggle = document.getElementById('autoRotateToggle');
-        const aspectRatioSelect = document.getElementById('aspectRatioSelect');
-
-        spacingInput.addEventListener('input', (e) => {
+        // Sliders
+        document.getElementById('spacingInput').addEventListener('input', (e) => {
             state.spacing = parseInt(e.target.value);
             document.getElementById('spacingVal').textContent = `${state.spacing}px`;
             renderCollages();
         });
 
-        marginInput.addEventListener('input', (e) => {
+        document.getElementById('marginInput').addEventListener('input', (e) => {
             state.margin = parseInt(e.target.value);
             document.getElementById('marginVal').textContent = `${state.margin}px`;
             renderCollages();
         });
 
-        radiusInput.addEventListener('input', (e) => {
+        document.getElementById('radiusInput').addEventListener('input', (e) => {
             state.radius = parseInt(e.target.value);
             document.getElementById('radiusVal').textContent = `${state.radius}px`;
             renderCollages();
         });
 
-        bgColorInput.addEventListener('input', (e) => {
+        document.getElementById('bgColorInput').addEventListener('input', (e) => {
             state.bgColor = e.target.value;
             renderCollages();
         });
 
-        autoRotateToggle.addEventListener('change', (e) => {
+        document.getElementById('autoRotateToggle').addEventListener('change', (e) => {
             state.autoRotate = e.target.checked;
             renderCollages();
         });
 
-        aspectRatioSelect.addEventListener('change', (e) => {
+        document.getElementById('aspectRatioSelect').addEventListener('change', (e) => {
             state.aspectRatio = e.target.value;
             renderCollages();
         });
 
-        // File Drag and Drop Handlers
+        // Drag and Drop
         dropzone.addEventListener('click', () => fileInput.click());
         dropzone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            dropzone.classList.add('border-brand-500', 'bg-slate-900');
+            dropzone.classList.add('border-brand-500');
         });
         dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('border-brand-500', 'bg-slate-900');
+            dropzone.classList.remove('border-brand-500');
         });
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropzone.classList.remove('border-brand-500', 'bg-slate-900');
+            dropzone.classList.remove('border-brand-500');
             if (e.dataTransfer.files.length) {
                 handleFiles(e.dataTransfer.files);
             }
@@ -538,12 +503,11 @@
 
         generateBtn.addEventListener('click', () => renderCollages());
 
-        // Process uploaded images
         function handleFiles(files) {
             const validFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
             if (validFiles.length === 0) return;
 
-            statusBadge.textContent = 'Loading photos...';
+            statusBadge.textContent = 'Loading...';
             state.images = [];
             let loadedCount = 0;
 
@@ -565,19 +529,18 @@
         }
 
         function onImagesReady() {
-            fileCountBadge.textContent = `${state.images.length} Photos Loaded`;
+            fileCountBadge.textContent = `${state.images.length} Photos`;
             fileCountBadge.classList.remove('hidden');
             generateBtn.disabled = false;
             exportMainBtn.disabled = false;
             if (state.exportFormat === 'pdf') {
                 downloadPdfDocBtn.classList.remove('hidden');
             }
-            statusBadge.textContent = 'Ready to Process';
-            statusBadge.className = 'text-xs bg-emerald-500/20 text-emerald-300 font-medium px-3 py-1 rounded-full';
+            statusBadge.textContent = 'Ready';
+            statusBadge.className = 'text-xs bg-emerald-100 text-emerald-800 font-medium px-3 py-1 rounded-full border border-emerald-200';
             renderCollages();
         }
 
-        // Chunking array into groups
         function chunkArray(array, chunkSize) {
             const results = [];
             for (let i = 0; i < array.length; i += chunkSize) {
@@ -586,23 +549,21 @@
             return results;
         }
 
-        // Calculate Canvas Width & Height based on Ratio Preset
         function getCanvasDimensions(ratioStr, baseWidth = 1200) {
             let width = baseWidth;
             let height = baseWidth;
 
             switch(ratioStr) {
+                case 'A4': height = Math.round(baseWidth * (297 / 210)); break;
                 case '1:1': height = baseWidth; break;
-                case '4:5': height = baseWidth * (5 / 4); break;
-                case '9:16': height = baseWidth * (16 / 9); break;
-                case '16:9': height = baseWidth * (9 / 16); break;
-                case 'A4': height = baseWidth * (297 / 210); break;
-                default: height = baseWidth;
+                case '4:5': height = Math.round(baseWidth * (5 / 4)); break;
+                case '9:16': height = Math.round(baseWidth * (16 / 9)); break;
+                case '16:9': height = Math.round(baseWidth * (9 / 16)); break;
+                default: height = Math.round(baseWidth * (297 / 210));
             }
             return { width: Math.round(width), height: Math.round(height) };
         }
 
-        // Render Collages Batch
         function renderCollages() {
             if (state.images.length === 0) return;
 
@@ -610,7 +571,7 @@
             collagesGrid.innerHTML = '';
 
             const chunks = chunkArray(state.images, state.photosPerCollage);
-            summaryText.textContent = `${state.images.length} photos split into ${chunks.length} collage(s) [${state.photosPerCollage} per page]`;
+            summaryText.textContent = `${state.images.length} photos split into ${chunks.length} collages (${state.photosPerCollage} per page)`;
 
             chunks.forEach((chunk, index) => {
                 const card = createCollageCard(chunk, index + 1, chunks.length);
@@ -618,40 +579,35 @@
             });
         }
 
-        // Create DOM Card with Canvas element
         function createCollageCard(imagesChunk, index, totalChunks) {
             const card = document.createElement('div');
-            card.className = 'bg-slate-900 rounded-2xl border border-slate-800 p-4 flex flex-col space-y-3 shadow-lg hover:border-slate-700 transition-all';
+            card.className = 'bg-white border border-slate-200 rounded-2xl p-3 flex flex-col space-y-2 shadow-sm';
 
             const header = document.createElement('div');
-            header.className = 'flex items-center justify-between text-xs font-semibold text-slate-400';
+            header.className = 'flex items-center justify-between text-xs font-semibold text-slate-500 px-1';
             header.innerHTML = `
                 <span>Collage #${index} of ${totalChunks}</span>
-                <span class="bg-slate-800 px-2 py-1 rounded text-slate-300">${imagesChunk.length} Photos</span>
+                <span class="bg-slate-100 px-2 py-0.5 rounded-full text-slate-700 text-[10px] font-bold border border-slate-200">${imagesChunk.length} Photos</span>
             `;
 
             const canvasContainer = document.createElement('div');
-            canvasContainer.className = 'w-full bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center p-2';
+            canvasContainer.className = 'w-full bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center p-1 border border-slate-200/60';
 
             const canvas = document.createElement('canvas');
             const { width, height } = getCanvasDimensions(state.aspectRatio, state.canvasResolution);
             canvas.width = width;
             canvas.height = height;
-            canvas.className = 'w-full h-auto max-h-[450px] object-contain rounded-lg shadow-md';
+            canvas.className = 'w-full h-auto max-h-[420px] object-contain rounded-lg shadow-inner';
 
-            // Draw content to canvas
             drawCollageCanvas(canvas, imagesChunk);
 
-            // Individual Download Button
             const downloadBtn = document.createElement('button');
-            downloadBtn.className = 'w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition-colors flex items-center justify-center space-x-2';
+            downloadBtn.className = 'w-full py-1.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold rounded-xl border border-slate-200 transition-colors flex items-center justify-center space-x-1';
             
             const extLabel = state.exportFormat.toUpperCase();
-            downloadBtn.innerHTML = `<i class="fa-solid fa-download"></i><span>Download Collage #${index} (${extLabel})</span>`;
+            downloadBtn.innerHTML = `<span>⬇️</span><span>Save #${index} (${extLabel})</span>`;
             
-            downloadBtn.onclick = () => {
-                downloadSingleCollage(canvas, index);
-            };
+            downloadBtn.onclick = () => downloadSingleCollage(canvas, index);
 
             canvasContainer.appendChild(canvas);
             card.appendChild(header);
@@ -661,7 +617,6 @@
             return card;
         }
 
-        // Single Collage Exporter based on state.exportFormat
         function downloadSingleCollage(canvas, index) {
             const fmt = state.exportFormat;
             if (fmt === 'png') {
@@ -677,40 +632,37 @@
             } else if (fmt === 'pdf') {
                 const { jsPDF } = window.jspdf;
                 const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                
                 const isLandscape = canvas.width > canvas.height;
                 const pdf = new jsPDF({
                     orientation: isLandscape ? 'l' : 'p',
                     unit: 'px',
                     format: [canvas.width, canvas.height]
                 });
-
                 pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
                 pdf.save(`collage_${index}.pdf`);
             }
         }
 
-        // Canvas Rendering Logic
         function drawCollageCanvas(canvas, images) {
             const ctx = canvas.getContext('2d');
             const W = canvas.width;
             const H = canvas.height;
 
-            // Fill background
             ctx.fillStyle = state.bgColor;
             ctx.fillRect(0, 0, W, H);
 
-            const count = images.length;
-            const cells = calculateGridCells(W, H, count, state.margin, state.spacing);
+            // FIX: Always calculate grid size according to max selected photosPerCollage
+            // so cell width/height remains identical across all pages even if photos count on last page is smaller!
+            const targetCount = state.photosPerCollage;
+            const cells = calculateGridCells(W, H, targetCount, state.margin, state.spacing);
 
-            cells.forEach((cell, i) => {
-                if (images[i]) {
-                    drawCellImage(ctx, images[i], cell);
+            images.forEach((img, i) => {
+                if (cells[i]) {
+                    drawCellImage(ctx, img, cells[i]);
                 }
             });
         }
 
-        // Compute Grid Cell Bounding Boxes
         function calculateGridCells(W, H, count, margin, spacing) {
             let cols = 2, rows = 2;
 
@@ -718,17 +670,23 @@
                 cols = W >= H ? 2 : 1;
                 rows = W >= H ? 1 : 2;
             } else if (count === 3) {
-                cols = 2; rows = 2;
+                cols = W >= H ? 3 : 1;
+                rows = W >= H ? 1 : 3;
             } else if (count === 4) {
                 cols = 2; rows = 2;
-            } else if (count <= 6) {
+            } else if (count === 6) {
                 cols = W >= H ? 3 : 2;
                 rows = W >= H ? 2 : 3;
-            } else if (count <= 8) {
+            } else if (count === 8) {
                 cols = W >= H ? 4 : 2;
                 rows = W >= H ? 2 : 4;
-            } else {
+            } else if (count === 9) {
                 cols = 3; rows = 3;
+            } else if (count === 12) {
+                cols = W >= H ? 4 : 3;
+                rows = W >= H ? 3 : 4;
+            } else {
+                cols = 2; rows = 2;
             }
 
             const availableWidth = W - (margin * 2) - ((cols - 1) * spacing);
@@ -751,11 +709,9 @@
             return cells;
         }
 
-        // Render Individual Image inside Frame
         function drawCellImage(ctx, img, cell) {
             ctx.save();
 
-            // Create rounded rectangle clipping path
             if (state.radius > 0) {
                 ctx.beginPath();
                 ctx.roundRect(cell.x, cell.y, cell.w, cell.h, state.radius);
@@ -814,7 +770,6 @@
             ctx.restore();
         }
 
-        // Combined Multi-Page PDF Exporter
         downloadPdfDocBtn.addEventListener('click', () => {
             const canvases = collagesGrid.querySelectorAll('canvas');
             if (canvases.length === 0) return;
@@ -843,13 +798,12 @@
             }
         });
 
-        // ZIP Batch Download Event
         exportMainBtn.addEventListener('click', async () => {
             const canvases = collagesGrid.querySelectorAll('canvas');
             if (canvases.length === 0) return;
 
             exportMainBtn.disabled = true;
-            exportMainBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Creating ZIP...</span>`;
+            exportMainText.textContent = 'Compressing...';
 
             const zip = new JSZip();
             const folder = zip.folder("collages");
@@ -889,3 +843,4 @@
     </script>
 </body>
 </html>
+```
