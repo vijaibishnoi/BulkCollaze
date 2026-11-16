@@ -8,42 +8,22 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BulkCollaze">
-    
     <title>BulkCollaze PWA</title>
-    
-    <!-- PWA Web App Manifest -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
-
-    <!-- Lightweight Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- JSZip & FileSaver -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <!-- jsPDF for PDF multi-page generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- PDF.js for rendering PDF pages to Canvas/Images -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                    }
-                }
-            }
+            theme: { extend: {
+                colors: { brand: { 50:'#eff6ff',100:'#dbeafe',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8' } },
+                fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','sans-serif'] }
+            }}
         }
     </script>
     <style>
@@ -51,17 +31,52 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* ═══ Universal size-row component CSS (verbatim) ═══ */
+        .size-row{padding:14px 0;border-bottom:1px solid #f1f5f9;position:relative;}
+        .size-row:last-child{border-bottom:none;}
+        .size-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+        .size-row-label{font-size:12.5px;font-weight:700;color:#334155;}
+        .size-hide{width:30px;height:30px;border-radius:8px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;display:grid;place-items:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
+        .size-hide:hover{background:#fee2e2;border-color:#f87171;}
+        .size-hide svg{width:14px;height:14px;}
+        .size-hide.is-off{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;}
+        .size-control{display:flex;gap:6px;align-items:stretch;}
+        .size-btn{width:42px;min-height:42px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:20px;font-weight:600;cursor:pointer;display:grid;place-items:center;transition:all .12s;font-family:inherit;line-height:1;flex-shrink:0;}
+        .size-btn:hover{background:#f8fafc;border-color:#cbd5e1;}
+        .size-btn:active{background:#eff6ff;border-color:#3b82f6;color:#1d4ed8;}
+        .size-btn-nav{font-size:22px;font-weight:400;line-height:1;padding-bottom:2px;}
+        .size-btn:disabled{opacity:.35;cursor:not-allowed;background:#f8fafc;border-color:#e2e8f0;color:#94a3b8;}
+        .size-btn:disabled:hover{background:#f8fafc;border-color:#e2e8f0;}
+        .size-display{flex:1;padding:10px 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;font-size:14px;font-weight:700;color:#0f172a;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s;font-family:inherit;min-width:0;}
+        .size-display:hover{border-color:#cbd5e1;background:#f8fafc;}
+        .size-display.open{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;}
+        .size-display-icon{width:14px;height:14px;color:#94a3b8;flex-shrink:0;}
+        .size-menu{margin-top:8px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 32px -8px rgba(15,23,42,.15);padding:6px;max-height:280px;overflow-y:auto;z-index:30;position:relative;}
+        .size-menu.hidden{display:none;}
+        .size-option{display:flex;justify-content:space-between;align-items:center;width:100%;padding:11px 16px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:#334155;text-align:left;transition:background .1s;font-family:inherit;}
+        .size-option:hover{background:#f1f5f9;}
+        .size-option.active{background:#eff6ff;color:#1d4ed8;}
+        .size-option .check{width:15px;height:15px;opacity:0;color:#2563eb;flex-shrink:0;}
+        .size-option.active .check{opacity:1;}
+
+        /* 2-column size-row compaction */
+        .grid .size-row{padding:10px 0;}
+        .grid .size-row-head{margin-bottom:6px;}
+        .grid .size-row-label{font-size:11px;}
+        .grid .size-control{gap:4px;}
+        .grid .size-btn{width:34px;min-height:36px;font-size:17px;}
+        .grid .size-btn-nav{font-size:19px;}
+        .grid .size-display{padding:8px 10px;font-size:12px;}
+        .grid .size-display-icon{width:12px;height:12px;}
     </style>
 </head>
 <body class="h-full flex flex-col bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <!-- Super Light Top Header -->
     <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 px-4 sm:px-6 py-3 shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-brand-50 border border-brand-100 rounded-xl flex items-center justify-center text-xl shadow-inner">
-                    🖼️
-                </div>
+                <div class="w-10 h-10 bg-brand-50 border border-brand-100 rounded-xl flex items-center justify-center text-xl shadow-inner">🖼️</div>
                 <div>
                     <h1 class="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
                         <span>BulkCollaze</span>
@@ -70,91 +85,71 @@
                     <p class="text-xs text-slate-500">Fast multi-photo & PDF collage generator</p>
                 </div>
             </div>
-            
-            <!-- Header Actions with Three Dots Dropdown -->
             <div class="flex items-center space-x-2">
                 <button id="pwaInstallBtn" class="hidden bg-slate-100 hover:bg-slate-200 text-brand-700 font-semibold px-3 py-1.5 rounded-xl text-xs border border-slate-200 transition-all flex items-center space-x-1.5">
-                    <span>📲</span>
-                    <span>Install App</span>
+                    <span>📲</span><span>Install App</span>
                 </button>
-
-                <!-- Three-Dots Dropdown Trigger -->
                 <div class="relative">
-                    <button id="menuDropdownBtn" class="w-9 h-9 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 font-bold rounded-xl border border-slate-200 flex items-center justify-center text-lg transition-all shadow-sm">
-                        ⋮
-                    </button>
-
-                    <!-- Dropdown Menu -->
+                    <button id="menuDropdownBtn" class="w-9 h-9 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 font-bold rounded-xl border border-slate-200 flex items-center justify-center text-lg transition-all shadow-sm">⋮</button>
                     <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 transition-all">
-                        <div class="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Navigation & Downloads</div>
-                        
-                        <button id="menuDownloadZip" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>📦</span>
-                            <span>Download All (ZIP)</span>
-                        </button>
-                        
-                        <hr class="my-1 border-slate-100">
-                        
+                        <!-- 3 links only -->
                         <a href="project-cover-maker.html" target="_blank" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>🌐</span>
-                            <span>Project Cover Maker</span>
+                            <span>🌐</span><span>Project Cover Maker</span>
                         </a>
                         <a href="#about" onclick="alert('BulkCollaze v2.2 - Fast Image & PDF Collage Maker')" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>ℹ️</span>
-                            <span>About App</span>
+                            <span>ℹ️</span><span>About App</span>
                         </a>
-                        <a href="#help" onclick="alert('Drag & Drop Images or PDFs -> Configure Spacing & Grid -> Export as JPG, PNG or PDF!')" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>❓</span>
-                            <span>Help & Instructions</span>
+                        <a href="#help" onclick="alert('Select Images or PDFs -> Configure Spacing & Grid -> Export as JPG, PNG or PDF!')" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
+                            <span>❓</span><span>Help & Instructions</span>
                         </a>
+                        <!-- Caption -->
+                        <div class="px-4 pt-2 pb-1 mt-1 border-t border-slate-100">
+                            <span class="text-[10px] text-slate-400">Coded by <span class="font-semibold text-slate-500">Vijay Bishnoi</span></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Offline Alert Banner -->
     <div id="offlineBanner" class="hidden bg-amber-500 text-white text-xs font-medium px-4 py-1.5 text-center flex items-center justify-center space-x-2">
-        <span>📡</span>
-        <span>Working Offline. All features active!</span>
+        <span>📡</span><span>Working Offline. All features active!</span>
     </div>
 
-    <!-- Main Content Layout -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        <!-- Left Controls Sidebar -->
         <section class="lg:col-span-4 space-y-4">
-            
-            <!-- 1. Photo/PDF Upload Card -->
+
+            <!-- 1. Upload -->
             <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
                 <div class="flex items-center justify-between text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    <span class="flex items-center space-x-1.5">
-                        <span>📁</span>
-                        <span>1. Select Images or PDFs</span>
-                    </span>
+                    <span class="flex items-center space-x-1.5"><span>📁</span><span>1. Select Images or PDFs</span></span>
                     <span id="fileCountBadge" class="hidden bg-brand-100 text-brand-700 px-2.5 py-0.5 rounded-full font-bold">0 Loaded</span>
                 </div>
-
-                <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/40 transition-all rounded-xl p-5 text-center cursor-pointer group">
-                    <input type="file" id="fileInput" multiple accept="image/*,application/pdf" class="hidden">
-                    <div id="uploadIcon" class="text-3xl mb-1 group-hover:scale-110 transition-transform">📸📄</div>
-                    <p id="uploadTitle" class="text-xs font-semibold text-slate-800">Tap or Drop Files Here</p>
-                    <p id="uploadSubtitle" class="text-[11px] text-slate-500 mt-0.5">Supports JPG, PNG & PDF documents</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" id="selectImagesBtn" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/40 transition-all rounded-xl p-5 text-center cursor-pointer group">
+                        <input type="file" id="imageFileInput" multiple accept="image/*" class="hidden">
+                        <div id="imageUploadIcon" class="text-3xl mb-1 group-hover:scale-110 transition-transform">📸</div>
+                        <p id="imageUploadTitle" class="text-xs font-semibold text-slate-800">Select Images</p>
+                        <p id="imageUploadSubtitle" class="text-[11px] text-slate-500 mt-0.5">JPG & PNG</p>
+                    </button>
+                    <button type="button" id="selectPdfsBtn" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/40 transition-all rounded-xl p-5 text-center cursor-pointer group">
+                        <input type="file" id="pdfFileInput" multiple accept="application/pdf" class="hidden">
+                        <div id="pdfUploadIcon" class="text-3xl mb-1 group-hover:scale-110 transition-transform">📄</div>
+                        <p id="pdfUploadTitle" class="text-xs font-semibold text-slate-800">Select PDFs</p>
+                        <p id="pdfUploadSubtitle" class="text-[11px] text-slate-500 mt-0.5">PDF documents</p>
+                    </button>
                 </div>
-
                 <div class="flex justify-end pt-1">
                     <button id="clearAllMediaBtn" class="text-rose-600 hover:text-rose-700 font-semibold text-[11px] hidden">Clear Files</button>
                 </div>
             </div>
 
-            <!-- 2. Format & Layout Config -->
+            <!-- 2. Layout & Export Settings -->
             <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-4">
                 <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
-                    <span>⚙️</span>
-                    <span>2. Layout & Export Settings</span>
+                    <span>⚙️</span><span>2. Layout & Export Settings</span>
                 </div>
 
-                <!-- Export Format Selector (JPG Auto-Selected) -->
                 <div>
                     <label class="block text-xs font-medium text-slate-500 mb-1.5">Export File Format</label>
                     <div class="grid grid-cols-3 gap-2">
@@ -164,16 +159,9 @@
                     </div>
                 </div>
 
-                <!-- JPG Quality Slider -->
-                <div id="jpgQualityContainer" class="pt-2 border-t border-slate-100">
-                    <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
-                        <span>JPG Quality</span>
-                        <span id="jpgQualityVal" class="text-brand-600 font-bold">90%</span>
-                    </div>
-                    <input type="range" id="jpgQualityInput" min="10" max="100" value="90" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
-                </div>
+                <!-- JPG Quality + Aspect Ratio side-by-side -->
+                <div id="menuPanelLayout"></div>
 
-                <!-- Photos Per Collage Splitter -->
                 <div>
                     <div class="flex justify-between text-xs font-medium text-slate-600 mb-1.5">
                         <span>Photos per Collage Page</span>
@@ -190,150 +178,57 @@
                         <button type="button" data-count="12" class="count-btn py-1.5 text-xs font-bold rounded-xl border border-slate-200 bg-slate-100 text-slate-700 transition-all hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200">12</button>
                     </div>
                 </div>
-
-                <!-- Aspect Ratio Preset (A4 Default) -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-500 mb-1.5">Canvas Aspect Ratio</label>
-                    <select id="aspectRatioSelect" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-xl p-2.5 focus:border-brand-500 focus:outline-none shadow-sm">
-                        <option value="A4" selected>A4 Print Page (210 x 297 mm)</option>
-                        <option value="1:1">1:1 Square (1200 x 1200 px)</option>
-                        <option value="4:5">4:5 Instagram Portrait (1080 x 1350 px)</option>
-                        <option value="9:16">9:16 Mobile Story (1080 x 1920 px)</option>
-                        <option value="16:9">16:9 Widescreen (1920 x 1080 px)</option>
-                    </select>
-                </div>
             </div>
 
-            <!-- 3. Photo Fit & Spacing Options -->
-            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-4">
+            <!-- 3. Fit, Spacing & Borders -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
                 <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
-                    <span>✂️</span>
-                    <span>3. Fit, Spacing & Borders</span>
+                    <span>✂️</span><span>3. Fit, Spacing & Borders</span>
                 </div>
 
-                <!-- Contain vs Cover Strategy -->
                 <div>
                     <label class="block text-xs font-medium text-slate-500 mb-1.5">Photo Display Strategy</label>
                     <div class="grid grid-cols-2 gap-2">
                         <button type="button" id="fitContainBtn" class="fit-btn active py-2 text-xs font-bold rounded-xl border border-brand-600 bg-brand-600 text-white shadow-sm transition-all hover:bg-brand-700 flex items-center justify-center space-x-1">
-                            <span>🔍</span>
-                            <span>100% Fit (No Crop)</span>
+                            <span>🔍</span><span>100% Fit</span>
                         </button>
                         <button type="button" id="fitCoverBtn" class="fit-btn py-2 text-xs font-bold rounded-xl border border-slate-200 bg-slate-100 text-slate-700 transition-all hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 flex items-center justify-center space-x-1">
-                            <span>✂️</span>
-                            <span>Fill Cell</span>
+                            <span>✂️</span><span>Fill Cell</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Auto-Rotate Toggle -->
-                <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-                    <div>
-                        <span class="block text-xs font-semibold text-slate-800">Auto-Rotate Photos</span>
-                        <span class="block text-[10px] text-slate-500">Auto-rotates to match best cell orientation</span>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" id="autoRotateToggle" checked class="sr-only peer">
-                        <div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
-                    </label>
-                </div>
-
-                <!-- Image Scale / Height % Slider -->
-                <div class="pt-2 border-t border-slate-100">
-                    <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
-                        <span>Image Box Height / Scale %</span>
-                        <span id="scaleVal" class="text-brand-600 font-bold">100%</span>
-                    </div>
-                    <input type="range" id="scaleInput" min="30" max="100" value="100" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
-                </div>
-
-                <!-- Photo Border Controls -->
-                <div class="pt-2 border-t border-slate-100 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="block text-xs font-semibold text-slate-800">Photo Border & Padding</span>
-                            <span class="block text-[10px] text-slate-500">Enable customizable inner padding & border</span>
-                        </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
+                        <span class="text-[11px] font-semibold text-slate-800">Auto-Rotate</span>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="borderToggle" class="sr-only peer">
-                            <div class="w-10 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
+                            <input type="checkbox" id="autoRotateToggle" checked class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
                         </label>
                     </div>
-
-                    <div id="borderOptionsContainer" class="hidden space-y-2 pt-1">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Style</label>
-                                <select id="borderStyleInput" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-lg p-1.5">
-                                    <option value="none">None</option>
-                                    <option value="dashed" selected>Dashed</option>
-                                    <option value="solid">Solid</option>
-                                    <option value="dotted">Dotted</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-medium text-slate-500 mb-1">Color</label>
-                                <input type="color" id="borderColorInput" value="#808080" class="w-full h-7 rounded-lg border border-slate-200 p-0.5 bg-transparent cursor-pointer">
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between text-[10px] font-medium text-slate-600 mb-0.5">
-                                <span>Border Width</span>
-                                <span id="borderWidthVal" class="font-bold">1px</span>
-                            </div>
-                            <input type="range" id="borderWidthInput" min="1" max="20" value="1" class="w-full accent-brand-600 bg-slate-200 h-1 rounded-lg cursor-pointer">
-                        </div>
-
-                        <!-- Photo Padding Inside Border Option -->
-                        <div>
-                            <div class="flex justify-between text-[10px] font-medium text-slate-600 mb-0.5">
-                                <span>Photo Inner Padding</span>
-                                <span id="paddingVal" class="font-bold">8px</span>
-                            </div>
-                            <input type="range" id="paddingInput" min="0" max="60" value="8" class="w-full accent-brand-600 bg-slate-200 h-1 rounded-lg cursor-pointer">
-                        </div>
+                    <div class="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
+                        <span class="text-[11px] font-semibold text-slate-800">Border & Pad</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="borderToggle" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
+                        </label>
                     </div>
                 </div>
 
-                <!-- Sliders (Spacing up to 180px) -->
-                <div class="space-y-3 pt-2 border-t border-slate-100">
-                    <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
-                            <span>Photo Spacing</span>
-                            <span id="spacingVal" class="text-brand-600 font-bold">16px</span>
-                        </div>
-                        <input type="range" id="spacingInput" min="0" max="180" value="16" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
-                    </div>
+                <div id="borderOptionsContainer" class="hidden pt-1">
+                    <div id="menuPanelBorders"></div>
+                </div>
 
-                    <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
-                            <span>Page Margin</span>
-                            <span id="marginVal" class="text-brand-600 font-bold">20px</span>
-                        </div>
-                        <input type="range" id="marginInput" min="0" max="120" value="20" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
-                    </div>
+                <div id="menuPanelSpacing" class="pt-1 border-t border-slate-100"></div>
 
-                    <div>
-                        <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
-                            <span>Corner Radius</span>
-                            <span id="radiusVal" class="text-brand-600 font-bold">12px</span>
-                        </div>
-                        <input type="range" id="radiusInput" min="0" max="50" value="12" class="w-full accent-brand-600 bg-slate-200 h-1.5 rounded-lg cursor-pointer">
-                    </div>
-
-                    <!-- Background Color -->
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="text-xs font-medium text-slate-700">Page Background Color</span>
-                        <input type="color" id="bgColorInput" value="#ffffff" class="w-8 h-8 rounded-lg cursor-pointer border border-slate-200 bg-transparent p-0.5">
-                    </div>
+                <div class="flex items-center justify-between pt-1 border-t border-slate-100">
+                    <span class="text-xs font-medium text-slate-700">Page Background Color</span>
+                    <input type="color" id="bgColorInput" value="#ffffff" class="w-8 h-8 rounded-lg cursor-pointer border border-slate-200 bg-transparent p-0.5">
                 </div>
             </div>
         </section>
 
-        <!-- Right Preview Grid Area -->
         <section class="lg:col-span-8 flex flex-col space-y-4">
-            
             <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex items-center justify-between">
                 <div>
                     <h2 class="text-sm font-bold text-slate-900">Collage Output Preview</h2>
@@ -341,99 +236,65 @@
                 </div>
                 <div class="flex items-center space-x-2">
                     <button id="regenerateTopBtn" disabled class="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition-colors flex items-center space-x-1 shadow-sm">
-                        <span>✨</span>
-                        <span>Re-Generate</span>
+                        <span>✨</span><span>Re-Generate</span>
                     </button>
                     <button id="downloadPdfDocBtn" class="hidden bg-rose-600 hover:bg-rose-700 text-white font-medium px-3 py-1.5 rounded-xl text-xs transition-colors flex items-center space-x-1 shadow-sm">
-                        <span>📄</span>
-                        <span>Multi-Page PDF</span>
+                        <span>📄</span><span>Multi-Page PDF</span>
                     </button>
                 </div>
             </div>
-
-            <!-- Canvas Grid Container -->
             <div id="previewContainer" class="flex-1 bg-white rounded-2xl border border-slate-200 p-4 min-h-[480px] flex flex-col items-center justify-center shadow-sm">
-                
-                <!-- Initial Placeholder -->
                 <div id="emptyState" class="text-center space-y-3 max-w-sm p-6">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-50 text-brand-600 border border-brand-100 flex items-center justify-center text-3xl">
-                        🖼️
-                    </div>
+                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-50 text-brand-600 border border-brand-100 flex items-center justify-center text-3xl">🖼️</div>
                     <div>
                         <h3 class="text-sm font-bold text-slate-800">No Collages Generated Yet</h3>
                         <p class="text-xs text-slate-500 mt-1">Select photos or PDFs to group them into identical cell-sized collage grids!</p>
                     </div>
                 </div>
-
-                <!-- Collages Dynamic Grid -->
                 <div id="collagesGrid" class="w-full grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
 
+            <!-- Small Download ZIP button at bottom, format label shown -->
+            <div class="flex justify-center pt-1">
+                <button id="bottomDownloadZipBtn" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-xl text-xs transition-colors flex items-center space-x-1.5 shadow-sm">
+                    <span>📦</span><span id="zipBtnLabel">Download ZIP (JPG)</span>
+                </button>
             </div>
         </section>
-
     </main>
 
     <script>
-        // Service Worker Registration for PWA
+        // ─── PWA ───────────────────────────────────────────────
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('SW Registered:', reg.scope))
-                    .catch(err => console.warn('SW Register Failed:', err));
+                navigator.serviceWorker.register('./sw.js').catch(()=>{});
             });
         }
-
-        // PWA Installation
         let deferredPrompt = null;
         const pwaInstallBtn = document.getElementById('pwaInstallBtn');
         const pwaBadge = document.getElementById('pwaBadge');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            pwaInstallBtn.classList.remove('hidden');
-        });
-
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; pwaInstallBtn.classList.remove('hidden'); });
         pwaInstallBtn.addEventListener('click', async () => {
             if (!deferredPrompt) return;
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                pwaInstallBtn.classList.add('hidden');
-            }
+            if (outcome === 'accepted') pwaInstallBtn.classList.add('hidden');
             deferredPrompt = null;
         });
+        window.addEventListener('appinstalled', () => { pwaInstallBtn.classList.add('hidden'); pwaBadge.classList.remove('hidden'); });
 
-        window.addEventListener('appinstalled', () => {
-            pwaInstallBtn.classList.add('hidden');
-            pwaBadge.classList.remove('hidden');
-        });
-
-        // Dropdown Menu Toggle
+        // ─── Dropdown ─────────────────────────────────────────
         const menuDropdownBtn = document.getElementById('menuDropdownBtn');
         const menuDropdown = document.getElementById('menuDropdown');
-        const menuDownloadZip = document.getElementById('menuDownloadZip');
+        menuDropdownBtn.addEventListener('click', (e) => { e.stopPropagation(); menuDropdown.classList.toggle('hidden'); });
+        document.addEventListener('click', () => menuDropdown.classList.add('hidden'));
 
-        menuDropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            menuDropdown.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', () => {
-            menuDropdown.classList.add('hidden');
-        });
-
-        menuDownloadZip.addEventListener('click', () => {
-            menuDropdown.classList.add('hidden');
-            exportMainZip();
-        });
-
-        // App State
+        // ─── App State ─────────────────────────────────────────
         const state = {
             images: [],
             photosPerCollage: 4,
             aspectRatio: 'A4',
-            fitMode: 'contain', 
+            fitMode: 'contain',
             autoRotate: true,
             spacing: 16,
             margin: 20,
@@ -447,176 +308,376 @@
             bgColor: '#ffffff',
             canvasResolution: 1200,
             exportFormat: 'jpg',
-            jpgQuality: 0.90
+            jpgQuality: 90
         };
 
-        // DOM Elements
-        const fileInput = document.getElementById('fileInput');
-        const dropzone = document.getElementById('dropzone');
-        const uploadIcon = document.getElementById('uploadIcon');
-        const uploadTitle = document.getElementById('uploadTitle');
-        const uploadSubtitle = document.getElementById('uploadSubtitle');
+        // ═══ UNIVERSAL MENU CONFIG ═══════════════════════════════
+        const PANEL_SELECTOR = 'main';
+
+        const MENU_CONFIG = {
+            jpgQuality: {
+                label: 'JPG Quality',
+                min: 10, max: 100, step: 5, suffix: '%',
+                value: 90, displayMode: 'number'
+            },
+            aspectRatio: {
+                label: 'Canvas Aspect Ratio',
+                type: 'select',
+                options: [
+                    { label: 'A4 Print Page (210 x 297 mm)', value: 'A4' },
+                    { label: '1:1 Square (1200 x 1200 px)', value: '1:1' },
+                    { label: '4:5 Instagram Portrait (1080 x 1350 px)', value: '4:5' },
+                    { label: '9:16 Mobile Story (1080 x 1920 px)', value: '9:16' },
+                    { label: '16:9 Widescreen (1920 x 1080 px)', value: '16:9' }
+                ],
+                value: 'A4',
+                displayMode: 'direct'
+            },
+            borderStyle: {
+                label: 'Border Style',
+                type: 'select',
+                options: [
+                    { label: 'None', value: 'none' },
+                    { label: 'Dashed', value: 'dashed' },
+                    { label: 'Solid', value: 'solid' },
+                    { label: 'Dotted', value: 'dotted' }
+                ],
+                value: 'dashed',
+                displayMode: 'direct'
+            },
+            borderWidth: {
+                label: 'Border Width',
+                min: 1, max: 20, step: 1, suffix: 'px',
+                value: 1, displayMode: 'number'
+            },
+            photoPadding: {
+                label: 'Photo Inner Padding',
+                min: 0, max: 60, step: 2, suffix: 'px',
+                value: 8, displayMode: 'number'
+            },
+            scalePercent: {
+                label: 'Scale %',
+                min: 30, max: 100, step: 5, suffix: '%',
+                value: 100, displayMode: 'number'
+            },
+            spacing: {
+                label: 'Photo Spacing',
+                min: 0, max: 180, step: 4, suffix: 'px',
+                value: 16, displayMode: 'number'
+            },
+            margin: {
+                label: 'Page Margin',
+                min: 0, max: 120, step: 4, suffix: 'px',
+                value: 20, displayMode: 'number'
+            },
+            radius: {
+                label: 'Corner Radius',
+                min: 0, max: 50, step: 2, suffix: 'px',
+                value: 12, displayMode: 'number'
+            }
+        };
+
+        // ═══ UNIVERSAL RENDERER ═══════════════════════════════════
+        function formatDisplay(cfg, val) {
+            if (cfg.displayMode === 'percent') return Math.round(val * 100) + '%';
+            if (cfg.displayMode === 'float')   return parseFloat(val).toFixed(1) + (cfg.suffix || '');
+            if (cfg.displayMode === 'index')   return cfg.options[val];
+            if (cfg.displayMode === 'number')  return val + (cfg.suffix || '');
+            if (cfg.displayMode === 'direct')  return val;
+            return String(val);
+        }
+
+        function buildMenuOptions(key, cfg, currentValue) {
+            if (cfg.type === 'select') {
+                return cfg.options.map(opt => `
+                    <button class="size-option ${opt.value === currentValue ? 'active' : ''}"
+                            data-opt-key="${key}" data-opt-val="${opt.value}" data-opt-type="select">
+                        <span>${opt.label}</span><i data-lucide="check" class="check"></i>
+                    </button>`).join('');
+            }
+            const opts = [];
+            for (let v = cfg.min; v <= cfg.max + 0.0001; v += cfg.step) {
+                opts.push(cfg.displayMode === 'float' ? Math.round(v * 10) / 10 : v);
+            }
+            if (!opts.some(o => Math.abs(o - currentValue) < 0.001)) {
+                opts.push(currentValue); opts.sort((a, b) => a - b);
+            }
+            return opts.map(v => `
+                <button class="size-option ${Math.abs(v - currentValue) < 0.001 ? 'active' : ''}"
+                        data-opt-key="${key}" data-opt-val="${v}" data-opt-type="number">
+                    <span>${formatDisplay(cfg, v)}</span><i data-lucide="check" class="check"></i>
+                </button>`).join('');
+        }
+
+        function renderMenuRow(key, cfg, currentValue) {
+            const display = formatDisplay(cfg, currentValue);
+            const isSelect = cfg.type === 'select';
+            const decLabel = isSelect ? '‹' : '−';
+            const incLabel = isSelect ? '›' : '+';
+            const decClass = isSelect ? 'size-btn size-btn-nav' : 'size-btn';
+            const incClass = isSelect ? 'size-btn size-btn-nav' : 'size-btn';
+
+            let decDisabled = false, incDisabled = false;
+            if (isSelect) {
+                const idx = cfg.options.findIndex(o => o.value === currentValue);
+                decDisabled = idx <= 0;
+                incDisabled = idx >= cfg.options.length - 1;
+            }
+
+            return `
+                <div class="size-row" id="row-${key}">
+                    <div class="size-row-head">
+                        <span class="size-row-label">${cfg.label}</span>
+                        <span style="width:30px"></span>
+                    </div>
+                    <div class="size-control">
+                        <button class="${decClass}" data-dec="${key}" ${decDisabled ? 'disabled' : ''}>${decLabel}</button>
+                        <button class="size-display" data-menu="${key}">
+                            <span class="size-val" data-val-for="${key}">${display}</span>
+                            <i data-lucide="chevron-down" class="size-display-icon"></i>
+                        </button>
+                        <button class="${incClass}" data-inc="${key}" ${incDisabled ? 'disabled' : ''}>${incLabel}</button>
+                    </div>
+                    <div class="size-menu hidden" data-menu-for="${key}"></div>
+                </div>`;
+        }
+
+        // ═══ MENU OPEN / STEP / SET ═══════════════════════════════
+        let _panelScrollBeforeMenu = null;
+
+        function openMenu(key, displayBtn) {
+            const cfg = MENU_CONFIG[key];
+            const menu = document.querySelector(`[data-menu-for="${key}"]`);
+            const panel = document.querySelector(PANEL_SELECTOR);
+            _panelScrollBeforeMenu = panel ? panel.scrollTop : 0;
+            menu.innerHTML = buildMenuOptions(key, cfg, state[key]);
+            lucide.createIcons();
+            menu.classList.remove('hidden');
+            displayBtn.classList.add('open');
+            const active = menu.querySelector('.size-option.active');
+            if (active) menu.scrollTop = Math.max(0, active.offsetTop - menu.clientHeight / 2 + active.offsetHeight / 2);
+        }
+
+        function refreshSelectArrows(key) {
+            const cfg = MENU_CONFIG[key];
+            if (cfg.type !== 'select') return;
+            const row = document.getElementById(`row-${key}`);
+            if (!row) return;
+            const idx = cfg.options.findIndex(o => o.value === state[key]);
+            const decBtn = row.querySelector(`[data-dec="${key}"]`);
+            const incBtn = row.querySelector(`[data-inc="${key}"]`);
+            if (decBtn) decBtn.disabled = (idx <= 0);
+            if (incBtn) incBtn.disabled = (idx >= cfg.options.length - 1);
+        }
+
+        function stepValue(key, dir) {
+            const cfg = MENU_CONFIG[key];
+            if (cfg.type === 'select') {
+                const idx = cfg.options.findIndex(o => o.value === state[key]);
+                let next = idx + dir;
+                if (next < 0 || next >= cfg.options.length) return;
+                state[key] = cfg.options[next].value;
+            } else {
+                let next = state[key] + dir * cfg.step;
+                next = Math.max(cfg.min, Math.min(cfg.max, next));
+                if (cfg.displayMode === 'float') next = Math.round(next * 10) / 10;
+                state[key] = next;
+            }
+            updateDisplay(key);
+            applyChange(key);
+            if (cfg.type === 'select') refreshSelectArrows(key);
+        }
+
+        function setValue(key, val, type) {
+            const panel = document.querySelector(PANEL_SELECTOR);
+            const preserveTo = _panelScrollBeforeMenu !== null ? _panelScrollBeforeMenu : (panel ? panel.scrollTop : 0);
+            const cfg = MENU_CONFIG[key];
+            state[key] = (cfg.type === 'select') ? String(val) : parseFloat(val);
+            updateDisplay(key);
+            applyChange(key);
+            if (cfg.type === 'select') refreshSelectArrows(key);
+            document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
+            document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
+            _panelScrollBeforeMenu = null;
+            if (panel) requestAnimationFrame(() => {
+                const max = Math.max(0, panel.scrollHeight - panel.clientHeight);
+                const target = Math.min(preserveTo, max);
+                if (Math.abs(panel.scrollTop - target) > 1) panel.scrollTop = target;
+            });
+        }
+
+        function updateDisplay(key) {
+            const cfg = MENU_CONFIG[key];
+            const valEl = document.querySelector(`[data-val-for="${key}"]`);
+            if (valEl) valEl.textContent = formatDisplay(cfg, state[key]);
+            const menu = document.querySelector(`[data-menu-for="${key}"]`);
+            if (menu) {
+                menu.querySelectorAll('.size-option').forEach(opt => {
+                    const isMatch = cfg.type === 'select'
+                        ? opt.dataset.optVal === String(state[key])
+                        : Math.abs(parseFloat(opt.dataset.optVal) - state[key]) < 0.001;
+                    opt.classList.toggle('active', isMatch);
+                });
+            }
+        }
+
+        // ═══ TOOL-SPECIFIC REDRAW ════════════════════════════════
+        function applyChange(key) {
+            if (key === 'aspectRatio' || key === 'borderStyle') {
+                refreshSelectArrows(key);
+            }
+            renderCollages();
+        }
+
+        // ═══ CLICK HANDLER ════════════════════════════════════════
+        document.addEventListener('click', e => {
+            const disp = e.target.closest('.size-display');
+            if (disp) {
+                e.stopPropagation();
+                const key = disp.dataset.menu;
+                const menu = document.querySelector(`[data-menu-for="${key}"]`);
+                const wasOpen = menu && !menu.classList.contains('hidden');
+                document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
+                document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
+                if (menu && !wasOpen) openMenu(key, disp);
+                return;
+            }
+            const opt = e.target.closest('[data-opt-key]');
+            if (opt) {
+                e.stopPropagation();
+                const t = opt.dataset.optType;
+                setValue(opt.dataset.optKey, t === 'select' ? opt.dataset.optVal : parseFloat(opt.dataset.optVal), t);
+                return;
+            }
+            const inc = e.target.closest('[data-inc]');
+            if (inc) { e.stopPropagation(); stepValue(inc.dataset.inc, 1); return; }
+            const dec = e.target.closest('[data-dec]');
+            if (dec) { e.stopPropagation(); stepValue(dec.dataset.dec, -1); return; }
+            if (!e.target.closest('.size-menu')) {
+                document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
+                document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
+            }
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
+                document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
+            }
+        });
+
+        // ═══ RENDER MENU PANELS ═══════════════════════════════════
+        function renderAllMenuRows() {
+            // JPG Quality + Aspect Ratio side-by-side (2-column single row)
+            document.getElementById('menuPanelLayout').innerHTML = `
+                <div class="grid grid-cols-2 gap-x-3 gap-y-0">
+                    <div>${renderMenuRow('jpgQuality', MENU_CONFIG.jpgQuality, state.jpgQuality)}</div>
+                    <div>${renderMenuRow('aspectRatio', MENU_CONFIG.aspectRatio, state.aspectRatio)}</div>
+                </div>`;
+
+            document.getElementById('menuPanelBorders').innerHTML =
+                renderMenuRow('borderStyle', MENU_CONFIG.borderStyle, state.borderStyle) +
+                renderMenuRow('borderWidth', MENU_CONFIG.borderWidth, state.borderWidth) +
+                renderMenuRow('photoPadding', MENU_CONFIG.photoPadding, state.photoPadding);
+
+            document.getElementById('menuPanelSpacing').innerHTML = `
+                <div class="grid grid-cols-2 gap-x-3 gap-y-0">
+                    <div>${renderMenuRow('scalePercent', MENU_CONFIG.scalePercent, state.scalePercent)}</div>
+                    <div>${renderMenuRow('spacing', MENU_CONFIG.spacing, state.spacing)}</div>
+                    <div>${renderMenuRow('margin', MENU_CONFIG.margin, state.margin)}</div>
+                    <div>${renderMenuRow('radius', MENU_CONFIG.radius, state.radius)}</div>
+                </div>`;
+
+            lucide.createIcons();
+        }
+
+        // ═══ EXISTING UI LOGIC ═══════════════════════════════════
+        const imageFileInput = document.getElementById('imageFileInput');
+        const pdfFileInput = document.getElementById('pdfFileInput');
+        const selectImagesBtn = document.getElementById('selectImagesBtn');
+        const selectPdfsBtn = document.getElementById('selectPdfsBtn');
+        const imageUploadIcon = document.getElementById('imageUploadIcon');
+        const imageUploadTitle = document.getElementById('imageUploadTitle');
+        const imageUploadSubtitle = document.getElementById('imageUploadSubtitle');
+        const pdfUploadIcon = document.getElementById('pdfUploadIcon');
+        const pdfUploadTitle = document.getElementById('pdfUploadTitle');
+        const pdfUploadSubtitle = document.getElementById('pdfUploadSubtitle');
         const fileCountBadge = document.getElementById('fileCountBadge');
         const clearAllMediaBtn = document.getElementById('clearAllMediaBtn');
-        const scaleInput = document.getElementById('scaleInput');
-        const scaleVal = document.getElementById('scaleVal');
         const borderToggle = document.getElementById('borderToggle');
         const borderOptionsContainer = document.getElementById('borderOptionsContainer');
-        const borderStyleInput = document.getElementById('borderStyleInput');
-        const borderColorInput = document.getElementById('borderColorInput');
-        const borderWidthInput = document.getElementById('borderWidthInput');
-        const borderWidthVal = document.getElementById('borderWidthVal');
-        const paddingInput = document.getElementById('paddingInput');
-        const paddingVal = document.getElementById('paddingVal');
+        const bgColorInput = document.getElementById('bgColorInput');
         const previewContainer = document.getElementById('previewContainer');
         const emptyState = document.getElementById('emptyState');
         const collagesGrid = document.getElementById('collagesGrid');
         const regenerateTopBtn = document.getElementById('regenerateTopBtn');
         const downloadPdfDocBtn = document.getElementById('downloadPdfDocBtn');
         const summaryText = document.getElementById('summaryText');
-        const jpgQualityContainer = document.getElementById('jpgQualityContainer');
-        const jpgQualityInput = document.getElementById('jpgQualityInput');
-        const jpgQualityVal = document.getElementById('jpgQualityVal');
+        const bottomDownloadZipBtn = document.getElementById('bottomDownloadZipBtn');
+        const zipBtnLabel = document.getElementById('zipBtnLabel');
 
-        // Helper to format Date Stamp: DDMMYYYY_HHMMSS
-        function getFormattedTimestamp() {
-            const now = new Date();
-            const dd = String(now.getDate()).padStart(2, '0');
-            const mm = String(now.getMonth() + 1).padStart(2, '0');
-            const yyyy = now.getFullYear();
-            const hh = String(now.getHours()).padStart(2, '0');
-            const min = String(now.getMinutes()).padStart(2, '0');
-            const ss = String(now.getSeconds()).padStart(2, '0');
-            return `${dd}${mm}${yyyy}_${hh}${min}${ss}`;
+        function updateZipBtnLabel() {
+            zipBtnLabel.textContent = `Download ZIP (${state.exportFormat.toUpperCase()})`;
         }
 
-        // Format selector logic
+        bottomDownloadZipBtn.addEventListener('click', () => exportMainZip());
+
         document.querySelectorAll('.fmt-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.fmt-btn').forEach(b => {
-                    b.classList.remove('bg-brand-600', 'text-white', 'border-brand-600', 'shadow-sm', 'active');
-                    b.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200', 'hover:bg-brand-50', 'hover:text-brand-600');
+                    b.classList.remove('bg-brand-600','text-white','border-brand-600','shadow-sm','active');
+                    b.classList.add('bg-slate-100','text-slate-700','border-slate-200','hover:bg-brand-50','hover:text-brand-600');
                 });
-                btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200', 'hover:bg-brand-50', 'hover:text-brand-600');
-                btn.classList.add('bg-brand-600', 'text-white', 'border-brand-600', 'shadow-sm', 'active');
-
+                btn.classList.remove('bg-slate-100','text-slate-700','border-slate-200','hover:bg-brand-50','hover:text-brand-600');
+                btn.classList.add('bg-brand-600','text-white','border-brand-600','shadow-sm','active');
                 state.exportFormat = btn.getAttribute('data-format');
-                if (state.exportFormat === 'jpg') {
-                    jpgQualityContainer.classList.remove('hidden');
-                } else {
-                    jpgQualityContainer.classList.add('hidden');
-                }
-
-                if (state.exportFormat === 'pdf' && state.images.length > 0) {
-                    downloadPdfDocBtn.classList.remove('hidden');
-                } else {
-                    downloadPdfDocBtn.classList.add('hidden');
-                }
+                if (state.exportFormat === 'pdf' && state.images.length > 0) downloadPdfDocBtn.classList.remove('hidden');
+                else downloadPdfDocBtn.classList.add('hidden');
+                const row = document.getElementById('row-jpgQuality');
+                if (row) row.style.display = (state.exportFormat === 'jpg') ? '' : 'none';
+                updateZipBtnLabel();
                 renderCollages();
             });
         });
 
-        jpgQualityInput.addEventListener('input', (e) => {
-            state.jpgQuality = parseInt(e.target.value) / 100;
-            jpgQualityVal.textContent = `${e.target.value}%`;
-            renderCollages();
-        });
-
-        // Photos per collage selector logic
         document.querySelectorAll('.count-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.count-btn').forEach(b => {
-                    b.classList.remove('bg-brand-600', 'text-white', 'border-brand-600', 'shadow-sm', 'active');
-                    b.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200', 'hover:bg-brand-50', 'hover:text-brand-600');
+                    b.classList.remove('bg-brand-600','text-white','border-brand-600','shadow-sm','active');
+                    b.classList.add('bg-slate-100','text-slate-700','border-slate-200','hover:bg-brand-50','hover:text-brand-600');
                 });
-                btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200', 'hover:bg-brand-50', 'hover:text-brand-600');
-                btn.classList.add('bg-brand-600', 'text-white', 'border-brand-600', 'shadow-sm', 'active');
-
+                btn.classList.remove('bg-slate-100','text-slate-700','border-slate-200','hover:bg-brand-50','hover:text-brand-600');
+                btn.classList.add('bg-brand-600','text-white','border-brand-600','shadow-sm','active');
                 state.photosPerCollage = parseInt(btn.getAttribute('data-count'));
                 document.getElementById('photosPerCollageVal').textContent = `${state.photosPerCollage} Photo${state.photosPerCollage > 1 ? 's' : ''}`;
-
                 renderCollages();
             });
         });
 
-        // Fit Buttons
         document.getElementById('fitContainBtn').addEventListener('click', function() {
-            this.classList.add('bg-brand-600', 'text-white', 'border-brand-600', 'active');
-            this.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200');
-            document.getElementById('fitCoverBtn').classList.remove('bg-brand-600', 'text-white', 'border-brand-600', 'active');
-            document.getElementById('fitCoverBtn').classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200');
+            this.classList.add('bg-brand-600','text-white','border-brand-600','active');
+            this.classList.remove('bg-slate-100','text-slate-700','border-slate-200');
+            document.getElementById('fitCoverBtn').classList.remove('bg-brand-600','text-white','border-brand-600','active');
+            document.getElementById('fitCoverBtn').classList.add('bg-slate-100','text-slate-700','border-slate-200');
             state.fitMode = 'contain';
             renderCollages();
         });
-
         document.getElementById('fitCoverBtn').addEventListener('click', function() {
-            this.classList.add('bg-brand-600', 'text-white', 'border-brand-600', 'active');
-            this.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200');
-            document.getElementById('fitContainBtn').classList.remove('bg-brand-600', 'text-white', 'border-brand-600', 'active');
-            document.getElementById('fitContainBtn').classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200');
+            this.classList.add('bg-brand-600','text-white','border-brand-600','active');
+            this.classList.remove('bg-slate-100','text-slate-700','border-slate-200');
+            document.getElementById('fitContainBtn').classList.remove('bg-brand-600','text-white','border-brand-600','active');
+            document.getElementById('fitContainBtn').classList.add('bg-slate-100','text-slate-700','border-slate-200');
             state.fitMode = 'cover';
-            renderCollages();
-        });
-
-        // Scale & Border Inputs
-        scaleInput.addEventListener('input', (e) => {
-            state.scalePercent = parseInt(e.target.value);
-            scaleVal.textContent = `${state.scalePercent}%`;
             renderCollages();
         });
 
         borderToggle.addEventListener('change', (e) => {
             state.borderEnabled = e.target.checked;
-            if (state.borderEnabled) {
-                borderOptionsContainer.classList.remove('hidden');
-            } else {
-                borderOptionsContainer.classList.add('hidden');
-            }
+            borderOptionsContainer.classList.toggle('hidden', !state.borderEnabled);
             renderCollages();
         });
 
-        borderStyleInput.addEventListener('change', (e) => {
-            state.borderStyle = e.target.value;
-            renderCollages();
-        });
-
-        borderColorInput.addEventListener('input', (e) => {
-            state.borderColor = e.target.value;
-            renderCollages();
-        });
-
-        borderWidthInput.addEventListener('input', (e) => {
-            state.borderWidth = parseInt(e.target.value);
-            borderWidthVal.textContent = `${state.borderWidth}px`;
-            renderCollages();
-        });
-
-        paddingInput.addEventListener('input', (e) => {
-            state.photoPadding = parseInt(e.target.value);
-            paddingVal.textContent = `${state.photoPadding}px`;
-            renderCollages();
-        });
-
-        // Sliders
-        document.getElementById('spacingInput').addEventListener('input', (e) => {
-            state.spacing = parseInt(e.target.value);
-            document.getElementById('spacingVal').textContent = `${state.spacing}px`;
-            renderCollages();
-        });
-
-        document.getElementById('marginInput').addEventListener('input', (e) => {
-            state.margin = parseInt(e.target.value);
-            document.getElementById('marginVal').textContent = `${state.margin}px`;
-            renderCollages();
-        });
-
-        document.getElementById('radiusInput').addEventListener('input', (e) => {
-            state.radius = parseInt(e.target.value);
-            document.getElementById('radiusVal').textContent = `${state.radius}px`;
-            renderCollages();
-        });
-
-        document.getElementById('bgColorInput').addEventListener('input', (e) => {
+        bgColorInput.addEventListener('input', (e) => {
             state.bgColor = e.target.value;
             renderCollages();
         });
@@ -626,32 +687,10 @@
             renderCollages();
         });
 
-        document.getElementById('aspectRatioSelect').addEventListener('change', (e) => {
-            state.aspectRatio = e.target.value;
-            renderCollages();
-        });
-
-        // Drag & Drop
-        dropzone.addEventListener('click', () => fileInput.click());
-        dropzone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropzone.classList.add('border-brand-500');
-        });
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('border-brand-500');
-        });
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('border-brand-500');
-            if (e.dataTransfer.files.length) {
-                handleFiles(e.dataTransfer.files);
-            }
-        });
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleFiles(e.target.files);
-            }
-        });
+        selectImagesBtn.addEventListener('click', () => imageFileInput.click());
+        selectPdfsBtn.addEventListener('click', () => pdfFileInput.click());
+        imageFileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFiles(e.target.files); });
+        pdfFileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFiles(e.target.files); });
 
         regenerateTopBtn.addEventListener('click', () => renderCollages());
 
@@ -667,23 +706,21 @@
         });
 
         function showLoadingState(msg = 'Processing files...') {
-            uploadIcon.textContent = '⏳';
-            uploadTitle.textContent = msg;
-            uploadSubtitle.textContent = 'Extracting pages & images...';
+            imageUploadIcon.textContent = '⏳';
+            imageUploadTitle.textContent = msg;
+            imageUploadSubtitle.textContent = 'Extracting pages & images...';
+            pdfUploadIcon.textContent = '⏳';
+            pdfUploadTitle.textContent = msg;
+            pdfUploadSubtitle.textContent = 'Extracting pages & images...';
         }
 
         async function handleFiles(files) {
             showLoadingState();
             const fileList = Array.from(files);
-
             for (const file of fileList) {
-                if (file.type === 'application/pdf') {
-                    await processPdfFile(file);
-                } else if (file.type.startsWith('image/')) {
-                    await processImageFile(file);
-                }
+                if (file.type === 'application/pdf') await processPdfFile(file);
+                else if (file.type.startsWith('image/')) await processImageFile(file);
             }
-
             onMediaLoaded();
         }
 
@@ -706,18 +743,14 @@
             try {
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-
                 for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                     const page = await pdf.getPage(pageNum);
                     const viewport = page.getViewport({ scale: 1.5 });
-                    
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
-
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-
                     const dataUrl = canvas.toDataURL('image/png');
                     await new Promise((resolve) => {
                         const img = new Image();
@@ -728,41 +761,33 @@
                         img.src = dataUrl;
                     });
                 }
-            } catch (err) {
-                console.error('PDF parsing error:', err);
-            }
+            } catch (err) { console.error('PDF parsing error:', err); }
         }
 
         function onMediaLoaded() {
-            uploadIcon.textContent = '📸📄';
-            uploadTitle.textContent = 'Tap or Drop Files Here';
-            uploadSubtitle.textContent = 'Supports JPG, PNG & PDF documents';
-
+            imageUploadIcon.textContent = '📸';
+            imageUploadTitle.textContent = 'Select Images';
+            imageUploadSubtitle.textContent = 'JPG & PNG';
+            pdfUploadIcon.textContent = '📄';
+            pdfUploadTitle.textContent = 'Select PDFs';
+            pdfUploadSubtitle.textContent = 'PDF documents';
             const total = state.images.length;
             fileCountBadge.textContent = `${total} Loaded`;
             fileCountBadge.classList.remove('hidden');
             if (total > 0) clearAllMediaBtn.classList.remove('hidden');
-
             regenerateTopBtn.disabled = total === 0;
-            if (state.exportFormat === 'pdf' && total > 0) {
-                downloadPdfDocBtn.classList.remove('hidden');
-            }
-
+            if (state.exportFormat === 'pdf' && total > 0) downloadPdfDocBtn.classList.remove('hidden');
             renderCollages();
         }
 
         function chunkArray(array, chunkSize) {
             const results = [];
-            for (let i = 0; i < array.length; i += chunkSize) {
-                results.push(array.slice(i, i + chunkSize));
-            }
+            for (let i = 0; i < array.length; i += chunkSize) results.push(array.slice(i, i + chunkSize));
             return results;
         }
 
         function getCanvasDimensions(ratioStr, baseWidth = 1200) {
-            let width = baseWidth;
-            let height = baseWidth;
-
+            let width = baseWidth, height = baseWidth;
             switch(ratioStr) {
                 case 'A4': height = Math.round(baseWidth * (297 / 210)); break;
                 case '1:1': height = baseWidth; break;
@@ -776,54 +801,36 @@
 
         function renderCollages() {
             if (state.images.length === 0) return;
-
             emptyState.classList.add('hidden');
             collagesGrid.innerHTML = '';
-
             const chunks = chunkArray(state.images, state.photosPerCollage);
             summaryText.textContent = `${state.images.length} item${state.images.length > 1 ? 's' : ''} divided into ${chunks.length} page${chunks.length > 1 ? 's' : ''}`;
-
             chunks.forEach((chunk, index) => {
-                const card = createCollageCard(chunk, index + 1, chunks.length);
-                collagesGrid.appendChild(card);
+                collagesGrid.appendChild(createCollageCard(chunk, index + 1, chunks.length));
             });
         }
 
         function createCollageCard(imagesChunk, index, totalChunks) {
             const card = document.createElement('div');
             card.className = 'bg-white border border-slate-200 rounded-2xl p-3 flex flex-col space-y-2 shadow-sm';
-
             const header = document.createElement('div');
             header.className = 'flex items-center justify-between text-xs font-semibold text-slate-500 px-1';
-            header.innerHTML = `
-                <span>Collage #${index} of ${totalChunks}</span>
-                <span class="bg-slate-100 px-2 py-0.5 rounded-full text-slate-700 text-[10px] font-bold border border-slate-200">${imagesChunk.length} Items</span>
-            `;
-
+            header.innerHTML = `<span>Collage #${index} of ${totalChunks}</span>
+                <span class="bg-slate-100 px-2 py-0.5 rounded-full text-slate-700 text-[10px] font-bold border border-slate-200">${imagesChunk.length} Items</span>`;
             const canvasContainer = document.createElement('div');
             canvasContainer.className = 'w-full bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center p-1 border border-slate-200/60';
-
             const canvas = document.createElement('canvas');
             const { width, height } = getCanvasDimensions(state.aspectRatio, state.canvasResolution);
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = width; canvas.height = height;
             canvas.className = 'w-full h-auto max-h-[420px] object-contain rounded-lg shadow-inner';
-
             drawCollageCanvas(canvas, imagesChunk);
-
             const downloadBtn = document.createElement('button');
             downloadBtn.className = 'w-full py-1.5 px-3 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 hover:border-brand-200 text-slate-800 text-xs font-semibold rounded-xl border border-slate-200 transition-colors flex items-center justify-center space-x-1';
-            
             const extLabel = state.exportFormat.toUpperCase();
             downloadBtn.innerHTML = `<span>⬇️</span><span>Save #${index} (${extLabel})</span>`;
-            
             downloadBtn.onclick = () => downloadSingleCollage(canvas, index);
-
             canvasContainer.appendChild(canvas);
-            card.appendChild(header);
-            card.appendChild(canvasContainer);
-            card.appendChild(downloadBtn);
-
+            card.appendChild(header); card.appendChild(canvasContainer); card.appendChild(downloadBtn);
             return card;
         }
 
@@ -832,256 +839,189 @@
             const timeStamp = getFormattedTimestamp();
             const fileName = `Collage_${timeStamp}_${index}.${fmt}`;
 
-            if (fmt === 'png') {
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            } else if (fmt === 'jpg') {
-                const link = document.createElement('a');
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/jpeg', state.jpgQuality);
-                link.click();
-            } else if (fmt === 'pdf') {
+            if (fmt === 'pdf') {
                 const { jsPDF } = window.jspdf;
                 const imgData = canvas.toDataURL('image/jpeg', 0.95);
                 const isLandscape = canvas.width > canvas.height;
-                const pdf = new jsPDF({
-                    orientation: isLandscape ? 'l' : 'p',
-                    unit: 'px',
-                    format: [canvas.width, canvas.height]
-                });
+                const pdf = new jsPDF({ orientation: isLandscape ? 'l' : 'p', unit: 'px', format: [canvas.width, canvas.height] });
                 pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
                 pdf.save(fileName);
+                return;
             }
+
+            const mimeType = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
+            const quality = fmt === 'jpg' ? (state.jpgQuality / 100) : undefined;
+
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    alert('Export failed. Try a different format or smaller canvas.');
+                    return;
+                }
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                setTimeout(() => {
+                    try { document.body.removeChild(link); } catch(e){}
+                    URL.revokeObjectURL(url);
+                }, 1500);
+            }, mimeType, quality);
         }
 
         function drawCollageCanvas(canvas, itemsChunk) {
             const ctx = canvas.getContext('2d');
-            const W = canvas.width;
-            const H = canvas.height;
-
+            const W = canvas.width, H = canvas.height;
             ctx.fillStyle = state.bgColor;
             ctx.fillRect(0, 0, W, H);
-
-            const targetCount = state.photosPerCollage;
-            const cells = calculateGridCells(W, H, targetCount, state.margin, state.spacing);
-
-            itemsChunk.forEach((item, i) => {
-                if (cells[i]) {
-                    drawCellImage(ctx, item.element, cells[i]);
-                }
-            });
+            const cells = calculateGridCells(W, H, state.photosPerCollage, state.margin, state.spacing);
+            itemsChunk.forEach((item, i) => { if (cells[i]) drawCellImage(ctx, item.element, cells[i]); });
         }
 
         function calculateGridCells(W, H, count, margin, spacing) {
             let cols = 2, rows = 2;
-
-            if (count === 1) {
-                cols = 1; rows = 1;
-            } else if (count === 2) {
-                cols = W >= H ? 2 : 1;
-                rows = W >= H ? 1 : 2;
-            } else if (count === 3) {
-                cols = W >= H ? 3 : 1;
-                rows = W >= H ? 1 : 3;
-            } else if (count === 4) {
-                cols = 2; rows = 2;
-            } else if (count === 6) {
-                cols = W >= H ? 3 : 2;
-                rows = W >= H ? 2 : 3;
-            } else if (count === 8) {
-                cols = W >= H ? 4 : 2;
-                rows = W >= H ? 2 : 4;
-            } else if (count === 9) {
-                cols = 3; rows = 3;
-            } else if (count === 12) {
-                cols = W >= H ? 4 : 3;
-                rows = W >= H ? 3 : 4;
-            } else {
-                cols = 2; rows = 2;
-            }
-
+            if (count === 1) { cols = 1; rows = 1; }
+            else if (count === 2) { cols = W >= H ? 2 : 1; rows = W >= H ? 1 : 2; }
+            else if (count === 3) { cols = W >= H ? 3 : 1; rows = W >= H ? 1 : 3; }
+            else if (count === 4) { cols = 2; rows = 2; }
+            else if (count === 6) { cols = W >= H ? 3 : 2; rows = W >= H ? 2 : 3; }
+            else if (count === 8) { cols = W >= H ? 4 : 2; rows = W >= H ? 2 : 4; }
+            else if (count === 9) { cols = 3; rows = 3; }
+            else if (count === 12) { cols = W >= H ? 4 : 3; rows = W >= H ? 3 : 4; }
             const availableWidth = W - (margin * 2) - ((cols - 1) * spacing);
             const availableHeight = H - (margin * 2) - ((rows - 1) * spacing);
-
             const cellW = availableWidth / cols;
             const cellH = availableHeight / rows;
-
             const cells = [];
             for (let i = 0; i < count; i++) {
-                const colIndex = i % cols;
-                const rowIndex = Math.floor(i / cols);
-
-                const x = margin + colIndex * (cellW + spacing);
-                const y = margin + rowIndex * (cellH + spacing);
-
-                cells.push({ x, y, w: cellW, h: cellH });
+                const colIndex = i % cols, rowIndex = Math.floor(i / cols);
+                cells.push({
+                    x: margin + colIndex * (cellW + spacing),
+                    y: margin + rowIndex * (cellH + spacing),
+                    w: cellW, h: cellH
+                });
             }
-
             return cells;
         }
 
         function drawCellImage(ctx, img, cell) {
             ctx.save();
-
-            const centerX = cell.x + cell.w / 2;
-            const centerY = cell.y + cell.h / 2;
-
-            // Apply scale percentage to cell area
+            const centerX = cell.x + cell.w / 2, centerY = cell.y + cell.h / 2;
             const scaleFactor = state.scalePercent / 100;
             const cellTargetW = cell.w * scaleFactor;
             const cellTargetH = cell.h * scaleFactor;
-
             ctx.translate(centerX, centerY);
-
-            // Move origin to center of cell & create clip path for corner radius
             ctx.beginPath();
             if (state.radius > 0 && typeof ctx.roundRect === 'function') {
-                ctx.roundRect(-cellTargetW / 2, -cellTargetH / 2, cellTargetW, cellTargetH, state.radius);
+                ctx.roundRect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH, state.radius);
             } else {
-                ctx.rect(-cellTargetW / 2, -cellTargetH / 2, cellTargetW, cellTargetH);
+                ctx.rect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH);
             }
             ctx.clip();
-
-            // Calculate internal photo size after padding
             const pad = state.borderEnabled ? state.photoPadding : 0;
             const targetW = Math.max(10, cellTargetW - (pad * 2));
             const targetH = Math.max(10, cellTargetH - (pad * 2));
-
             let imgW = img.naturalWidth || img.width;
             let imgH = img.naturalHeight || img.height;
-
             let needRotate = false;
             if (state.autoRotate) {
                 const cellIsLandscape = targetW > targetH;
                 const imgIsLandscape = imgW > imgH;
-                if (cellIsLandscape !== imgIsLandscape) {
-                    needRotate = true;
-                }
+                if (cellIsLandscape !== imgIsLandscape) needRotate = true;
             }
-
             const effectiveImgW = needRotate ? imgH : imgW;
             const effectiveImgH = needRotate ? imgW : imgH;
-
-            let scale = 1;
-            if (state.fitMode === 'cover') {
-                scale = Math.max(targetW / effectiveImgW, targetH / effectiveImgH);
-            } else {
-                scale = Math.min(targetW / effectiveImgW, targetH / effectiveImgH);
-            }
-
-            const renderW = effectiveImgW * scale;
-            const renderH = effectiveImgH * scale;
-
+            const scale = state.fitMode === 'cover'
+                ? Math.max(targetW / effectiveImgW, targetH / effectiveImgH)
+                : Math.min(targetW / effectiveImgW, targetH / effectiveImgH);
+            const renderW = effectiveImgW * scale, renderH = effectiveImgH * scale;
             ctx.save();
-            if (needRotate) {
-                ctx.rotate(90 * Math.PI / 180);
-            }
-
+            if (needRotate) ctx.rotate(90 * Math.PI / 180);
             const drawWidth = needRotate ? renderH : renderW;
             const drawHeight = needRotate ? renderW : renderH;
-
-            ctx.drawImage(
-                img,
-                -drawWidth / 2,
-                -drawHeight / 2,
-                drawWidth,
-                drawHeight
-            );
+            ctx.drawImage(img, -drawWidth/2, -drawHeight/2, drawWidth, drawHeight);
             ctx.restore();
-
-            // Draw border if enabled and style is not 'none'
             if (state.borderEnabled && state.borderStyle !== 'none' && state.borderWidth > 0) {
                 ctx.lineWidth = state.borderWidth;
                 ctx.strokeStyle = state.borderColor;
-
-                if (state.borderStyle === 'dashed') {
-                    ctx.setLineDash([state.borderWidth * 4, state.borderWidth * 2]);
-                } else if (state.borderStyle === 'dotted') {
-                    ctx.setLineDash([state.borderWidth, state.borderWidth * 2]);
-                } else {
-                    ctx.setLineDash([]);
-                }
-
+                if (state.borderStyle === 'dashed') ctx.setLineDash([state.borderWidth*4, state.borderWidth*2]);
+                else if (state.borderStyle === 'dotted') ctx.setLineDash([state.borderWidth, state.borderWidth*2]);
+                else ctx.setLineDash([]);
                 ctx.beginPath();
                 if (state.radius > 0 && typeof ctx.roundRect === 'function') {
-                    ctx.roundRect(-cellTargetW / 2, -cellTargetH / 2, cellTargetW, cellTargetH, state.radius);
+                    ctx.roundRect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH, state.radius);
                 } else {
-                    ctx.rect(-cellTargetW / 2, -cellTargetH / 2, cellTargetW, cellTargetH);
+                    ctx.rect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH);
                 }
                 ctx.stroke();
             }
-
             ctx.restore();
         }
 
         downloadPdfDocBtn.addEventListener('click', () => {
             const canvases = collagesGrid.querySelectorAll('canvas');
             if (canvases.length === 0) return;
-
             const { jsPDF } = window.jspdf;
             let pdf = null;
             const timeStamp = getFormattedTimestamp();
-
             canvases.forEach((canvas, index) => {
                 const imgData = canvas.toDataURL('image/jpeg', 0.95);
                 const isLandscape = canvas.width > canvas.height;
-
                 if (index === 0) {
-                    pdf = new jsPDF({
-                        orientation: isLandscape ? 'l' : 'p',
-                        unit: 'px',
-                        format: [canvas.width, canvas.height]
-                    });
+                    pdf = new jsPDF({ orientation: isLandscape ? 'l' : 'p', unit: 'px', format: [canvas.width, canvas.height] });
                 } else {
                     pdf.addPage([canvas.width, canvas.height], isLandscape ? 'l' : 'p');
                 }
                 pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
             });
-
-            if (pdf) {
-                pdf.save(`Collage_${timeStamp}_multipage.pdf`);
-            }
+            if (pdf) pdf.save(`Collage_${timeStamp}_multipage.pdf`);
         });
 
         async function exportMainZip() {
             const canvases = collagesGrid.querySelectorAll('canvas');
             if (canvases.length === 0) return;
-
             const zip = new JSZip();
             const folder = zip.folder("collages");
             const fmt = state.exportFormat;
             const timeStamp = getFormattedTimestamp();
-
             if (fmt === 'pdf') {
                 const { jsPDF } = window.jspdf;
                 canvases.forEach((canvas, index) => {
                     const imgData = canvas.toDataURL('image/jpeg', 0.95);
                     const isLandscape = canvas.width > canvas.height;
-                    const pdf = new jsPDF({
-                        orientation: isLandscape ? 'l' : 'p',
-                        unit: 'px',
-                        format: [canvas.width, canvas.height]
-                    });
+                    const pdf = new jsPDF({ orientation: isLandscape ? 'l' : 'p', unit: 'px', format: [canvas.width, canvas.height] });
                     pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height);
-                    const pdfArrayBuffer = pdf.output('arraybuffer');
-                    folder.file(`Collage_${timeStamp}_${index + 1}.pdf`, pdfArrayBuffer);
+                    folder.file(`Collage_${timeStamp}_${index + 1}.pdf`, pdf.output('arraybuffer'));
                 });
             } else {
                 const mimeType = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
-                const quality = fmt === 'jpg' ? state.jpgQuality : undefined;
-                
+                const quality = fmt === 'jpg' ? (state.jpgQuality / 100) : undefined;
                 canvases.forEach((canvas, index) => {
                     const dataUrl = canvas.toDataURL(mimeType, quality);
                     const base64Data = dataUrl.replace(/^data:image\/(png|jpeg);base64,/, "");
                     folder.file(`Collage_${timeStamp}_${index + 1}.${fmt}`, base64Data, { base64: true });
                 });
             }
-
             const content = await zip.generateAsync({ type: "blob" });
             saveAs(content, `Collages_${timeStamp}_batch.zip`);
         }
+
+        function getFormattedTimestamp() {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            return `${dd}${mm}${yyyy}_${hh}${min}${ss}`;
+        }
+
+        // ═══ INIT ═════════════════════════════════════════════════
+        renderAllMenuRows();
+        updateZipBtnLabel();
     </script>
 </body>
 </html>
