@@ -50,6 +50,8 @@ body{background:#f8fafc;color:#0f172a;font-family:'Inter',system-ui,-apple-syste
 .lang-opt.active .chk{opacity:1;color:#2563eb;}
 .link-item .ext{margin-left:auto;width:13px;height:13px;opacity:.5;}
 .menu-hint{padding:8px 14px 4px;font-size:10.5px;line-height:1.45;color:#64748b;border-top:1px solid #f1f5f9;margin-top:4px;}
+.menu-caption{padding:12px 14px 8px;text-align:center;font-size:10.5px;font-weight:600;color:#94a3b8;border-top:1px solid #f1f5f9;margin-top:4px;letter-spacing:.2px;}
+.menu-caption b{color:#2563eb;font-weight:700;}
 
 .tabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #e2e8f0;background:#fff;position:sticky;top:0;z-index:20;flex-shrink:0;}
 .tabs::-webkit-scrollbar{display:none;}
@@ -60,14 +62,10 @@ body{background:#f8fafc;color:#0f172a;font-family:'Inter',system-ui,-apple-syste
 
 .fld{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
 .fld:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(37,99,235,.12);}
-select.fld{appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px;}
 .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#64748b;margin-bottom:6px;}
 .sec-title{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#334155;margin:20px 0 10px;display:flex;align-items:center;gap:7px;}
 .sec-title svg{width:13px;height:13px;color:#2563eb;}
 
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:#e2e8f0;outline:none;margin:8px 0;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#2563eb;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(15,23,42,.2);}
-input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#2563eb;cursor:pointer;border:2px solid #fff;}
 input[type=color]{-webkit-appearance:none;appearance:none;width:100%;height:38px;border:1px solid #e2e8f0;border-radius:10px;background:transparent;cursor:pointer;padding:3px;}
 input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
 input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
@@ -76,7 +74,7 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
 .chip.active{background:#2563eb;color:#fff;border-color:#2563eb;}
 .chip:hover:not(.active){background:#f8fafc;}
 
-.btn-filled{width:100%;padding:13px;border-radius:999px;border:none;cursor:pointer;background:#2563eb;color:#fff;font-weight:700;font-size:14px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 1px 2px rgba(37,99,235,.2),0 6px 16px -6px rgba(37,99,235,.35);transition:background .15s,transform .1s;}
+.btn-filled{width:100%;padding:13px;border-radius:999px;border:none;cursor:pointer;background:#2563eb;color:#fff;font-weight:700;font-size:14px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 1px 2px rgba(37,99,235,.2),0 6px 16px -6px rgba(37,99,235,.35);transition:background .15s;}
 .btn-filled:hover{background:#1d4ed8;}
 .btn-filled:disabled{opacity:.6;cursor:not-allowed;}
 .btn-filled svg{width:17px;height:17px;}
@@ -101,70 +99,36 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
 .bd-opt span.nm{font-size:9.5px;font-weight:700;color:#475569;text-align:center;line-height:1.15;}
 .bd-opt.active span.nm{color:#1e40af;}
 
-/* ===== SIZING / FIT PANEL ===== */
-.size-row{padding:14px 0;border-bottom:1px solid #f1f5f9;position:relative;}
+/* SIZE/FIT PANEL */
+.size-row{padding:12px 0;border-bottom:1px solid #f1f5f9;position:relative;}
 .size-row:last-child{border-bottom:none;}
 .size-row.is-hidden{opacity:.55;}
 .size-row.is-hidden .size-row-label{text-decoration:line-through;}
-.size-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.size-row-label{font-size:12.5px;font-weight:700;color:#334155;}
-.size-hide{
-  width:30px;height:30px;border-radius:8px;
-  border:1px solid #fecaca;background:#fef2f2;color:#dc2626;
-  display:grid;place-items:center;cursor:pointer;
-  transition:all .15s;flex-shrink:0;
-}
+.size-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;}
+.size-row-label{font-size:12px;font-weight:700;color:#334155;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.size-hide{width:28px;height:28px;border-radius:8px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;display:grid;place-items:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
 .size-hide:hover{background:#fee2e2;border-color:#f87171;}
-.size-hide svg{width:14px;height:14px;}
+.size-hide svg{width:13px;height:13px;}
 .size-hide.is-off{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;}
-.size-hide.is-off:hover{background:#dcfce7;border-color:#4ade80;}
-.size-control{display:flex;gap:6px;align-items:stretch;}
-.size-btn{
-  width:42px;min-height:42px;border-radius:10px;
-  border:1px solid #e2e8f0;background:#fff;color:#475569;
-  font-size:20px;font-weight:600;cursor:pointer;
-  display:grid;place-items:center;transition:all .12s;
-  font-family:inherit;line-height:1;flex-shrink:0;
-}
+.size-control{display:flex;gap:5px;align-items:stretch;}
+.size-btn{width:36px;min-height:38px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:18px;font-weight:600;cursor:pointer;display:grid;place-items:center;transition:all .12s;font-family:inherit;line-height:1;flex-shrink:0;}
 .size-btn:hover{background:#f8fafc;border-color:#cbd5e1;}
 .size-btn:active{background:#eff6ff;border-color:#3b82f6;color:#1d4ed8;}
-.size-display{
-  flex:1;padding:10px 14px;border-radius:10px;
-  border:1px solid #e2e8f0;background:#fff;
-  font-size:14px;font-weight:700;color:#0f172a;
-  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
-  transition:all .15s;font-family:inherit;min-width:0;
-}
+.size-display{flex:1;padding:8px 12px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;font-size:13px;font-weight:700;color:#0f172a;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s;font-family:inherit;min-width:0;}
 .size-display:hover{border-color:#cbd5e1;background:#f8fafc;}
 .size-display.open{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;}
-.size-display-icon{width:14px;height:14px;color:#94a3b8;flex-shrink:0;}
-.size-display.open .size-display-icon{color:#2563eb;}
-.size-menu{
-  margin-top:8px;
-  background:#fff;
-  border:1px solid #e2e8f0;
-  border-radius:12px;
-  box-shadow:0 12px 32px -8px rgba(15,23,42,.15),0 4px 12px rgba(15,23,42,.06);
-  padding:6px;
-  max-height:280px;
-  overflow-y:auto;
-  z-index:30;
-  position:relative;
-}
+.size-display-icon{width:13px;height:13px;color:#94a3b8;flex-shrink:0;}
+.size-menu{margin-top:6px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 32px -8px rgba(15,23,42,.15);padding:5px;max-height:260px;overflow-y:auto;z-index:30;position:relative;}
 .size-menu.hidden{display:none;}
-.size-option{
-  display:flex;justify-content:space-between;align-items:center;
-  width:100%;padding:11px 16px;border:none;background:transparent;
-  border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;
-  color:#334155;text-align:left;transition:background .1s;
-  font-family:inherit;
-}
+.size-option{display:flex;justify-content:space-between;align-items:center;width:100%;padding:9px 14px;border:none;background:transparent;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;text-align:left;transition:background .1s;font-family:inherit;}
 .size-option:hover{background:#f1f5f9;}
 .size-option.active{background:#eff6ff;color:#1d4ed8;}
-.size-option .check{width:15px;height:15px;opacity:0;color:#2563eb;flex-shrink:0;}
+.size-option .check{width:14px;height:14px;opacity:0;color:#2563eb;flex-shrink:0;}
 .size-option.active .check{opacity:1;}
 
-/* ===== PAGE ===== */
+.num-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* PAGE */
 .page{
   position:relative;overflow:hidden;
   --fs:16px;--bc:#1a237e;--accent:#c9a227;--primary:#1a237e;--ink:#1a237e;--paper:#fff;
@@ -172,22 +136,19 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
   --inst-scale:1;--affil-scale:1;--subtitle-scale:1;--badge-scale:1;
   --plabel-scale:1;--pvalue-scale:1;--footer-scale:1;
   --heading-font:'Playfair Display',serif;--body-font:'Inter',sans-serif;
-  --gapm:1;--padm:1;--lh:1.15;color:var(--ink);font-family:var(--body-font);isolation:isolate;
+  --gapm:1;--padm:1;--lh:1.15;--logoSize:1;color:var(--ink);font-family:var(--body-font);isolation:isolate;
   -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;
 }
 #pageWrap{transform-origin:center center;box-shadow:0 14px 46px rgba(15,23,42,.22),0 3px 10px rgba(15,23,42,.10);will-change:transform;cursor:zoom-in;border-radius:6px;}
 body.exporting #pageWrap{transform:none !important;box-shadow:none;}
-
 .bg-layer{position:absolute;inset:0;background-position:center;background-repeat:no-repeat;background-size:cover;z-index:0;}
 .bg-tint{position:absolute;inset:0;z-index:1;pointer-events:none;}
 .frame{position:absolute;inset:calc(var(--fs)*1.0);z-index:2;}
 .content{position:absolute;inset:0;overflow:hidden;}
 .pad{position:absolute;inset:calc(var(--fs)*1.4*var(--padm));display:flex;flex-direction:column;justify-content:center;}
 .pad.full-bleed{inset:0;padding:0;}
-
 .inner{width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;}
 .g-head,.g-mid,.g-bot{width:100%;display:flex;flex-direction:column;}
-
 .logo-wrap{background-size:contain;background-repeat:no-repeat;background-position:center;background-origin:content-box;flex:0 0 auto;}
 .lf-circle{border-radius:50%;border:calc(var(--fs)*0.18) solid var(--accent);padding:calc(var(--fs)*0.38);}
 .lf-rounded{border-radius:calc(var(--fs)*1.3);border:calc(var(--fs)*0.15) solid var(--accent);padding:calc(var(--fs)*0.4);}
@@ -198,51 +159,18 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .rule{display:flex;align-items:center;justify-content:center;width:72%;gap:calc(var(--fs)*0.65);margin:calc(var(--fs)*1.15*var(--gapm)) 0;}
 .rule .rl{flex:1;height:calc(var(--fs)*0.17);background:var(--accent);border-radius:99px;}
 .rule .rd{width:calc(var(--fs)*0.95);height:calc(var(--fs)*0.95);background:var(--accent);transform:rotate(45deg);flex:0 0 auto;}
-
-.badge{
-  display:inline-block;
-  padding:calc(var(--fs)*0.48) calc(var(--fs)*1.5);
-  border-radius:999px;background:var(--primary);color:var(--paper);
-  font-size:calc(var(--fs) * 1.15 * var(--badge-scale));font-weight:800;letter-spacing:.16em;
-  text-transform:uppercase;margin-bottom:calc(var(--fs)*1.15*var(--gapm));
-  max-width:100%;overflow:hidden;white-space:nowrap;align-self:center;
-}
-
-.title{
-  font-family:var(--heading-font);
-  font-weight:800;
-  color:var(--ink);
-  font-size:90px;
-  line-height:1.12;
-  width:100%;
-  letter-spacing:-0.025em;
-  overflow:hidden;
-  word-break:normal;
-  overflow-wrap:break-word;
-  text-wrap:balance;
-}
-
+.badge{display:inline-block;padding:calc(var(--fs)*0.48) calc(var(--fs)*1.5);border-radius:999px;background:var(--primary);color:var(--paper);font-size:calc(var(--fs) * 1.15 * var(--badge-scale));font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:calc(var(--fs)*1.15*var(--gapm));max-width:100%;overflow:hidden;white-space:nowrap;align-self:center;}
+.title{font-family:var(--heading-font);font-weight:800;color:var(--ink);font-size:90px;line-height:1.12;width:100%;letter-spacing:-0.025em;overflow:hidden;word-break:normal;overflow-wrap:break-word;text-wrap:balance;}
 .subtitle{font-family:var(--body-font);font-size:calc(var(--fs) * 2.4 * var(--subtitle-scale));color:var(--ink);opacity:.8;margin-top:calc(var(--fs)*0.8*var(--gapm));width:100%;line-height:1.28;font-weight:500;letter-spacing:-0.008em;overflow-wrap:break-word;}
 .particulars{margin-top:calc(var(--fs)*1.6*var(--gapm));width:100%;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--fs)*1*var(--gapm)) calc(var(--fs)*1.5);text-align:left;}
 .p-item{border-left:calc(var(--fs)*0.22) solid var(--accent);padding-left:calc(var(--fs)*0.8);min-width:0;}
-
-.p-label{
-  font-size:calc(var(--fs) * 1.0 * var(--plabel-scale));font-weight:800;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--primary);opacity:.88;
-  line-height:1.25;white-space:nowrap;overflow:hidden;
-}
-.p-value{
-  font-size:calc(var(--fs) * 1.85 * var(--pvalue-scale));font-weight:600;color:var(--ink);
-  margin-top:calc(var(--fs)*0.22);line-height:1.22;white-space:nowrap;
-  overflow:hidden;min-height:calc(var(--fs)*2.25);
-}
-
+.p-label{font-size:calc(var(--fs) * 1.0 * var(--plabel-scale));font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);opacity:.88;line-height:1.25;white-space:nowrap;overflow:hidden;}
+.p-value{font-size:calc(var(--fs) * 1.85 * var(--pvalue-scale));font-weight:600;color:var(--ink);margin-top:calc(var(--fs)*0.22);line-height:1.22;white-space:nowrap;overflow:hidden;min-height:calc(var(--fs)*2.25);}
 .footer{margin-top:calc(var(--fs)*1.4*var(--gapm));width:100%;font-size:calc(var(--fs) * 1.3 * var(--footer-scale));letter-spacing:.2em;text-transform:uppercase;color:var(--ink);opacity:.72;font-weight:700;overflow-wrap:break-word;}
 
 .layout-centered{min-height:100%;justify-content:space-between;}
 .layout-centered .g-head,.layout-centered .g-mid,.layout-centered .g-bot{align-items:center;text-align:center;}
 .layout-centered .logo-wrap{width:calc(var(--fs)*10*var(--logoSize,1));height:calc(var(--fs)*10*var(--logoSize,1));margin-bottom:calc(var(--fs)*1.1*var(--gapm));}
-
 .layout-editorial{min-height:100%;justify-content:space-between;align-items:flex-start;text-align:left;}
 .layout-editorial .g-head,.layout-editorial .g-mid,.layout-editorial .g-bot{align-items:flex-start;text-align:left;}
 .layout-editorial .ed-head{display:flex;align-items:center;gap:calc(var(--fs)*1.2);width:100%;margin-bottom:calc(var(--fs)*0.8*var(--gapm));}
@@ -256,7 +184,6 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .layout-editorial .subtitle{text-align:left;font-size:calc(var(--fs) * 2.2 * var(--subtitle-scale));margin-top:calc(var(--fs)*0.95*var(--gapm));}
 .layout-editorial .particulars{text-align:left;width:100%;}
 .layout-editorial .footer{text-align:left;}
-
 .layout-band{display:flex;flex-direction:column;align-items:stretch;text-align:center;min-height:100%;}
 .layout-band .band-top{background:var(--primary-bg,var(--primary));color:var(--paper);padding:calc(var(--fs)*2) calc(var(--fs)*2.2);display:flex;align-items:center;gap:calc(var(--fs)*1.2);width:100%;flex-shrink:0;}
 .layout-band .band-logo{width:calc(var(--fs)*5.5*var(--logoSize,1));height:calc(var(--fs)*5.5*var(--logoSize,1));margin-bottom:0;border-color:var(--paper);}
@@ -264,7 +191,6 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .layout-band .band-inst{color:var(--paper);font-family:var(--heading-font);font-size:calc(var(--fs) * 2.2 * var(--inst-scale));text-align:left;line-height:1.14;font-weight:700;letter-spacing:.03em;text-transform:uppercase;overflow-wrap:break-word;}
 .layout-band .band-affil{color:var(--paper);opacity:.88;text-align:left;margin-top:calc(var(--fs)*0.28);font-size:calc(var(--fs) * 0.95 * var(--affil-scale));letter-spacing:.1em;font-weight:600;overflow-wrap:break-word;}
 .layout-band .band-body{flex:1;padding:calc(var(--fs)*2.5) calc(var(--fs)*2.2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-
 .layout-sidebar{display:flex;flex-direction:row;align-items:stretch;text-align:center;min-height:100%;}
 .layout-sidebar .sidebar{background:var(--primary-bg,var(--primary));color:var(--paper);width:34%;flex-shrink:0;padding:calc(var(--fs)*2) calc(var(--fs)*1.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--fs)*1);text-align:center;}
 .layout-sidebar .sidebar-logo{width:calc(var(--fs)*6*var(--logoSize,1));height:calc(var(--fs)*6*var(--logoSize,1));margin-bottom:0;border-color:var(--paper);}
@@ -276,14 +202,12 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .layout-sidebar .p-item{border-left:none;padding-left:0;text-align:center;border-bottom:calc(var(--fs)*0.1) solid var(--accent);padding-bottom:calc(var(--fs)*0.55*var(--gapm));}
 .layout-sidebar .p-value{font-size:calc(var(--fs) * 1.6 * var(--pvalue-scale));}
 .layout-sidebar .footer{margin-top:calc(var(--fs)*1.3*var(--gapm));font-size:calc(var(--fs) * 1.1 * var(--footer-scale));}
-
 .layout-twotone{display:flex;flex-direction:column;align-items:stretch;text-align:center;min-height:100%;}
 .layout-twotone .tt-top{background:var(--primary-bg,var(--primary));color:var(--paper);padding:calc(var(--fs)*3) calc(var(--fs)*2.2);display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--fs)*0.8);flex-shrink:0;}
 .layout-twotone .tt-logo{width:calc(var(--fs)*8.5*var(--logoSize,1));height:calc(var(--fs)*8.5*var(--logoSize,1));margin-bottom:0;border-color:var(--paper);}
 .layout-twotone .tt-inst{color:var(--paper);font-family:var(--heading-font);font-size:calc(var(--fs) * 2.2 * var(--inst-scale));text-align:center;font-weight:700;letter-spacing:.03em;text-transform:uppercase;line-height:1.14;overflow-wrap:break-word;}
 .layout-twotone .tt-affil{color:var(--paper);opacity:.88;text-align:center;font-size:calc(var(--fs) * 0.95 * var(--affil-scale));letter-spacing:.1em;font-weight:600;overflow-wrap:break-word;}
 .layout-twotone .tt-bottom{flex:1;padding:calc(var(--fs)*2.4) calc(var(--fs)*2.2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-
 .layout-minimal{min-height:100%;justify-content:space-between;align-items:flex-start;text-align:left;}
 .layout-minimal .g-head{align-items:flex-start;text-align:left;position:relative;padding-top:calc(var(--fs)*1.8*var(--gapm));width:100%;}
 .layout-minimal .g-head::before{content:'';position:absolute;top:0;left:0;width:calc(var(--fs)*2.8);height:calc(var(--fs)*0.42);background:var(--accent);border-radius:99px;}
@@ -299,7 +223,6 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .layout-minimal .p-label::after{content:none;}
 .layout-minimal .p-value{margin-top:0;font-weight:600;font-size:calc(var(--fs) * 1.5 * var(--pvalue-scale));display:inline;text-align:right;min-height:0;flex-shrink:1;min-width:0;}
 .layout-minimal .footer{text-align:left;font-size:calc(var(--fs) * 1.2 * var(--footer-scale));margin-top:calc(var(--fs)*1.6*var(--gapm));letter-spacing:.15em;}
-
 .layout-crest{min-height:100%;justify-content:space-between;}
 .layout-crest .g-head,.layout-crest .g-mid,.layout-crest .g-bot{align-items:center;text-align:center;}
 .layout-crest .crest-logo{width:calc(var(--fs)*12*var(--logoSize,1));height:calc(var(--fs)*12*var(--logoSize,1));margin-bottom:calc(var(--fs)*1.1*var(--gapm));border-width:calc(var(--fs)*0.26);}
@@ -315,11 +238,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .page.lang-dev .inst,.page.lang-dev .affil,.page.lang-dev .badge,.page.lang-dev .title,
 .page.lang-dev .subtitle,.page.lang-dev .footer,.page.lang-dev .p-label,.page.lang-dev .p-value,
 .page.lang-dev .band-inst,.page.lang-dev .band-affil,.page.lang-dev .sidebar-inst,.page.lang-dev .sidebar-affil,
-.page.lang-dev .tt-inst,.page.lang-dev .tt-affil{
-  letter-spacing:0 !important;word-spacing:normal !important;text-transform:none !important;
-  font-feature-settings:normal !important;-webkit-font-feature-settings:normal !important;
-  font-variant-ligatures:common-ligatures;
-}
+.page.lang-dev .tt-inst,.page.lang-dev .tt-affil{letter-spacing:0 !important;word-spacing:normal !important;text-transform:none !important;font-feature-settings:normal !important;-webkit-font-feature-settings:normal !important;font-variant-ligatures:common-ligatures;}
 .page.lang-dev .title{line-height:1.3;}
 .page.lang-dev .inst{line-height:1.28;}
 .page.lang-dev .subtitle{line-height:1.45;}
@@ -371,8 +290,6 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 .pane{display:none;padding:16px 16px 48px;}
 .pane.active{display:block;animation:fade .18s ease;}
 @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
-.range-row{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;font-weight:600;color:#475569;}
-.range-val{font-variant-numeric:tabular-nums;color:#1d4ed8;font-weight:800;}
 .seg{display:flex;background:#f1f5f9;border-radius:999px;padding:4px;gap:4px;}
 .seg button{flex:1;padding:9px;border-radius:999px;border:none;background:transparent;cursor:pointer;font-size:12px;font-weight:700;color:#475569;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;}
 .seg button svg{width:14px;height:14px;}
@@ -385,7 +302,6 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 
 #landing{background:#f8fafc;}
-@media (max-width:380px){.menu{min-width:240px;}}
 </style>
 </head>
 
@@ -401,7 +317,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
       </div>
     </div>
     <div class="relative">
-      <button class="icon-btn" data-menu-toggle="landingMenu" aria-label="Menu"><i data-lucide="more-vertical"></i></button>
+      <button class="icon-btn" data-menu-toggle="landingMenu"><i data-lucide="more-vertical"></i></button>
       <div id="landingMenu" class="menu hidden">
         <div class="menu-section">Page Language</div>
         <button class="menu-item lang-opt active" data-lang="en"><span class="lang-badge">EN</span><span class="lang-name">English</span><i data-lucide="check" class="chk"></i></button>
@@ -410,9 +326,10 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <div class="menu-hint">Only the cover page content changes. UI stays English.</div>
         <div class="menu-divider"></div>
         <div class="menu-section">Links</div>
-        <a href="#" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Visit Website</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="book-open"></i><span>Documentation</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="message-circle"></i><span>Give Feedback</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="index.html" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Collage Maker</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="globe"></i><span>Coming soon more</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="globe"></i><span>Coming soon more</span><i data-lucide="external-link" class="ext"></i></a>
+        <div class="menu-caption">Coded by <b>Vijay Bishnoi</b></div>
       </div>
     </div>
   </header>
@@ -440,7 +357,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 <div id="editor" class="hidden h-[100dvh] flex flex-col bg-slate-50">
   <header class="appbar">
     <div class="flex items-center gap-2 min-w-0">
-      <button class="icon-btn" id="backBtn" title="Back"><i data-lucide="arrow-left"></i></button>
+      <button class="icon-btn" id="backBtn"><i data-lucide="arrow-left"></i></button>
       <div class="app-icon"><i data-lucide="book-open-text"></i></div>
       <div class="min-w-0">
         <h1 class="text-[14px] font-bold leading-tight truncate text-slate-900">Cover Page Studio</h1>
@@ -448,7 +365,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
       </div>
     </div>
     <div class="relative">
-      <button class="icon-btn" data-menu-toggle="editorMenu" aria-label="Menu"><i data-lucide="more-vertical"></i></button>
+      <button class="icon-btn" data-menu-toggle="editorMenu"><i data-lucide="more-vertical"></i></button>
       <div id="editorMenu" class="menu hidden">
         <div class="menu-section">Page Language</div>
         <button class="menu-item lang-opt active" data-lang="en"><span class="lang-badge">EN</span><span class="lang-name">English</span><i data-lucide="check" class="chk"></i></button>
@@ -460,10 +377,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <a href="#" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Visit Website</span><i data-lucide="external-link" class="ext"></i></a>
         <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="book-open"></i><span>Documentation</span><i data-lucide="external-link" class="ext"></i></a>
         <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="message-circle"></i><span>Give Feedback</span><i data-lucide="external-link" class="ext"></i></a>
-        <div class="menu-divider"></div>
-        <button class="menu-item" id="miReset"><i data-lucide="rotate-ccw"></i><span>Reset</span></button>
-        <button class="menu-item" id="miFit"><i data-lucide="maximize"></i><span>Re-fit</span></button>
-        <button class="menu-item" id="miAbout"><i data-lucide="info"></i><span>About</span></button>
+        <div class="menu-caption">Coded by <b>Vijay Bishnoi</b></div>
       </div>
     </div>
   </header>
@@ -471,7 +385,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
   <div class="flex-1 flex flex-col lg:flex-row min-h-0 min-w-0">
     <section id="stage" class="order-1 lg:order-2 h-[42dvh] lg:h-auto lg:flex-1 flex items-center justify-center overflow-hidden p-3 relative">
       <div id="pageWrap"><div id="page" class="page"></div></div>
-      <button id="expandBtn" class="absolute top-3 right-3 z-10 rounded-full flex items-center justify-center shadow-sm" title="Expand" style="width:40px;height:40px;background:#fff;border:1px solid #e2e8f0;color:#475569;cursor:pointer;">
+      <button id="expandBtn" class="absolute top-3 right-3 z-10 rounded-full flex items-center justify-center shadow-sm" style="width:40px;height:40px;background:#fff;border:1px solid #e2e8f0;color:#475569;cursor:pointer;">
         <i data-lucide="maximize-2" style="width:16px;height:16px;"></i>
       </button>
     </section>
@@ -503,25 +417,29 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <label class="lbl">Institution / School Name</label>
         <input class="fld" id="inInstitution">
         <div class="mt-2"><label class="lbl">Affiliation / Tagline</label><input class="fld" id="inAffiliation"></div>
-        <div class="mt-3 grid grid-cols-2 gap-2">
-          <div><label class="lbl">Logo</label><button class="btn-outline w-full" id="logoBtn"><i data-lucide="upload"></i>Upload</button><input type="file" id="logoFile" accept="image/*" class="hidden"></div>
-          <div><label class="lbl">Logo Frame</label><select class="fld" id="logoFrame"><option value="none">None</option><option value="circle">Circle</option><option value="rounded">Rounded</option><option value="square">Square</option></select></div>
+
+        <div class="mt-3">
+          <label class="lbl">Logo</label>
+          <div class="num-grid">
+            <button class="btn-outline w-full" id="logoBtn"><i data-lucide="upload"></i>Upload</button>
+            <button class="btn-outline w-full" id="logoRemove"><i data-lucide="trash-2"></i>Remove</button>
+          </div>
+          <input type="file" id="logoFile" accept="image/*" class="hidden">
+          <div id="logoSizeRow" class="mt-2"></div>
         </div>
-        <div class="mt-2"><div class="range-row"><span>Logo Size</span><span class="range-val" id="logoSize-val"></span></div><input type="range" id="logoSize" min="0.6" max="1.6" step="0.05"></div>
-        <button class="btn-outline w-full mt-1" id="logoRemove"><i data-lucide="trash-2"></i>Remove</button>
 
         <div class="sec-title"><i data-lucide="heading"></i>Text Content</div>
         <label class="lbl">Project Title</label>
-        <textarea class="fld" id="inTitle" rows="2" placeholder="Project Title"></textarea>
-        <div class="mt-2"><label class="lbl">Topic / Subtitle <span class="text-slate-400 font-normal normal-case">(optional)</span></label><input class="fld" id="inSubtitle" placeholder="e.g. A Comprehensive Report"></div>
-        <div class="mt-2 grid grid-cols-2 gap-2">
-          <div><label class="lbl">Subject Badge</label><input class="fld" id="inBadge" placeholder="Physics"></div>
-          <div><label class="lbl">Footer</label><input class="fld" id="inFooter" placeholder="Session 2025-26"></div>
+        <textarea class="fld" id="inTitle" rows="2"></textarea>
+        <div class="mt-2"><label class="lbl">Topic / Subtitle <span class="text-slate-400 font-normal normal-case">(optional)</span></label><input class="fld" id="inSubtitle"></div>
+        <div class="mt-2 num-grid">
+          <div><label class="lbl">Subject Badge</label><input class="fld" id="inBadge"></div>
+          <div><label class="lbl">Footer</label><input class="fld" id="inFooter"></div>
         </div>
 
         <div class="sec-title"><i data-lucide="users"></i>Particulars</div>
         <div id="particularList"></div>
-        <button class="btn-outline w-full mt-1" id="addPart"><i data-lucide="plus"></i>Add Field</button>
+        <button class="btn-outline w-full mt-2" id="addPart"><i data-lucide="plus"></i>Add Field</button>
 
         <div class="sec-title"><i data-lucide="palette"></i>Colors</div>
         <div class="grid grid-cols-4 gap-2">
@@ -530,20 +448,11 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
           <div><label class="lbl text-center">Ink</label><input type="color" id="colInk"></div>
           <div><label class="lbl text-center">Paper</label><input type="color" id="colPaper"></div>
         </div>
-
-        <div class="sec-title"><i data-lucide="case-sensitive"></i>Typography</div>
-        <div class="grid gap-2">
-          <div><label class="lbl">Heading Font</label><select class="fld" id="fontHeading"></select></div>
-          <div><label class="lbl">Body Font</label><select class="fld" id="fontBody"></select></div>
-        </div>
       </section>
 
       <section class="pane" data-pane="sizing">
-        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-3">
-          <div class="flex gap-2">
-            <i data-lucide="info" style="width:16px;height:16px;color:#2563eb;flex-shrink:0;margin-top:1px;"></i>
-            <p class="text-[12px] leading-relaxed text-slate-700">Use <b>−</b> / <b>+</b> to fine-tune. Click the percentage to pick from a big menu. Use the red X to hide any block.</p>
-          </div>
+        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-3 mb-3">
+          <p class="text-[11.5px] leading-relaxed text-slate-700">Use <b>−</b> / <b>+</b> to fine-tune. Click the percentage to pick from a big menu. Red X hides a block.</p>
         </div>
         <button class="btn-outline w-full mb-3" id="resetSizes"><i data-lucide="rotate-ccw"></i>Reset All Sizes & Visibility</button>
         <div id="sizingPanel"></div>
@@ -551,22 +460,20 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 
       <section class="pane" data-pane="background">
         <label class="lbl">Background Image</label>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="num-grid">
           <button class="btn-outline" id="bgUploadBtn"><i data-lucide="image-plus"></i>Upload</button>
           <button class="btn-outline" id="bgRemoveBtn"><i data-lucide="trash-2"></i>Remove</button>
         </div>
         <input type="file" id="bgFile" accept="image/*" class="hidden">
         <div class="mt-3"><label class="lbl">Crop / Fit</label><div class="seg" id="bgFitSeg"><button data-fit="cover">Cover</button><button data-fit="contain">Contain</button></div></div>
-        <div class="mt-3"><div class="range-row"><span>Masking Opacity</span><span class="range-val" id="bgOpacity-val"></span></div><input type="range" id="bgOpacity" min="0" max="1" step="0.01"></div>
+        <div class="mt-3" id="bgOpacityRow"></div>
         <div class="sec-title"><i data-lucide="droplet"></i>Tint</div>
-        <div class="grid grid-cols-[70px_1fr] gap-3 items-end">
+        <div class="mt-1 num-grid items-end">
           <div><label class="lbl text-center">Color</label><input type="color" id="tintColor"></div>
-          <div><div class="range-row"><span>Tint Strength</span><span class="range-val" id="tintStrength-val"></span></div><input type="range" id="tintStrength" min="0" max="1" step="0.01"></div>
+          <div id="tintStrengthRow"></div>
         </div>
         <div class="sec-title"><i data-lucide="sliders-horizontal"></i>Filters</div>
-        <div class="range-row"><span>Blur</span><span class="range-val" id="fBlur-val"></span></div><input type="range" id="fBlur" min="0" max="20" step="0.5">
-        <div class="range-row"><span>Brightness</span><span class="range-val" id="fBright-val"></span></div><input type="range" id="fBright" min="30" max="180" step="1">
-        <div class="range-row"><span>Contrast</span><span class="range-val" id="fContrast-val"></span></div><input type="range" id="fContrast" min="30" max="200" step="1">
+        <div id="filterRows"></div>
         <button class="btn-outline w-full mt-2" id="resetFilters"><i data-lucide="rotate-ccw"></i>Reset Filters</button>
       </section>
 
@@ -576,7 +483,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <div class="sec-title"><i data-lucide="paintbrush"></i>Border Appearance</div>
         <label class="lbl">Border Color</label>
         <input type="color" id="borderColor">
-        <div class="mt-3"><div class="range-row"><span>Border Thickness</span><span class="range-val" id="borderWidth-val"></span></div><input type="range" id="borderWidth" min="0.5" max="4" step="0.1"></div>
+        <div class="mt-3" id="borderWidthRow"></div>
         <button class="btn-outline w-full mt-2" id="borderUseAccent"><i data-lucide="pipette"></i>Use Accent Color</button>
       </section>
 
@@ -590,7 +497,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
           <button data-orient="portrait" class="active"><i data-lucide="rectangle-vertical"></i>Portrait</button>
           <button data-orient="landscape"><i data-lucide="rectangle-horizontal"></i>Landscape</button>
         </div>
-        <p class="text-[11px] text-slate-500 mt-2 leading-relaxed" id="dimInfo"></p>
+        <p class="text-[11px] text-slate-500 mt-2" id="dimInfo"></p>
         <div class="sec-title"><i data-lucide="sparkles"></i>Fit Engine</div>
         <div class="flex items-center justify-between mb-3"><span class="lbl mb-0">Auto Fit</span><button id="autoFitToggle" class="chip active">ON</button></div>
         <div id="fitPanel"></div>
@@ -600,18 +507,18 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
       <section class="pane" data-pane="export">
         <div class="sec-title"><i data-lucide="file-down"></i>Export Format</div>
         <div class="seg" id="fmtSeg"><button data-fmt="png">PNG</button><button data-fmt="jpg" class="active">JPG</button><button data-fmt="pdf">PDF</button></div>
-        <div class="mt-4"><div class="range-row"><span>Quality</span><span class="range-val" id="exportScale-val"></span></div><input type="range" id="exportScale" min="1" max="4" step="1"></div>
+        <div class="mt-3" id="exportScaleRow"></div>
         <button class="btn-filled mt-4" id="exportBtn"><i data-lucide="download"></i>Download</button>
         <div class="mt-4 grid grid-cols-2 gap-2">
-          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200"><div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Page</div><div class="text-[14px] font-bold mt-1 text-slate-900" id="infoPage">A4</div></div>
-          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200"><div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Orientation</div><div class="text-[14px] font-bold mt-1 text-slate-900" id="infoOrient">Portrait</div></div>
+          <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200"><div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Page</div><div class="text-[13px] font-bold mt-1 text-slate-900" id="infoPage">A4</div></div>
+          <div class="bg-slate-50 rounded-2xl p-3 border border-slate-200"><div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Orientation</div><div class="text-[13px] font-bold mt-1 text-slate-900" id="infoOrient">Portrait</div></div>
         </div>
       </section>
     </aside>
   </div>
 </div>
 
-<div id="fullscreen" class="hidden" aria-hidden="true"><button id="fsClose" aria-label="Close"><i data-lucide="x"></i></button><div id="fsStage"></div></div>
+<div id="fullscreen" class="hidden" aria-hidden="true"><button id="fsClose"><i data-lucide="x"></i></button><div id="fsStage"></div></div>
 <div id="toast"></div>
 
 <script>
@@ -621,11 +528,6 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 
 const SIZES = { A4:[794,1123], A5:[559,794], B5:[665,945], Letter:[816,1056] };
 const MM = { A4:[210,297], A5:[148,210], B5:[176,250], Letter:[215.9,279.4] };
-
-const FONTS_EN_HEADING = ['Playfair Display','Poppins','Montserrat','Lora','Merriweather','Oswald','Space Grotesk'];
-const FONTS_EN_BODY    = ['Inter','Poppins','Montserrat','Lora','Merriweather','Oswald','Space Grotesk'];
-const FONTS_HI_HEADING = ['Noto Serif Devanagari','Noto Sans Devanagari','Tiro Devanagari Hindi','Poppins','Inter'];
-const FONTS_HI_BODY    = ['Noto Sans Devanagari','Noto Serif Devanagari','Tiro Devanagari Hindi','Poppins','Inter'];
 
 const TEMPLATES = [
   { id:'academic-classic', name:'Academic Classic', cat:'Academic', layout:'centered', subtitlePos:'below', primary:'#1A237E', accent:'#C9A227', ink:'#1A237E', paper:'#FFFFFF', heading:'Playfair Display', body:'Inter', border:'double' },
@@ -664,7 +566,18 @@ const BORDERS = [
 const LAYOUT_LABELS = { centered:'Center', editorial:'Editorial', band:'Band', sidebar:'Sidebar', twotone:'Two-Tone', minimal:'Minimal', crest:'Crest' };
 const LINK_URLS = { website:'#', docs:'#', feedback:'#' };
 
-/* ===== Sizing & Fit Rows ===== */
+/* Numeric configs — all +/− menus */
+const MENU_CONFIG = {
+  logoSize:     { label: 'Logo Size',         min: 60, max: 160, step: 5,  displayMode: 'percent' },
+  bgOpacity:    { label: 'Masking Opacity',   min: 0,  max: 100, step: 5,  displayMode: 'percent' },
+  tintStrength: { label: 'Tint Strength',     min: 0,  max: 100, step: 5,  displayMode: 'percent' },
+  fBlur:        { label: 'Blur',              min: 0,  max: 20,  step: 1,  displayMode: 'number', suffix: 'px' },
+  fBright:      { label: 'Brightness',        min: 30, max: 180, step: 10, displayMode: 'number', suffix: '%' },
+  fContrast:    { label: 'Contrast',          min: 30, max: 200, step: 10, displayMode: 'number', suffix: '%' },
+  borderWidth:  { label: 'Border Thickness',  min: 5,  max: 40,  step: 1,  displayMode: 'decimal', suffix: '×' },
+  exportScale:  { label: 'Quality',           min: 1,  max: 4,   step: 1,  displayMode: 'number', suffix: '×' },
+};
+
 const SIZE_ROWS = [
   { key: 'instScale',     label: 'School Name',        hideKey: 'inst' },
   { key: 'affilScale',    label: 'Affiliation',        hideKey: 'affil' },
@@ -684,30 +597,68 @@ const FIT_ROWS = [
 ];
 
 function getRowConfig(key){
+  if (MENU_CONFIG[key]) return MENU_CONFIG[key];
   const fit = FIT_ROWS.find(r => r.key === key);
   if (fit) return fit;
-  return { key, min: 30, max: 300, step: 10 };
+  return { min: 30, max: 300, step: 10, displayMode: 'percent' };
 }
 
+/* ✅ REAL default content — सब details दिखेंगे */
 const LANGS = {
-  en: { label:'English', data: { institution:'School Name', affiliation:'', title:'Project Title', subtitle:'', badge:'Subject', footer:'',
-    particulars:[ { label:'Student Name', value:'' }, { label:'Roll Number', value:'' }, { label:'Class', value:'' }, { label:'Teacher Name', value:'' } ] } },
-  hi: { label:'हिंदी', data: { institution:'विद्यालय का नाम', affiliation:'', title:'प्रोजेक्ट शीर्षक', subtitle:'', badge:'विषय', footer:'',
-    particulars:[ { label:'छात्र का नाम', value:'' }, { label:'अनुक्रमांक', value:'' }, { label:'कक्षा', value:'' }, { label:'शिक्षक का नाम', value:'' } ] } },
-  ne: { label:'नेपाली', data: { institution:'विद्यालयको नाम', affiliation:'', title:'प्रोजेक्ट शीर्षक', subtitle:'', badge:'विषय', footer:'',
-    particulars:[ { label:'विद्यार्थीको नाम', value:'' }, { label:'रोल नम्बर', value:'' }, { label:'कक्षा', value:'' }, { label:'शिक्षकको नाम', value:'' } ] } },
+  en: { label:'English', data: {
+    institution:'Delhi Public School',
+    affiliation:'Affiliated to CBSE • New Delhi',
+    title:'Renewable Energy Sources',
+    subtitle:'A Comprehensive Project Report',
+    badge:'Physics',
+    footer:'Session 2025 – 26',
+    particulars:[
+      { label:'Submitted By', value:'Aarav Sharma' },
+      { label:'Roll Number', value:'14' },
+      { label:'Class / Section', value:'X – A' },
+      { label:'Submitted To', value:'Mrs. Meera Kapoor' }
+    ]
+  } },
+  hi: { label:'हिंदी', data: {
+    institution:'दिल्ली पब्लिक स्कूल',
+    affiliation:'सीबीएसई से संबद्ध • नई दिल्ली',
+    title:'नवीकरणीय ऊर्जा स्रोत',
+    subtitle:'एक व्यापक परियोजना रिपोर्ट',
+    badge:'भौतिक विज्ञान',
+    footer:'सत्र 2025 – 26',
+    particulars:[
+      { label:'प्रस्तुतकर्ता', value:'मनोज शर्मा' },
+      { label:'अनुक्रमांक', value:'14' },
+      { label:'कक्षा / वर्ग', value:'10 – A' },
+      { label:'प्रस्तुतकर्ता (गुरु)', value:'श्रीमती मीरा कपूर' }
+    ]
+  } },
+  ne: { label:'नेपाली', data: {
+    institution:'दिल्ली पब्लिक स्कूल',
+    affiliation:'सीबीएसई सँग सम्बद्ध • नयाँ दिल्ली',
+    title:'नवीकरणीय ऊर्जा स्रोतहरू',
+    subtitle:'एक व्यापक परियोजना रिपोर्ट',
+    badge:'भौतिक विज्ञान',
+    footer:'सत्र 2025 – 26',
+    particulars:[
+      { label:'प्रस्तुत गर्ने', value:'मनोज शर्मा' },
+      { label:'रोल नम्बर', value:'14' },
+      { label:'कक्षा / खण्ड', value:'10 – A' },
+      { label:'प्रस्तुत गर्ने (शिक्षक)', value:'श्रीमती मीरा कपूर' }
+    ]
+  } },
 };
 
 const DEFAULTS = {
   pageSize:'A4', orientation:'portrait', template:'academic-classic', layout:'centered', subtitlePos:'below', border:'double',
-  borderColor:'#1A237E', borderWidth:1.6,
+  borderColor:'#1A237E', borderWidth:16,
   primary:'#1A237E', accent:'#C9A227', ink:'#1A237E', paper:'#FFFFFF',
   primaryGradient:null, paperGradient:null,
   headingFont:'Playfair Display', bodyFont:'Inter',
-  logo:null, logoFrame:'circle', logoSize:1,
-  bgOriginal:null, bgImage:null, bgFit:'cover', bgOpacity:1,
+  logo:null, logoFrame:'circle', logoSize:100,
+  bgOriginal:null, bgImage:null, bgFit:'cover', bgOpacity:100,
   tint:'#1A237E', tintStrength:0, blur:0, brightness:100, contrast:100,
-  textScale:1, gapScale:1, padScale:1, lineHeight:1.15,
+  textScale:100, gapScale:100, padScale:100, lineHeight:115,
   instScale:1, affilScale:1, titleScale:1, subtitleScale:1, badgeScale:1,
   plabelScale:1, pvalueScale:1, footerScale:1,
   hidden: { inst:false, affil:false, title:false, subtitle:false, badge:false, particulars:false, footer:false },
@@ -740,13 +691,10 @@ function pageHasDevanagari(){
   for (const p of s.particulars || []) if (hasDevanagari(p.label) || hasDevanagari(p.value)) return true;
   return false;
 }
-
 function closeAllMenus(){ document.querySelectorAll('.menu').forEach(m => m.classList.add('hidden')); }
-
-/* ===== Close size menus + preserve panel scroll ===== */
 function closeAllSizeMenus(){
   const panel = $('#panel');
-  const scrollBefore = (panel && _panelScrollBeforeMenu !== null) ? _panelScrollBeforeMenu : (panel ? panel.scrollTop : 0);
+  const scrollBefore = _panelScrollBeforeMenu !== null ? _panelScrollBeforeMenu : (panel ? panel.scrollTop : 0);
   document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
   document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
   _panelScrollBeforeMenu = null;
@@ -758,19 +706,7 @@ function closeAllSizeMenus(){
     });
   }
 }
-
 function updateActiveLang(){ document.querySelectorAll('.lang-opt').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang)); }
-
-function refreshFonts(){
-  const dev = isDev();
-  const headingFonts = dev ? FONTS_HI_HEADING : FONTS_EN_HEADING;
-  const bodyFonts = dev ? FONTS_HI_BODY : FONTS_EN_BODY;
-  if (!headingFonts.includes(state.headingFont)) state.headingFont = headingFonts[0];
-  if (!bodyFonts.includes(state.bodyFont)) state.bodyFont = bodyFonts[0];
-  const fh = $('#fontHeading'); const fb = $('#fontBody');
-  if (fh){ fh.innerHTML = headingFonts.map(f => `<option value="${f}">${f}</option>`).join(''); fh.value = state.headingFont; }
-  if (fb){ fb.innerHTML = bodyFonts.map(f => `<option value="${f}">${f}</option>`).join(''); fb.value = state.bodyFont; }
-}
 
 function applyLanguage(lang){
   if (!LANGS[lang]) return;
@@ -782,8 +718,8 @@ function applyLanguage(lang){
     state.title = d.title; state.subtitle = d.subtitle;
     state.badge = d.badge; state.footer = d.footer;
     state.particulars = d.particulars.map(p => ({...p}));
-    if (isDev() && state.lineHeight < 1.35) state.lineHeight = 1.35;
-    refreshFonts(); syncControls(); renderParticulars(); renderPage();
+    if (isDev() && state.lineHeight < 135) state.lineHeight = 135;
+    syncControls(); renderParticulars(); renderPage();
   }
   renderLandingGrid(); renderTemplateGrid();
   lucide.createIcons();
@@ -794,12 +730,10 @@ function applyFontInline(page, s){
   const headingFamily = `"${s.headingFont}", "Noto Serif Devanagari", serif`;
   const bodyFamily = `"${s.bodyFont}", "Noto Sans Devanagari", sans-serif`;
   page.querySelectorAll('.title, .inst, .badge, .band-inst, .sidebar-inst, .tt-inst').forEach(el => {
-    el.style.fontFamily = headingFamily;
-    el.style.fontSynthesis = 'none';
+    el.style.fontFamily = headingFamily; el.style.fontSynthesis = 'none';
   });
   page.querySelectorAll('.subtitle, .affil, .footer, .p-label, .p-value, .band-affil, .sidebar-affil, .tt-affil').forEach(el => {
-    el.style.fontFamily = bodyFamily;
-    el.style.fontSynthesis = 'none';
+    el.style.fontFamily = bodyFamily; el.style.fontSynthesis = 'none';
   });
 }
 
@@ -824,13 +758,13 @@ function renderPage(){
   page.style.setProperty('--primary-bg', state.primaryGradient || state.primary);
   page.style.setProperty('--accent', state.accent);
   page.style.setProperty('--bc', state.borderColor);
-  page.style.setProperty('--bw', state.borderWidth + 'px');
+  page.style.setProperty('--bw', (state.borderWidth / 10) + 'px');
   page.style.setProperty('--paper', state.paper);
   page.style.setProperty('--heading-font', `"${state.headingFont}", "Noto Serif Devanagari", serif`);
   page.style.setProperty('--body-font', `"${state.bodyFont}", "Noto Sans Devanagari", sans-serif`);
-  page.style.setProperty('--gapm', state.gapScale);
-  page.style.setProperty('--padm', state.padScale);
-  page.style.setProperty('--lh', state.lineHeight);
+  page.style.setProperty('--gapm', state.gapScale / 100);
+  page.style.setProperty('--padm', state.padScale / 100);
+  page.style.setProperty('--lh', state.lineHeight / 100);
   page.style.setProperty('--inst-scale', state.instScale);
   page.style.setProperty('--affil-scale', state.affilScale);
   page.style.setProperty('--subtitle-scale', state.subtitleScale);
@@ -838,6 +772,7 @@ function renderPage(){
   page.style.setProperty('--plabel-scale', state.plabelScale);
   page.style.setProperty('--pvalue-scale', state.pvalueScale);
   page.style.setProperty('--footer-scale', state.footerScale);
+  page.style.setProperty('--logoSize', state.logoSize / 100);
 
   const oldFrame = $('#frame', page); if (oldFrame) oldFrame.remove();
   const frame = document.createElement('div');
@@ -871,7 +806,7 @@ function particularsHTML(s){
   if (!parts.length) return '';
   return `<div class="particulars">${parts.map(p=>`<div class="p-item"><div class="p-label">${esc(p.label)}</div><div class="p-value">${esc(p.value)}</div></div>`).join('')}</div>`;
 }
-function logoHTML(s, extra=''){ if (!s.logo) return ''; return `<div class="logo-wrap lf-${s.logoFrame} ${extra}" style="--logoSize:${s.logoSize};background-image:url('${s.logo}')"></div>`; }
+function logoHTML(s, extra=''){ if (!s.logo) return ''; return `<div class="logo-wrap lf-${s.logoFrame} ${extra}" style="background-image:url('${s.logo}')"></div>`; }
 function instHTML(s, extra=''){ if (state.hidden.inst) return ''; return s.institution ? `<div class="inst ${extra}">${esc(s.institution)}</div>` : ''; }
 function affilHTML(s, extra=''){ if (state.hidden.affil) return ''; return s.affiliation ? `<div class="affil ${extra}">${esc(s.affiliation)}</div>` : ''; }
 function midHTML(s){
@@ -941,10 +876,8 @@ function renderInner(){
 function setFS(fs){ currentFS = fs; $('#page').style.setProperty('--fs', fs + 'px'); }
 
 function fitTitle(){
-  const t = document.getElementById('titleEl');
-  if (!t) return;
-  const pageH = pageDims()[1];
-  const maxH = pageH * 0.32;
+  const t = document.getElementById('titleEl'); if (!t) return;
+  const pageH = pageDims()[1]; const maxH = pageH * 0.32;
   const fs0 = baseFS();
   const base = isDev() ? fs0 * 3.2 : fs0 * 3.8;
   let size = base * state.titleScale;
@@ -952,24 +885,19 @@ function fitTitle(){
   t.style.fontSize = size + 'px';
   void t.offsetWidth;
   let guard = 0;
-  while (t.offsetHeight > maxH && size > 12 && guard++ < 60){
-    size *= 0.94;
-    t.style.fontSize = size + 'px';
-  }
+  while (t.offsetHeight > maxH && size > 12 && guard++ < 60){ size *= 0.94; t.style.fontSize = size + 'px'; }
 }
 
 function autoShrinkText(){
   const sels = ['badge','p-label','p-value','band-inst','sidebar-inst','tt-inst','band-affil','sidebar-affil','tt-affil'];
   for (const cls of sels){
     document.querySelectorAll('#page .' + cls).forEach(el => {
-      el.style.fontSize = '';
-      void el.offsetWidth;
+      el.style.fontSize = ''; void el.offsetWidth;
       let guard = 0;
       while (el.scrollWidth > el.clientWidth + 1 && guard++ < 40){
         const cur = parseFloat(getComputedStyle(el).fontSize);
         if (!cur || cur <= 5) break;
-        el.style.fontSize = (cur * 0.94) + 'px';
-        void el.offsetWidth;
+        el.style.fontSize = (cur * 0.94) + 'px'; void el.offsetWidth;
       }
     });
   }
@@ -979,28 +907,23 @@ function autoFit(){
   const pad = document.querySelector('.pad');
   const inner = document.querySelector('.inner');
   if (!pad || !inner) return;
-  let fs = baseFS() * state.textScale;
+  let fs = baseFS() * (state.textScale / 100);
   if (state.autoFit){
     for (let i = 0; i < 14; i++){
-      setFS(fs);
-      void inner.offsetWidth;
+      setFS(fs); void inner.offsetWidth;
       if (inner.offsetHeight <= pad.clientHeight + 0.5) break;
       const ratio = pad.clientHeight / Math.max(inner.offsetHeight, 1);
       fs = fs * ratio * 0.985;
       if (fs < 3) break;
     }
-  } else {
-    setFS(fs);
-  }
+  } else setFS(fs);
   fitTitle();
   let guard = 0;
   while (inner.offsetHeight > pad.clientHeight + 0.5 && guard++ < 25){
-    const t = document.getElementById('titleEl');
-    if (!t) break;
+    const t = document.getElementById('titleEl'); if (!t) break;
     const cur = parseFloat(t.style.fontSize) || 40;
     if (cur < 10) break;
-    t.style.fontSize = (cur * 0.9) + 'px';
-    void inner.offsetWidth;
+    t.style.fontSize = (cur * 0.9) + 'px'; void inner.offsetWidth;
   }
   autoShrinkText();
 }
@@ -1010,10 +933,10 @@ function applyBackground(){
   if (state.bgImage){
     l.style.backgroundImage = `url("${state.bgImage}")`;
     l.style.backgroundSize = state.bgFit;
-    l.style.opacity = state.bgOpacity;
-  } else { l.style.backgroundImage = 'none'; }
+    l.style.opacity = state.bgOpacity / 100;
+  } else l.style.backgroundImage = 'none';
   t.style.background = state.tint;
-  t.style.opacity = state.tintStrength;
+  t.style.opacity = state.tintStrength / 100;
 }
 let bgJobId = 0;
 async function processBg(){
@@ -1041,8 +964,7 @@ function fitStage(){
   if (!stage || !wrap) return;
   if ($('#editor').classList.contains('hidden')) return;
   const [w,h] = pageDims();
-  const aw = stage.clientWidth - 36;
-  const ah = stage.clientHeight - 36;
+  const aw = stage.clientWidth - 36, ah = stage.clientHeight - 36;
   if (aw <= 0 || ah <= 0){ setTimeout(fitStage, 60); return; }
   let k = Math.min(aw / w, ah / h);
   k = Math.max(0.04, Math.min(k, 1.6));
@@ -1052,19 +974,14 @@ function fitStage(){
 function startStageObserver(){
   if (stageRO) stageRO.disconnect();
   const stage = $('#stage'); if (!stage) return;
-  stageRO = new ResizeObserver(() => fitStage());
-  stageRO.observe(stage);
+  stageRO = new ResizeObserver(() => fitStage()); stageRO.observe(stage);
 }
 
 function openFullscreen(){
   const src = document.getElementById('page'); if (!src) return;
-  const fs = document.getElementById('fullscreen');
-  const stage = document.getElementById('fsStage');
-  const clone = src.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.style.transform = 'none';
-  clone.style.transformOrigin = 'top left';
-  clone.style.boxShadow = 'none';
+  const fs = document.getElementById('fullscreen'); const stage = document.getElementById('fsStage');
+  const clone = src.cloneNode(true); clone.removeAttribute('id');
+  clone.style.transform = 'none'; clone.style.transformOrigin = 'top left'; clone.style.boxShadow = 'none';
   const t = clone.querySelector('#titleEl'); if (t) t.removeAttribute('id');
   stage.innerHTML = ''; stage.appendChild(clone);
   fs.classList.remove('hidden'); fs.setAttribute('aria-hidden','false');
@@ -1074,9 +991,7 @@ function openFullscreen(){
 function fitFullscreen(clone, stage){
   if (!clone || !stage) return;
   const [w, h] = pageDims();
-  const availW = window.innerWidth - 60;
-  const availH = window.innerHeight - 60;
-  const k = Math.max(0.05, Math.min(availW / w, availH / h));
+  const k = Math.max(0.05, Math.min((window.innerWidth - 60) / w, (window.innerHeight - 60) / h));
   clone.style.transform = `scale(${k})`;
   stage.style.width = (w * k) + 'px'; stage.style.height = (h * k) + 'px';
 }
@@ -1092,13 +1007,13 @@ function tplPreviewHTML(t){
   const bgStyle = t.paperGradient ? `background:${t.paperGradient}` : `background:${paper}`;
   const bandStyle = t.primaryGradient ? `background:${t.primaryGradient}` : `background:${p}`;
   switch(t.layout){
-    case 'band': return `<div class="tpl-prev" style="${bgStyle}"><div style="${bandStyle};height:40px;display:flex;align-items:center;gap:8px;padding:0 12px"><div style="width:20px;height:20px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:6px;width:48%;background:${paper};border-radius:3px;opacity:.95"></div></div><div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px;align-items:center"><div style="height:4px;width:60%;background:${a};border-radius:2px;margin-bottom:2px"></div><div style="height:10px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px;margin-top:6px"></div></div></div>`;
-    case 'sidebar': return `<div class="tpl-prev" style="${bgStyle};display:flex"><div style="${bandStyle};width:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 6px"><div style="width:24px;height:24px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:85%;background:${paper};opacity:.9;border-radius:2px"></div><div style="height:3px;width:65%;background:${paper};opacity:.55;border-radius:2px"></div></div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:12px"><div style="height:9px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:64%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px;margin-top:6px"></div></div></div>`;
-    case 'twotone': return `<div class="tpl-prev" style="${bgStyle};padding:0;display:flex;flex-direction:column"><div style="${bandStyle};height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><div style="width:26px;height:26px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:62%;background:${paper};border-radius:2px;opacity:.95"></div></div><div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center"><div style="height:8px;width:82%;background:${ink};border-radius:2px"></div><div style="height:4px;width:56%;background:${ink};opacity:.35;border-radius:2px"></div></div></div>`;
-    case 'editorial': return `<div class="tpl-prev" style="${bgStyle};padding:12px 14px;align-items:flex-start;display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px;align-items:center;width:100%"><div style="width:22px;height:22px;border-radius:50%;background:${p};border:2px solid ${a}"></div><div style="height:7px;width:56%;background:${p};border-radius:2px"></div></div><div style="height:4px;width:100%;background:${a};border-radius:2px;margin-top:2px"></div><div style="height:12px;width:96%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:7px;width:76%;background:${ink};border-radius:2px"></div><div style="height:4px;width:62%;background:${ink};opacity:.35;border-radius:2px;margin-top:5px"></div></div>`;
-    case 'minimal': return `<div class="tpl-prev" style="${bgStyle};padding:14px 16px;align-items:flex-start;display:flex;flex-direction:column;gap:3px"><div style="height:3px;width:16%;background:${a};border-radius:2px;margin-bottom:6px"></div><div style="height:3px;width:38%;background:${p};opacity:.85;border-radius:2px"></div><div style="height:14px;width:98%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:6px;width:82%;background:${ink};opacity:.5;border-radius:2px;margin-top:4px"></div><div style="height:4px;width:36%;background:${a};border-radius:2px;margin-top:12px"></div><div style="height:2.5px;width:78%;background:${ink};opacity:.4;border-radius:2px;margin-top:6px"></div><div style="height:2.5px;width:74%;background:${ink};opacity:.4;border-radius:2px"></div></div>`;
-    case 'crest': return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:5px"><div style="width:48px;height:48px;border-radius:50%;border:3px solid ${a};background:${p};margin-top:4px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px;margin-top:8px"></div><div style="height:3px;width:46%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:82%;background:${ink};border-radius:2px;margin-top:6px"></div><div style="height:4px;width:54%;background:${a};border-radius:2px;margin-top:4px"></div></div>`;
-    default: return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:${p};border:2px solid ${a};margin-top:6px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px;margin-top:6px"></div><div style="height:3px;width:44%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:86%;background:${ink};border-radius:2px;margin-top:6px"></div><div style="height:4px;width:56%;background:${a};border-radius:2px;margin-top:4px"></div></div>`;
+    case 'band': return `<div class="tpl-prev" style="${bgStyle}"><div style="${bandStyle};height:40px;display:flex;align-items:center;gap:8px;padding:0 12px"><div style="width:20px;height:20px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:6px;width:48%;background:${paper};border-radius:3px;opacity:.95"></div></div><div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px;align-items:center"><div style="height:4px;width:60%;background:${a};border-radius:2px"></div><div style="height:10px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px;margin-top:6px"></div></div></div>`;
+    case 'sidebar': return `<div class="tpl-prev" style="${bgStyle};display:flex"><div style="${bandStyle};width:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 6px"><div style="width:24px;height:24px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:85%;background:${paper};opacity:.9;border-radius:2px"></div></div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:12px"><div style="height:9px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:64%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px"></div></div></div>`;
+    case 'twotone': return `<div class="tpl-prev" style="${bgStyle};padding:0;display:flex;flex-direction:column"><div style="${bandStyle};height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><div style="width:26px;height:26px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:62%;background:${paper};border-radius:2px"></div></div><div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center"><div style="height:8px;width:82%;background:${ink};border-radius:2px"></div><div style="height:4px;width:56%;background:${ink};opacity:.35;border-radius:2px"></div></div></div>`;
+    case 'editorial': return `<div class="tpl-prev" style="${bgStyle};padding:12px 14px;align-items:flex-start;display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px;align-items:center;width:100%"><div style="width:22px;height:22px;border-radius:50%;background:${p};border:2px solid ${a}"></div><div style="height:7px;width:56%;background:${p};border-radius:2px"></div></div><div style="height:4px;width:100%;background:${a};border-radius:2px"></div><div style="height:12px;width:96%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:7px;width:76%;background:${ink};border-radius:2px"></div></div>`;
+    case 'minimal': return `<div class="tpl-prev" style="${bgStyle};padding:14px 16px;align-items:flex-start;display:flex;flex-direction:column;gap:3px"><div style="height:3px;width:16%;background:${a};border-radius:2px"></div><div style="height:3px;width:38%;background:${p};opacity:.85;border-radius:2px"></div><div style="height:14px;width:98%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:6px;width:82%;background:${ink};opacity:.5;border-radius:2px"></div></div>`;
+    case 'crest': return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:5px"><div style="width:48px;height:48px;border-radius:50%;border:3px solid ${a};background:${p};margin-top:4px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px;margin-top:8px"></div><div style="height:3px;width:46%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:82%;background:${ink};border-radius:2px"></div></div>`;
+    default: return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:${p};border:2px solid ${a};margin-top:6px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px"></div><div style="height:3px;width:44%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:86%;background:${ink};border-radius:2px"></div></div>`;
   }
 }
 function tplCardHTML(t){
@@ -1107,8 +1022,7 @@ function tplCardHTML(t){
 }
 function renderLandingGrid(){
   const cat = (state && state.category) || 'All';
-  const list = TEMPLATES.filter(t => cat === 'All' || t.cat === cat);
-  $('#landingGrid').innerHTML = list.map(tplCardHTML).join('');
+  $('#landingGrid').innerHTML = TEMPLATES.filter(t => cat === 'All' || t.cat === cat).map(tplCardHTML).join('');
 }
 function renderTemplateGrid(){
   const cat = (state && state.category) || 'All';
@@ -1128,7 +1042,6 @@ function applyTemplate(id){
   state.paperGradient = t.paperGradient || null;
   state.headingFont = t.heading; state.bodyFont = t.body;
   state.border = t.border; state.borderColor = t.primary;
-  refreshFonts();
   syncControls(); renderTemplateGrid(); renderBorders(); renderPage(); fitStage();
   if ($('#tplLabel')) $('#tplLabel').textContent = t.name;
   toast(t.name);
@@ -1141,8 +1054,7 @@ function openEditor(templateId){
   requestAnimationFrame(() => {
     renderPage(); fitStage();
     setTimeout(fitStage, 80); setTimeout(fitStage, 260);
-    startStageObserver();
-    lucide.createIcons();
+    startStageObserver(); lucide.createIcons();
   });
   $('#panel').scrollTop = 0;
 }
@@ -1151,7 +1063,7 @@ function closeEditor(){ closeFullscreen(); $('#editor').classList.add('hidden');
 function renderBorders(){
   const grid = $('#borderGrid'); if (!grid) return;
   grid.innerHTML = BORDERS.map(b => `<button class="bd-opt ${state.border === b.id ? 'active' : ''}" data-border="${b.id}"><div class="bd-swatch bd bd-${b.id}">${decorHTML(b.id)}</div><span class="nm">${b.name}</span></button>`).join('');
-  $$('.bd-swatch').forEach(s => { s.style.setProperty('--bc', state.borderColor); s.style.setProperty('--bw', state.borderWidth + 'px'); });
+  $$('.bd-swatch').forEach(s => { s.style.setProperty('--bc', state.borderColor); s.style.setProperty('--bw', (state.borderWidth/10) + 'px'); });
 }
 function renderParticulars(){
   const wrap = $('#particularList'); if (!wrap) return;
@@ -1159,33 +1071,112 @@ function renderParticulars(){
   lucide.createIcons();
 }
 
-/* ===== SIZE / FIT PANELS ===== */
+/* UNIVERSAL MENU */
+function formatDisplay(key, cfg, val){
+  const suffix = cfg.suffix || '';
+  if (cfg.displayMode === 'percent') return Math.round(val) + '%';
+  if (cfg.displayMode === 'decimal') return (val / 10).toFixed(1) + suffix;
+  if (cfg.displayMode === 'number')  return val + suffix;
+  if (cfg.displayMode === 'float')   return parseFloat(val).toFixed(1) + suffix;
+  return String(val);
+}
+
+function renderMenuRow(key, cfg, currentValue, opts = {}){
+  const hideKey = opts.hideKey;
+  const isHidden = hideKey && state.hidden?.[hideKey];
+  const display = formatDisplay(key, cfg, currentValue);
+  return `
+    <div class="size-row ${isHidden ? 'is-hidden' : ''}">
+      <div class="size-row-head">
+        <span class="size-row-label">${cfg.label}</span>
+        ${hideKey ? `<button class="size-hide ${isHidden ? 'is-off' : ''}" data-hide="${hideKey}" type="button"><i data-lucide="${isHidden ? 'eye' : 'x'}"></i></button>` : '<span style="width:28px"></span>'}
+      </div>
+      <div class="size-control">
+        <button class="size-btn" data-dec="${key}" type="button">−</button>
+        <button class="size-display" data-menu="${key}" type="button">
+          <span class="size-val" data-val-for="${key}">${display}</span>
+          <i data-lucide="chevron-down" class="size-display-icon"></i>
+        </button>
+        <button class="size-btn" data-inc="${key}" type="button">+</button>
+      </div>
+      <div class="size-menu hidden" data-menu-for="${key}"></div>
+    </div>`;
+}
+
+function buildMenuOptions(key, cfg, currentValue){
+  const opts = [];
+  for (let v = cfg.min; v <= cfg.max + 0.0001; v += cfg.step) opts.push(v);
+  if (!opts.some(o => Math.abs(o - currentValue) < 0.001)){ opts.push(currentValue); opts.sort((a,b)=>a-b); }
+  return opts.map(v => `
+    <button class="size-option ${Math.abs(v - currentValue) < 0.001 ? 'active' : ''}" data-opt-key="${key}" data-opt-val="${v}" type="button">
+      <span>${formatDisplay(key, cfg, v)}</span><i data-lucide="check" class="check"></i>
+    </button>`).join('');
+}
+
+function openSizeMenu(key, displayBtn){
+  const cfg = getRowConfig(key);
+  const menu = document.querySelector(`[data-menu-for="${key}"]`);
+  if (!menu) return;
+  _panelScrollBeforeMenu = $('#panel').scrollTop;
+  menu.innerHTML = buildMenuOptions(key, cfg, state[key]);
+  lucide.createIcons();
+  menu.classList.remove('hidden');
+  displayBtn.classList.add('open');
+  const active = menu.querySelector('.size-option.active');
+  if (active) menu.scrollTop = Math.max(0, active.offsetTop - menu.clientHeight/2 + active.offsetHeight/2);
+}
+
+function updateDisplay(key){
+  const cfg = getRowConfig(key);
+  const valEl = document.querySelector(`[data-val-for="${key}"]`);
+  if (valEl) valEl.textContent = formatDisplay(key, cfg, state[key]);
+  const menu = document.querySelector(`[data-menu-for="${key}"]`);
+  if (menu) menu.querySelectorAll('.size-option').forEach(o => {
+    o.classList.toggle('active', Math.abs(parseFloat(o.dataset.optVal) - state[key]) < 0.001);
+  });
+}
+
+function stepValue(key, dir){
+  const cfg = getRowConfig(key);
+  let next = state[key] + dir * cfg.step;
+  next = Math.max(cfg.min, Math.min(cfg.max, next));
+  state[key] = next;
+  updateDisplay(key);
+  onValueChange(key);
+}
+
+function setValue(key, val){
+  const cfg = getRowConfig(key);
+  state[key] = Math.max(cfg.min, Math.min(cfg.max, val));
+  updateDisplay(key);
+  onValueChange(key);
+  const panel = $('#panel');
+  const preserveTo = _panelScrollBeforeMenu !== null ? _panelScrollBeforeMenu : panel.scrollTop;
+  document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
+  document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
+  _panelScrollBeforeMenu = null;
+  requestAnimationFrame(() => {
+    const max = Math.max(0, panel.scrollHeight - panel.clientHeight);
+    const target = Math.min(preserveTo, max);
+    if (Math.abs(panel.scrollTop - target) > 1) panel.scrollTop = target;
+  });
+}
+
+function onValueChange(key){
+  if (key === 'logoSize') scheduleRender();
+  else if (key === 'bgOpacity' || key === 'tintStrength') applyBackground();
+  else if (key === 'fBlur' || key === 'fBright' || key === 'fContrast') processBg().then(() => renderPage());
+  else if (key === 'borderWidth'){ renderBorders(); scheduleRender(); }
+  else if (key === 'exportScale'){ /* preview unchanged */ }
+  else scheduleRender();
+}
+
 function renderSizingPanel(){
   const wrap = $('#sizingPanel'); if (!wrap) return;
   wrap.innerHTML = SIZE_ROWS.map(row => {
+    const cfg = { label: row.label, min: 30, max: 300, step: 10, displayMode: 'percent' };
     const val = Math.round((state[row.key] || 1) * 100);
-    const isHidden = row.hideKey && state.hidden[row.hideKey];
-    return `
-      <div class="size-row ${isHidden ? 'is-hidden' : ''}">
-        <div class="size-row-head">
-          <span class="size-row-label">${row.label}</span>
-          ${row.hideKey ? `
-            <button class="size-hide ${isHidden ? 'is-off' : ''}" data-hide="${row.hideKey}" type="button" title="${isHidden ? 'Show' : 'Hide'}">
-              <i data-lucide="${isHidden ? 'eye' : 'x'}"></i>
-            </button>
-          ` : '<span style="width:30px"></span>'}
-        </div>
-        <div class="size-control">
-          <button class="size-btn" data-dec="${row.key}" type="button">−</button>
-          <button class="size-display" data-menu="${row.key}" type="button">
-            <span class="size-val" data-val-for="${row.key}">${val}%</span>
-            <i data-lucide="chevron-down" class="size-display-icon"></i>
-          </button>
-          <button class="size-btn" data-inc="${row.key}" type="button">+</button>
-        </div>
-        <div class="size-menu hidden" data-menu-for="${row.key}"></div>
-      </div>
-    `;
+    return renderMenuRow(row.key, cfg, val, { hideKey: row.hideKey });
   }).join('');
   lucide.createIcons();
 }
@@ -1193,118 +1184,39 @@ function renderSizingPanel(){
 function renderFitPanel(){
   const wrap = $('#fitPanel'); if (!wrap) return;
   wrap.innerHTML = FIT_ROWS.map(row => {
-    const val = Math.round((state[row.key] || 1) * 100);
-    return `
-      <div class="size-row">
-        <div class="size-row-head">
-          <span class="size-row-label">${row.label}</span>
-        </div>
-        <div class="size-control">
-          <button class="size-btn" data-dec="${row.key}" type="button">−</button>
-          <button class="size-display" data-menu="${row.key}" type="button">
-            <span class="size-val" data-val-for="${row.key}">${val}%</span>
-            <i data-lucide="chevron-down" class="size-display-icon"></i>
-          </button>
-          <button class="size-btn" data-inc="${row.key}" type="button">+</button>
-        </div>
-        <div class="size-menu hidden" data-menu-for="${row.key}"></div>
-      </div>
-    `;
+    const val = Math.round(state[row.key]);
+    return renderMenuRow(row.key, row, val);
   }).join('');
   lucide.createIcons();
 }
 
-function populateSizeMenu(key, menu){
-  const cfg = getRowConfig(key);
-  const cur = Math.round((state[key] || 1) * 100);
-  const opts = [];
-  for (let v = cfg.min; v <= cfg.max; v += cfg.step) opts.push(v);
-  if (!opts.includes(cur)) { opts.push(cur); opts.sort((a,b)=>a-b); }
-  menu.innerHTML = opts.map(v => `
-    <button class="size-option ${v === cur ? 'active' : ''}" data-opt-key="${key}" data-opt-val="${v}" type="button">
-      <span>${v}%</span>
-      <i data-lucide="check" class="check"></i>
-    </button>
-  `).join('');
+function renderAllNumericRows(){
+  const logoRow = $('#logoSizeRow'); if (logoRow) logoRow.innerHTML = renderMenuRow('logoSize', MENU_CONFIG.logoSize, state.logoSize);
+  const bgRow = $('#bgOpacityRow'); if (bgRow) bgRow.innerHTML = renderMenuRow('bgOpacity', MENU_CONFIG.bgOpacity, state.bgOpacity);
+  const tintRow = $('#tintStrengthRow'); if (tintRow) tintRow.innerHTML = renderMenuRow('tintStrength', MENU_CONFIG.tintStrength, state.tintStrength);
+  const borderRow = $('#borderWidthRow'); if (borderRow) borderRow.innerHTML = renderMenuRow('borderWidth', MENU_CONFIG.borderWidth, state.borderWidth);
+  const expRow = $('#exportScaleRow'); if (expRow) expRow.innerHTML = renderMenuRow('exportScale', MENU_CONFIG.exportScale, state.exportScale);
+  const filters = $('#filterRows');
+  if (filters){
+    filters.innerHTML =
+      renderMenuRow('fBlur', MENU_CONFIG.fBlur, state.blur) +
+      renderMenuRow('fBright', MENU_CONFIG.fBright, state.brightness) +
+      renderMenuRow('fContrast', MENU_CONFIG.fContrast, state.contrast);
+  }
   lucide.createIcons();
-}
-
-function openSizeMenu(key, displayBtn){
-  const menu = document.querySelector(`[data-menu-for="${key}"]`);
-  if (!menu) return;
-  const panel = $('#panel');
-  _panelScrollBeforeMenu = panel ? panel.scrollTop : 0;
-
-  // Regenerate options (in case current value isn't in default grid)
-  populateSizeMenu(key, menu);
-
-  menu.classList.remove('hidden');
-  displayBtn.classList.add('open');
-
-  // Scroll ONLY the internal menu container — never the panel
-  const active = menu.querySelector('.size-option.active');
-  if (active){
-    const target = Math.max(0, active.offsetTop - menu.clientHeight / 2 + active.offsetHeight / 2);
-    menu.scrollTop = target;
-  }
-}
-
-function updateSizeDisplay(key, val){
-  const valEl = document.querySelector(`[data-val-for="${key}"]`);
-  if (valEl) valEl.textContent = val + '%';
-  const menu = document.querySelector(`[data-menu-for="${key}"]`);
-  if (menu){
-    menu.querySelectorAll('.size-option').forEach(opt => {
-      opt.classList.toggle('active', parseInt(opt.dataset.optVal) === val);
-    });
-  }
-}
-
-function updateAllSizeDisplays(){
-  [...SIZE_ROWS, ...FIT_ROWS].forEach(row => updateSizeDisplay(row.key, Math.round((state[row.key] || 1) * 100)));
-}
-
-/* ===== Value handlers ===== */
-function stepValue(key, dir){
-  const cfg = getRowConfig(key);
-  const cur = Math.round((state[key] || 1) * 100);
-  let next = cur + dir * cfg.step;
-  next = Math.max(cfg.min, Math.min(cfg.max, next));
-  state[key] = next / 100;
-  updateSizeDisplay(key, next);
-  scheduleRender();
-}
-
-function setValue(key, val){
-  const cfg = getRowConfig(key);
-  const v = Math.max(cfg.min, Math.min(cfg.max, val));
-  state[key] = v / 100;
-  updateSizeDisplay(key, v);
-  scheduleRender();
 }
 
 function syncControls(){
   if (!state) return;
   const setVal = (sel, v) => { const el=$(sel); if (el) el.value = v; };
-  const setTxt = (sel, v) => { const el=$(sel); if (el) el.textContent = v; };
   setVal('#inInstitution', state.institution); setVal('#inAffiliation', state.affiliation);
   setVal('#inTitle', state.title); setVal('#inSubtitle', state.subtitle);
   setVal('#inBadge', state.badge); setVal('#inFooter', state.footer);
-  setVal('#logoFrame', state.logoFrame);
   setVal('#colPrimary', state.primary); setVal('#colAccent', state.accent);
   setVal('#colInk', state.ink); setVal('#colPaper', state.paper);
-  setVal('#fontHeading', state.headingFont); setVal('#fontBody', state.bodyFont);
-  setVal('#borderColor', state.borderColor); setVal('#borderWidth', state.borderWidth);
-  setTxt('#borderWidth-val', state.borderWidth.toFixed(1) + '×');
-  setVal('#logoSize', state.logoSize); setTxt('#logoSize-val', Math.round(state.logoSize * 100) + '%');
-  setVal('#bgOpacity', state.bgOpacity); setTxt('#bgOpacity-val', Math.round(state.bgOpacity * 100) + '%');
-  setVal('#tintColor', state.tint); setVal('#tintStrength', state.tintStrength);
-  setTxt('#tintStrength-val', Math.round(state.tintStrength * 100) + '%');
-  setVal('#fBlur', state.blur); setTxt('#fBlur-val', state.blur.toFixed(1) + 'px');
-  setVal('#fBright', state.brightness); setTxt('#fBright-val', state.brightness + '%');
-  setVal('#fContrast', state.contrast); setTxt('#fContrast-val', state.contrast + '%');
-  setVal('#exportScale', state.exportScale); setTxt('#exportScale-val', state.exportScale + '×');
-  setTxt('#autoFitToggle', state.autoFit ? 'ON' : 'OFF');
+  setVal('#borderColor', state.borderColor);
+  setVal('#tintColor', state.tint);
+  $('#autoFitToggle').textContent = state.autoFit ? 'ON' : 'OFF';
   $('#autoFitToggle').classList.toggle('active', state.autoFit);
   $$('#sizeGrid .chip').forEach(b => b.classList.toggle('active', b.dataset.size === state.pageSize));
   $$('#orientSeg button').forEach(b => b.classList.toggle('active', b.dataset.orient === state.orientation));
@@ -1312,68 +1224,37 @@ function syncControls(){
   $$('#bgFitSeg button').forEach(b => b.classList.toggle('active', b.dataset.fit === state.bgFit));
   $$('#catChips .chip').forEach(b => b.classList.toggle('active', b.dataset.cat === state.category));
   $$('#landingCats .chip').forEach(b => b.classList.toggle('active', b.dataset.cat === state.category));
-  updateAllSizeDisplays();
+  renderAllNumericRows();
+  renderSizingPanel();
+  renderFitPanel();
 }
 
 function bind(){
   document.addEventListener('click', e => {
-    /* Size display toggle */
-    const sizeDisp = e.target.closest('.size-display');
-    if (sizeDisp){
+    const disp = e.target.closest('.size-display');
+    if (disp){
       e.stopPropagation();
-      const key = sizeDisp.dataset.menu;
+      const key = disp.dataset.menu;
       const menu = document.querySelector(`[data-menu-for="${key}"]`);
       const wasOpen = menu && !menu.classList.contains('hidden');
       closeAllSizeMenus();
-      if (menu && !wasOpen) openSizeMenu(key, sizeDisp);
+      if (menu && !wasOpen) openSizeMenu(key, disp);
       return;
     }
-    /* Size option selected */
-    const sizeOpt = e.target.closest('[data-opt-key]');
-    if (sizeOpt){
-      e.stopPropagation();
-      const panel = $('#panel');
-      const scrollNow = panel ? panel.scrollTop : 0;
-      // When menu is open, preserve original scroll position from before open
-      const preserveTo = _panelScrollBeforeMenu !== null ? _panelScrollBeforeMenu : scrollNow;
-
-      setValue(sizeOpt.dataset.optKey, parseInt(sizeOpt.dataset.optVal));
-
-      // Hide menus synchronously
-      document.querySelectorAll('.size-menu').forEach(m => m.classList.add('hidden'));
-      document.querySelectorAll('.size-display').forEach(d => d.classList.remove('open'));
-      _panelScrollBeforeMenu = null;
-
-      // Restore scroll on next frame
-      if (panel){
-        requestAnimationFrame(() => {
-          const max = Math.max(0, panel.scrollHeight - panel.clientHeight);
-          const target = Math.min(preserveTo, max);
-          if (Math.abs(panel.scrollTop - target) > 1) panel.scrollTop = target;
-        });
-      }
-      return;
-    }
-    /* +/- buttons */
+    const opt = e.target.closest('[data-opt-key]');
+    if (opt){ e.stopPropagation(); setValue(opt.dataset.optKey, parseFloat(opt.dataset.optVal)); return; }
     const inc = e.target.closest('[data-inc]');
     if (inc){ e.stopPropagation(); stepValue(inc.dataset.inc, 1); return; }
     const dec = e.target.closest('[data-dec]');
     if (dec){ e.stopPropagation(); stepValue(dec.dataset.dec, -1); return; }
-    /* Hide toggle */
     const hide = e.target.closest('[data-hide]');
     if (hide){
       e.stopPropagation();
-      const key = hide.dataset.hide;
-      state.hidden[key] = !state.hidden[key];
-      renderSizingPanel();
-      renderPage();
-      fitStage();
-      return;
+      state.hidden[hide.dataset.hide] = !state.hidden[hide.dataset.hide];
+      renderSizingPanel(); renderPage(); fitStage(); return;
     }
-    /* Catch-all: click outside size-menu closes menus */
     if (!e.target.closest('.size-menu')) closeAllSizeMenus();
 
-    /* App menus */
     const toggle = e.target.closest('[data-menu-toggle]');
     if (toggle){
       e.stopPropagation();
@@ -1395,7 +1276,6 @@ function bind(){
       else toast('Link not configured');
       closeAllMenus(); return;
     }
-    if (e.target.closest('.menu-item')){ closeAllMenus(); return; }
     if (!e.target.closest('.menu')) closeAllMenus();
   });
 
@@ -1405,12 +1285,8 @@ function bind(){
   $('#fsClose').addEventListener('click', closeFullscreen);
   $('#fullscreen').addEventListener('click', e => { if (e.target.id === 'fullscreen') closeFullscreen(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#fullscreen').classList.contains('hidden')) closeFullscreen(); });
-  window.addEventListener('resize', () => {
-    if (!$('#fullscreen').classList.contains('hidden')){
-      const stage = $('#fsStage'); const clone = stage.firstElementChild;
-      if (clone) fitFullscreen(clone, stage);
-    }
-  });
+  window.addEventListener('resize', () => { if (!$('#fullscreen').classList.contains('hidden')){ const s = $('#fsStage'); const c = s.firstElementChild; if (c) fitFullscreen(c, s); } });
+
   $('#landingCats').addEventListener('click', e => {
     const b = e.target.closest('.chip'); if (!b) return;
     state.category = b.dataset.cat;
@@ -1427,17 +1303,6 @@ function bind(){
       $('#panel').scrollTop = 0;
     });
   });
-  $('#miReset').addEventListener('click', () => {
-    const lang = currentLang;
-    state = freshState(lang);
-    state.layout = TEMPLATES[0].layout;
-    state.subtitlePos = TEMPLATES[0].subtitlePos || 'below';
-    refreshFonts();
-    syncControls(); renderTemplateGrid(); renderBorders(); renderParticulars(); renderSizingPanel(); renderFitPanel(); renderPage(); fitStage();
-    toast('Reset');
-  });
-  $('#miFit').addEventListener('click', () => { fitStage(); toast('Re-fitted'); });
-  $('#miAbout').addEventListener('click', () => toast('Cover Page Studio v2.5'));
   $('#catChips').addEventListener('click', e => {
     const b = e.target.closest('.chip'); if (!b) return;
     state.category = b.dataset.cat;
@@ -1456,31 +1321,9 @@ function bind(){
     rd.readAsDataURL(f); e.target.value = '';
   });
   $('#logoRemove').addEventListener('click', () => { state.logo = null; renderPage(); });
-  $('#logoFrame').addEventListener('change', e => { state.logoFrame = e.target.value; renderPage(); });
-  const bindRange = (sel, key, fmt, after) => {
-    const el = $(sel); if (!el) return;
-    const out = $(sel + '-val');
-    el.addEventListener('input', () => {
-      state[key] = parseFloat(el.value);
-      if (out) out.textContent = fmt ? fmt(state[key]) : state[key];
-      (after || scheduleRender)();
-    });
-  };
-  bindRange('#logoSize', 'logoSize', v => Math.round(v * 100) + '%');
-  $('#resetSizes').addEventListener('click', () => {
-    state.instScale = 1; state.affilScale = 1; state.titleScale = 1; state.subtitleScale = 1;
-    state.badgeScale = 1; state.plabelScale = 1; state.pvalueScale = 1; state.footerScale = 1;
-    state.hidden = { inst:false, affil:false, title:false, subtitle:false, badge:false, particulars:false, footer:false };
-    updateAllSizeDisplays();
-    renderSizingPanel();
-    renderPage(); fitStage();
-    toast('Sizes & visibility reset');
-  });
-
   $('#particularList').addEventListener('input', e => {
     const inp = e.target.closest('input[data-pi]'); if (!inp) return;
-    state.particulars[+inp.dataset.pi][inp.dataset.pf] = inp.value;
-    scheduleRender();
+    state.particulars[+inp.dataset.pi][inp.dataset.pf] = inp.value; scheduleRender();
   });
   $('#particularList').addEventListener('click', e => {
     const del = e.target.closest('[data-pdel]'); if (!del) return;
@@ -1490,13 +1333,10 @@ function bind(){
   const bindColor = (sel, key) => { const el = $(sel); if (!el) return; el.addEventListener('input', () => { state[key] = el.value; scheduleRender(); }); };
   bindColor('#colPrimary', 'primary'); bindColor('#colAccent', 'accent');
   bindColor('#colInk', 'ink'); bindColor('#colPaper', 'paper'); bindColor('#borderColor', 'borderColor');
-  $('#fontHeading').addEventListener('change', e => { state.headingFont = e.target.value; renderPage(); });
-  $('#fontBody').addEventListener('change', e => { state.bodyFont = e.target.value; renderPage(); });
   $('#borderGrid').addEventListener('click', e => {
     const opt = e.target.closest('[data-border]'); if (!opt) return;
     state.border = opt.dataset.border; renderBorders(); renderPage();
   });
-  bindRange('#borderWidth', 'borderWidth', v => v.toFixed(1) + '×', () => { renderBorders(); scheduleRender(); });
   $('#borderUseAccent').addEventListener('click', () => { state.borderColor = state.accent; $('#borderColor').value = state.accent; renderBorders(); scheduleRender(); });
   $('#bgUploadBtn').addEventListener('click', () => $('#bgFile').click());
   $('#bgFile').addEventListener('change', e => {
@@ -1512,14 +1352,11 @@ function bind(){
     $$('#bgFitSeg button').forEach(x => x.classList.toggle('active', x === b));
     applyBackground();
   });
-  bindRange('#bgOpacity', 'bgOpacity', v => Math.round(v * 100) + '%', applyBackground);
   $('#tintColor').addEventListener('input', e => { state.tint = e.target.value; applyBackground(); });
-  bindRange('#tintStrength', 'tintStrength', v => Math.round(v * 100) + '%', applyBackground);
-  const bgFilter = async () => { await processBg(); renderPage(); };
-  bindRange('#fBlur', 'blur', v => v.toFixed(1) + 'px', bgFilter);
-  bindRange('#fBright', 'brightness', v => v + '%', bgFilter);
-  bindRange('#fContrast', 'contrast', v => v + '%', bgFilter);
-  $('#resetFilters').addEventListener('click', async () => { state.blur = 0; state.brightness = 100; state.contrast = 100; syncControls(); await processBg(); renderPage(); });
+  $('#resetFilters').addEventListener('click', async () => {
+    state.blur = 0; state.brightness = 100; state.contrast = 100;
+    syncControls(); await processBg(); renderPage();
+  });
   $('#sizeGrid').addEventListener('click', e => {
     const b = e.target.closest('.chip'); if (!b) return;
     state.pageSize = b.dataset.size; syncControls(); renderPage(); fitStage(); setTimeout(fitStage, 80);
@@ -1530,159 +1367,107 @@ function bind(){
   });
   $('#autoFitToggle').addEventListener('click', () => { state.autoFit = !state.autoFit; syncControls(); renderPage(); fitStage(); });
   $('#resetSpacing').addEventListener('click', () => {
-    state.textScale = 1; state.gapScale = 1; state.padScale = 1;
-    state.lineHeight = isDev() ? 1.35 : 1.15;
+    state.textScale = 100; state.gapScale = 100; state.padScale = 100;
+    state.lineHeight = isDev() ? 135 : 115;
     state.autoFit = true;
-    updateAllSizeDisplays();
-    syncControls(); renderPage(); fitStage();
-    toast('Spacing reset');
+    syncControls(); renderPage(); fitStage(); toast('Spacing reset');
+  });
+  $('#resetSizes').addEventListener('click', () => {
+    state.instScale = 1; state.affilScale = 1; state.titleScale = 1; state.subtitleScale = 1;
+    state.badgeScale = 1; state.plabelScale = 1; state.pvalueScale = 1; state.footerScale = 1;
+    state.hidden = { inst:false, affil:false, title:false, subtitle:false, badge:false, particulars:false, footer:false };
+    syncControls(); renderPage(); fitStage(); toast('Sizes reset');
   });
   $('#fmtSeg').addEventListener('click', e => {
     const b = e.target.closest('button[data-fmt]'); if (!b) return;
     state.exportFormat = b.dataset.fmt;
     $$('#fmtSeg button').forEach(x => x.classList.toggle('active', x === b));
   });
-  bindRange('#exportScale', 'exportScale', v => v + '×', () => {});
   $('#exportBtn').addEventListener('click', doExport);
   window.addEventListener('resize', () => { if (!$('#editor').classList.contains('hidden')) fitStage(); });
-  window.addEventListener('orientationchange', () => setTimeout(fitStage, 250));
 }
 
-/* ===== Fonts & Export ===== */
+/* FONTS + EXPORT */
 const fontCache = new Map();
-function blobToBase64(blob){
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onloadend = () => {
-      const res = String(r.result || '');
-      const comma = res.indexOf(',');
-      resolve(comma >= 0 ? res.slice(comma + 1) : res);
-    };
-    r.onerror = reject;
-    r.readAsDataURL(blob);
-  });
-}
+function blobToBase64(blob){ return new Promise((res, rej) => { const r = new FileReader(); r.onloadend = () => { const s = String(r.result || ''); const i = s.indexOf(','); res(i >= 0 ? s.slice(i+1) : s); }; r.onerror = rej; r.readAsDataURL(blob); }); }
 async function fetchFontBase64(url){
   if (fontCache.has(url)) return fontCache.get(url);
   try {
     const res = await fetch(url, { mode: 'cors', credentials: 'omit' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const blob = await res.blob();
-    const b64 = await blobToBase64(blob);
-    const mime = blob.type || 'font/woff2';
-    const dataUrl = `data:${mime};base64,${b64}`;
-    fontCache.set(url, dataUrl);
-    return dataUrl;
-  } catch(e){
-    console.warn('[font] fetch failed:', url, e.message);
-    fontCache.set(url, null);
-    return null;
-  }
+    if (!res.ok) throw new Error('HTTP');
+    const blob = await res.blob(); const b64 = await blobToBase64(blob);
+    const d = `data:${blob.type || 'font/woff2'};base64,${b64}`;
+    fontCache.set(url, d); return d;
+  } catch(e){ fontCache.set(url, null); return null; }
 }
 async function preloadFonts(){
   if (!document.fonts || !state) return;
-  const families = new Set([state.headingFont, state.bodyFont, 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Tiro Devanagari Hindi']);
-  const weights = [300,400,500,600,700,800,900];
+  const fam = new Set([state.headingFont, state.bodyFont, 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Tiro Devanagari Hindi']);
+  const w = [300,400,500,600,700,800,900];
   const loads = [];
-  for (const fam of families){
-    for (const w of weights) loads.push(document.fonts.load(`${w} 16px "${fam}"`).catch(() => null));
-    loads.push(document.fonts.load(`italic 400 16px "${fam}"`).catch(() => null));
-    loads.push(document.fonts.load(`italic 700 16px "${fam}"`).catch(() => null));
-  }
+  for (const f of fam){ for (const ww of w) loads.push(document.fonts.load(`${ww} 16px "${f}"`).catch(() => null)); }
   await Promise.race([Promise.all(loads).then(() => document.fonts.ready), new Promise(r => setTimeout(r, 8000))]);
   await new Promise(r => setTimeout(r, 150));
 }
-function extractFamily(cssText){
-  const m = cssText.match(/font-family\s*:\s*['"]?([^'";}]+)['"]?/);
-  if (!m) return '';
-  return m[1].trim().replace(/^['"]|['"]$/g, '');
-}
+function extractFamily(t){ const m = t.match(/font-family\s*:\s*['"]?([^'";}]+)['"]?/); return m ? m[1].trim().replace(/^['"]|['"]$/g,'') : ''; }
 async function buildFontEmbedCSS(){
-  const activeFamilies = new Set([state.headingFont, state.bodyFont, 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Tiro Devanagari Hindi']);
+  const active = new Set([state.headingFont, state.bodyFont, 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Tiro Devanagari Hindi']);
   const rules = [];
   for (const sheet of document.styleSheets){
     try {
       for (const rule of (sheet.cssRules || [])){
-        if (rule.type === 5){
-          const cssText = rule.cssText;
-          if (activeFamilies.has(extractFamily(cssText))) rules.push(cssText);
-        }
+        if (rule.type === 5 && active.has(extractFamily(rule.cssText))) rules.push(rule.cssText);
       }
     } catch(e){
       if (sheet.href){
         try {
-          const res = await fetch(sheet.href, { mode: 'cors' });
-          if (!res.ok) continue;
+          const res = await fetch(sheet.href, { mode:'cors' }); if (!res.ok) continue;
           const text = await res.text();
           const found = text.match(/@font-face\s*\{[^}]*\}/g) || [];
-          for (const face of found){
-            if (activeFamilies.has(extractFamily(face))) rules.push(face);
-          }
-        } catch(e2){
-          console.warn('[font] sheet fetch failed:', sheet.href, e2.message);
-        }
+          for (const face of found){ if (active.has(extractFamily(face))) rules.push(face); }
+        } catch(e2){}
       }
     }
   }
   let css = '';
   for (const rule of rules){
-    let modified = rule;
-    const urlMatch = rule.match(/url\(['"]?([^'")]+)['"]?\)/);
-    if (urlMatch && !urlMatch[1].startsWith('data:')){
-      const dataUrl = await fetchFontBase64(urlMatch[1]);
-      if (dataUrl) modified = rule.replace(urlMatch[0], `url(${dataUrl})`);
+    let m = rule;
+    const u = rule.match(/url\(['"]?([^'")]+)['"]?\)/);
+    if (u && !u[1].startsWith('data:')){
+      const d = await fetchFontBase64(u[1]);
+      if (d) m = rule.replace(u[0], `url(${d})`);
     }
-    css += modified + '\n';
+    css += m + '\n';
   }
   return css;
 }
 async function doExport(){
-  const btn = $('#exportBtn'); const original = btn.innerHTML;
-  btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-circle"></i>Loading fonts…'; lucide.createIcons();
+  const btn = $('#exportBtn'); const orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<i data-lucide="loader-circle"></i>Loading…'; lucide.createIcons();
   try {
     await preloadFonts();
-    btn.innerHTML = '<i data-lucide="loader-circle"></i>Embedding fonts…'; lucide.createIcons();
     let fontCSS = '';
-    try { fontCSS = await buildFontEmbedCSS(); } catch(e){ console.warn('[export] font embed failed:', e); }
-    console.log('[export] fontEmbedCSS length:', fontCSS.length);
-    btn.innerHTML = '<i data-lucide="loader-circle"></i>Rendering…'; lucide.createIcons();
+    try { fontCSS = await buildFontEmbedCSS(); } catch(e){}
     await new Promise(r => setTimeout(r, 300));
     const el = $('#page'); const fmt = state.exportFormat;
     document.body.classList.add('exporting');
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     await new Promise(r => setTimeout(r, 200));
     let canvas = null;
-    let engine = '';
-    if (window.htmlToImage && typeof window.htmlToImage.toCanvas === 'function'){
+    if (window.htmlToImage){
       try {
-        const opts = { pixelRatio: state.exportScale, backgroundColor: fmt === 'jpg' ? '#ffffff' : null, cacheBust: false };
-        if (fontCSS && fontCSS.length > 100){ opts.fontEmbedCSS = fontCSS; opts.skipFonts = false; }
-        canvas = await window.htmlToImage.toCanvas(el, opts);
-        engine = 'html-to-image';
-      } catch(err){
-        console.warn('[export] html-to-image failed:', err);
-        canvas = null;
-      }
+        const o = { pixelRatio: state.exportScale, backgroundColor: fmt === 'jpg' ? '#ffffff' : null, cacheBust: false };
+        if (fontCSS && fontCSS.length > 100){ o.fontEmbedCSS = fontCSS; o.skipFonts = false; }
+        canvas = await window.htmlToImage.toCanvas(el, o);
+      } catch(err){ canvas = null; }
     }
     if (!canvas && window.html2canvas){
-      try {
-        canvas = await html2canvas(el, {
-          scale: state.exportScale, useCORS: true, allowTaint: true,
-          backgroundColor: fmt === 'jpg' ? '#ffffff' : null, logging: false,
-          onclone: (clonedDoc) => {
-            const p = clonedDoc.getElementById('page');
-            if (p && state){
-              const h = `"${state.headingFont}", "Noto Serif Devanagari", serif`;
-              const b = `"${state.bodyFont}", "Noto Sans Devanagari", sans-serif`;
-              p.querySelectorAll('.title, .inst, .badge, .band-inst, .sidebar-inst, .tt-inst').forEach(e => { e.style.fontFamily = h; e.style.fontSynthesis = 'none'; });
-              p.querySelectorAll('.subtitle, .affil, .footer, .p-label, .p-value, .band-affil, .sidebar-affil, .tt-affil').forEach(e => { e.style.fontFamily = b; e.style.fontSynthesis = 'none'; });
-            }
-          },
-        });
-        engine = 'html2canvas';
-      } catch(err){ console.warn('[export] html2canvas failed:', err); canvas = null; }
+      canvas = await html2canvas(el, {
+        scale: state.exportScale, useCORS: true, allowTaint: true,
+        backgroundColor: fmt === 'jpg' ? '#ffffff' : null, logging: false,
+      });
     }
-    if (!canvas) throw new Error('All export engines failed');
+    if (!canvas) throw new Error('Export failed');
     const stamp = new Date().toISOString().slice(0,10);
     if (fmt === 'pdf'){
       const { jsPDF } = window.jspdf;
@@ -1695,37 +1480,29 @@ async function doExport(){
       const mime = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
       const url = canvas.toDataURL(mime, 0.96);
       const a = document.createElement('a');
-      a.href = url;
-      a.download = `cover-${state.pageSize}-${state.orientation}-${stamp}.${fmt}`;
+      a.href = url; a.download = `cover-${state.pageSize}-${state.orientation}-${stamp}.${fmt}`;
       document.body.appendChild(a); a.click(); a.remove();
     }
-    const cssOK = fontCSS.length > 5000;
-    toast(cssOK ? 'Exported ✓ (' + engine + ', fonts embedded)' : 'Exported ✓ (' + engine + ')');
+    toast('Exported ✓');
   } catch (err){ console.error(err); toast('Export failed: ' + err.message); }
   finally {
     document.body.classList.remove('exporting');
-    fitStage(); btn.disabled = false; btn.innerHTML = original; lucide.createIcons();
+    fitStage(); btn.disabled = false; btn.innerHTML = orig; lucide.createIcons();
   }
 }
 
 function boot(){
   state = freshState(currentLang);
-  refreshFonts();
   renderLandingGrid();
   renderTemplateGrid();
   renderParticulars();
   renderBorders();
-  renderSizingPanel();
-  renderFitPanel();
   syncControls();
   bind();
   renderPage();
   lucide.createIcons();
   if (document.fonts && document.fonts.ready){
-    document.fonts.ready.then(() => {
-      renderLandingGrid();
-      if (!$('#editor').classList.contains('hidden')){ renderPage(); fitStage(); }
-    });
+    document.fonts.ready.then(() => { renderLandingGrid(); if (!$('#editor').classList.contains('hidden')){ renderPage(); fitStage(); } });
   }
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
