@@ -69,6 +69,20 @@
         .grid .size-btn-nav{font-size:19px;}
         .grid .size-display{padding:8px 10px;font-size:12px;}
         .grid .size-display-icon{width:12px;height:12px;}
+
+        /* zip button minimal link style */
+        #bottomDownloadZipBtn{
+            background:transparent;
+            color:#2563eb;
+            font-weight:600;
+            font-size:12px;
+            padding:6px 10px;
+            border:none;
+            text-decoration:underline;
+            text-underline-offset:3px;
+            cursor:pointer;
+        }
+        #bottomDownloadZipBtn:hover{color:#1d4ed8;}
     </style>
 </head>
 <body class="h-full flex flex-col bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
@@ -92,17 +106,15 @@
                 <div class="relative">
                     <button id="menuDropdownBtn" class="w-9 h-9 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-700 font-bold rounded-xl border border-slate-200 flex items-center justify-center text-lg transition-all shadow-sm">⋮</button>
                     <div id="menuDropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 transition-all">
-                        <!-- 3 links only -->
                         <a href="project-cover-maker.html" target="_blank" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
                             <span>🌐</span><span>Project Cover Maker</span>
                         </a>
-                        <a href="#about" onclick="alert('BulkCollaze v2.2 - Fast Image & PDF Collage Maker')" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>ℹ️</span><span>About App</span>
+                        <a href="#" oclass="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
+                            <span>🌐</span><span>Coming soon more</span>
                         </a>
-                        <a href="#help" onclick="alert('Select Images or PDFs -> Configure Spacing & Grid -> Export as JPG, PNG or PDF!')" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
-                            <span>❓</span><span>Help & Instructions</span>
+                        <a href="#" class="w-full text-left px-4 py-2 text-xs font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600 flex items-center space-x-2">
+                            <span>🌐</span><span>Coming soon more</span>
                         </a>
-                        <!-- Caption -->
                         <div class="px-4 pt-2 pb-1 mt-1 border-t border-slate-100">
                             <span class="text-[10px] text-slate-400">Coded by <span class="font-semibold text-slate-500">Vijay Bishnoi</span></span>
                         </div>
@@ -159,7 +171,6 @@
                     </div>
                 </div>
 
-                <!-- JPG Quality + Aspect Ratio side-by-side -->
                 <div id="menuPanelLayout"></div>
 
                 <div>
@@ -254,11 +265,9 @@
                 <div id="collagesGrid" class="w-full grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- Small Download ZIP button at bottom, format label shown -->
+            <!-- Download ZIP button — minimal link style -->
             <div class="flex justify-center pt-1">
-                <button id="bottomDownloadZipBtn" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-xl text-xs transition-colors flex items-center space-x-1.5 shadow-sm">
-                    <span>📦</span><span id="zipBtnLabel">Download ZIP (JPG)</span>
-                </button>
+                <button id="bottomDownloadZipBtn">📦 <span id="zipBtnLabel">Download ZIP (JPG)</span></button>
             </div>
         </section>
     </main>
@@ -568,7 +577,6 @@
 
         // ═══ RENDER MENU PANELS ═══════════════════════════════════
         function renderAllMenuRows() {
-            // JPG Quality + Aspect Ratio side-by-side (2-column single row)
             document.getElementById('menuPanelLayout').innerHTML = `
                 <div class="grid grid-cols-2 gap-x-3 gap-y-0">
                     <div>${renderMenuRow('jpgQuality', MENU_CONFIG.jpgQuality, state.jpgQuality)}</div>
@@ -906,6 +914,23 @@
             return cells;
         }
 
+        // ═══ FIXED: manual rounded-rect path (works on all mobile browsers) ═══
+        function roundRectPath(ctx, x, y, w, h, r) {
+            if (r > w / 2) r = w / 2;
+            if (r > h / 2) r = h / 2;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
         function drawCellImage(ctx, img, cell) {
             ctx.save();
             const centerX = cell.x + cell.w / 2, centerY = cell.y + cell.h / 2;
@@ -913,13 +938,18 @@
             const cellTargetW = cell.w * scaleFactor;
             const cellTargetH = cell.h * scaleFactor;
             ctx.translate(centerX, centerY);
-            ctx.beginPath();
-            if (state.radius > 0 && typeof ctx.roundRect === 'function') {
-                ctx.roundRect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH, state.radius);
+
+            // clip with manual rounded-rect path (mobile-safe)
+            const halfW = cellTargetW / 2;
+            const halfH = cellTargetH / 2;
+            if (state.radius > 0) {
+                roundRectPath(ctx, -halfW, -halfH, cellTargetW, cellTargetH, state.radius);
             } else {
-                ctx.rect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH);
+                ctx.beginPath();
+                ctx.rect(-halfW, -halfH, cellTargetW, cellTargetH);
             }
             ctx.clip();
+
             const pad = state.borderEnabled ? state.photoPadding : 0;
             const targetW = Math.max(10, cellTargetW - (pad * 2));
             const targetH = Math.max(10, cellTargetH - (pad * 2));
@@ -943,17 +973,18 @@
             const drawHeight = needRotate ? renderW : renderH;
             ctx.drawImage(img, -drawWidth/2, -drawHeight/2, drawWidth, drawHeight);
             ctx.restore();
+
             if (state.borderEnabled && state.borderStyle !== 'none' && state.borderWidth > 0) {
                 ctx.lineWidth = state.borderWidth;
                 ctx.strokeStyle = state.borderColor;
                 if (state.borderStyle === 'dashed') ctx.setLineDash([state.borderWidth*4, state.borderWidth*2]);
                 else if (state.borderStyle === 'dotted') ctx.setLineDash([state.borderWidth, state.borderWidth*2]);
                 else ctx.setLineDash([]);
-                ctx.beginPath();
-                if (state.radius > 0 && typeof ctx.roundRect === 'function') {
-                    ctx.roundRect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH, state.radius);
+                if (state.radius > 0) {
+                    roundRectPath(ctx, -halfW, -halfH, cellTargetW, cellTargetH, state.radius);
                 } else {
-                    ctx.rect(-cellTargetW/2, -cellTargetH/2, cellTargetW, cellTargetH);
+                    ctx.beginPath();
+                    ctx.rect(-halfW, -halfH, cellTargetW, cellTargetH);
                 }
                 ctx.stroke();
             }
