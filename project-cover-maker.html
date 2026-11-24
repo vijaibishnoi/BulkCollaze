@@ -33,6 +33,11 @@ body{background:#f8fafc;color:#0f172a;font-family:'Inter',system-ui,-apple-syste
 .icon-btn:hover{background:#f1f5f9;}
 .icon-btn svg{width:19px;height:19px;}
 
+.editor-toolbar{position:absolute;top:12px;left:12px;z-index:50;display:flex;gap:6px;align-items:center;}
+.editor-toolbar .toolbar-btn{width:42px;height:42px;border-radius:12px;border:1px solid #e2e8f0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);color:#475569;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 14px -4px rgba(15,23,42,.15);transition:all .15s;}
+.editor-toolbar .toolbar-btn:hover{background:#fff;border-color:#cbd5e1;}
+.editor-toolbar .toolbar-btn svg{width:19px;height:19px;}
+
 .menu{position:absolute;right:0;top:52px;min-width:270px;padding:8px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 20px 40px -12px rgba(15,23,42,.15);z-index:70;animation:pop .16s ease-out;}
 @keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.97);}to{opacity:1;transform:none;}}
 .menu-section{padding:10px 14px 4px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#64748b;}
@@ -62,9 +67,52 @@ body{background:#f8fafc;color:#0f172a;font-family:'Inter',system-ui,-apple-syste
 
 .fld{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
 .fld:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(37,99,235,.12);}
+select.fld{appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px;}
 .lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#64748b;margin-bottom:6px;}
 .sec-title{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#334155;margin:20px 0 10px;display:flex;align-items:center;gap:7px;}
 .sec-title svg{width:13px;height:13px;color:#2563eb;}
+
+/* NEW: field group — mini card for each section */
+.field-group{
+  padding:14px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:14px;
+  margin-bottom:10px;
+}
+.field-group-title{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  color:#64748b;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.field-group-title svg{
+  width:12px;
+  height:12px;
+  color:#2563eb;
+}
+.field-label-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+  gap:8px;
+}
+.field-label{
+  font-size:11.5px;
+  font-weight:700;
+  color:#334155;
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
 
 input[type=color]{-webkit-appearance:none;appearance:none;width:100%;height:38px;border:1px solid #e2e8f0;border-radius:10px;background:transparent;cursor:pointer;padding:3px;}
 input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
@@ -99,25 +147,24 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
 .bd-opt span.nm{font-size:9.5px;font-weight:700;color:#475569;text-align:center;line-height:1.15;}
 .bd-opt.active span.nm{color:#1e40af;}
 
-/* SIZE/FIT PANEL */
-.size-row{padding:12px 0;border-bottom:1px solid #f1f5f9;position:relative;}
+.size-row{padding:10px 0;border-bottom:1px solid #f1f5f9;position:relative;}
 .size-row:last-child{border-bottom:none;}
 .size-row.is-hidden{opacity:.55;}
 .size-row.is-hidden .size-row-label{text-decoration:line-through;}
-.size-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;}
-.size-row-label{font-size:12px;font-weight:700;color:#334155;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.size-hide{width:28px;height:28px;border-radius:8px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;display:grid;place-items:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.size-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;}
+.size-row-label{font-size:11px;font-weight:700;color:#475569;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.size-hide{width:26px;height:26px;border-radius:7px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;display:grid;place-items:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
 .size-hide:hover{background:#fee2e2;border-color:#f87171;}
-.size-hide svg{width:13px;height:13px;}
+.size-hide svg{width:12px;height:12px;}
 .size-hide.is-off{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;}
-.size-control{display:flex;gap:5px;align-items:stretch;}
-.size-btn{width:36px;min-height:38px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:18px;font-weight:600;cursor:pointer;display:grid;place-items:center;transition:all .12s;font-family:inherit;line-height:1;flex-shrink:0;}
+.size-control{display:flex;gap:4px;align-items:stretch;}
+.size-btn{width:32px;min-height:34px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;color:#475569;font-size:16px;font-weight:600;cursor:pointer;display:grid;place-items:center;transition:all .12s;font-family:inherit;line-height:1;flex-shrink:0;}
 .size-btn:hover{background:#f8fafc;border-color:#cbd5e1;}
 .size-btn:active{background:#eff6ff;border-color:#3b82f6;color:#1d4ed8;}
-.size-display{flex:1;padding:8px 12px;border-radius:9px;border:1px solid #e2e8f0;background:#fff;font-size:13px;font-weight:700;color:#0f172a;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s;font-family:inherit;min-width:0;}
+.size-display{flex:1;padding:7px 11px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;font-size:12.5px;font-weight:700;color:#0f172a;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s;font-family:inherit;min-width:0;}
 .size-display:hover{border-color:#cbd5e1;background:#f8fafc;}
 .size-display.open{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;}
-.size-display-icon{width:13px;height:13px;color:#94a3b8;flex-shrink:0;}
+.size-display-icon{width:12px;height:12px;color:#94a3b8;flex-shrink:0;}
 .size-menu{margin-top:6px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 32px -8px rgba(15,23,42,.15);padding:5px;max-height:260px;overflow-y:auto;z-index:30;position:relative;}
 .size-menu.hidden{display:none;}
 .size-option{display:flex;justify-content:space-between;align-items:center;width:100%;padding:9px 14px;border:none;background:transparent;border-radius:7px;cursor:pointer;font-size:13px;font-weight:600;color:#334155;text-align:left;transition:background .1s;font-family:inherit;}
@@ -126,9 +173,26 @@ input[type=color]::-webkit-color-swatch{border:none;border-radius:7px;}
 .size-option .check{width:14px;height:14px;opacity:0;color:#2563eb;flex-shrink:0;}
 .size-option.active .check{opacity:1;}
 
+.frame-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.frame-btn{padding:8px 4px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;font-size:10px;font-weight:700;color:#475569;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s;font-family:inherit;}
+.frame-btn:hover{background:#f8fafc;border-color:#cbd5e1;}
+.frame-btn.active{background:#eff6ff;border-color:#3b82f6;color:#1d4ed8;}
+.frame-btn svg{width:16px;height:16px;}
+
+.field-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:7px;border:1px solid #fecaca;background:#fef2f2;color:#dc2626;display:grid;place-items:center;cursor:pointer;transition:all .15s;}
+.field-x:hover{background:#fee2e2;border-color:#f87171;}
+.field-x.is-off{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a;}
+.field-x svg{width:12px;height:12px;}
+
 .num-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-/* PAGE */
+.grad-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;}
+.grad-swatch{width:100%;aspect-ratio:1;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}
+.grad-swatch:hover{transform:scale(1.05);}
+.grad-swatch.active{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15);}
+.grad-swatch.clear-grad{background:#f1f5f9;border:1px dashed #cbd5e1;display:grid;place-items:center;font-size:10px;font-weight:700;color:#64748b;}
+.grad-swatch.clear-grad svg{width:16px;height:16px;color:#94a3b8;}
+
 .page{
   position:relative;overflow:hidden;
   --fs:16px;--bc:#1a237e;--accent:#c9a227;--primary:#1a237e;--ink:#1a237e;--paper:#fff;
@@ -326,9 +390,9 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <div class="menu-hint">Only the cover page content changes. UI stays English.</div>
         <div class="menu-divider"></div>
         <div class="menu-section">Links</div>
-        <a href="index.html" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Collage Maker</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="globe"></i><span>Coming soon more</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="globe"></i><span>Coming soon more</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="#" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Visit Website</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="book-open"></i><span>Documentation</span><i data-lucide="external-link" class="ext"></i></a>
+        <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="message-circle"></i><span>Give Feedback</span><i data-lucide="external-link" class="ext"></i></a>
         <div class="menu-caption">Coded by <b>Vijay Bishnoi</b></div>
       </div>
     </div>
@@ -355,35 +419,29 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
 </div>
 
 <div id="editor" class="hidden h-[100dvh] flex flex-col bg-slate-50">
-  <header class="appbar">
-    <div class="flex items-center gap-2 min-w-0">
-      <button class="icon-btn" id="backBtn"><i data-lucide="arrow-left"></i></button>
-      <div class="app-icon"><i data-lucide="book-open-text"></i></div>
-      <div class="min-w-0">
-        <h1 class="text-[14px] font-bold leading-tight truncate text-slate-900">Cover Page Studio</h1>
-        <p class="text-[10.5px] font-medium text-slate-500 leading-tight truncate" id="tplLabel">Academic Classic</p>
-      </div>
-    </div>
-    <div class="relative">
-      <button class="icon-btn" data-menu-toggle="editorMenu"><i data-lucide="more-vertical"></i></button>
-      <div id="editorMenu" class="menu hidden">
-        <div class="menu-section">Page Language</div>
-        <button class="menu-item lang-opt active" data-lang="en"><span class="lang-badge">EN</span><span class="lang-name">English</span><i data-lucide="check" class="chk"></i></button>
-        <button class="menu-item lang-opt" data-lang="hi"><span class="lang-badge">हि</span><span class="lang-name">हिंदी</span><i data-lucide="check" class="chk"></i></button>
-        <button class="menu-item lang-opt" data-lang="ne"><span class="lang-badge">ने</span><span class="lang-name">नेपाली</span><i data-lucide="check" class="chk"></i></button>
-        <div class="menu-hint">Only the cover page content changes. UI stays English.</div>
-        <div class="menu-divider"></div>
-        <div class="menu-section">Links</div>
-        <a href="#" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Visit Website</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="book-open"></i><span>Documentation</span><i data-lucide="external-link" class="ext"></i></a>
-        <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="message-circle"></i><span>Give Feedback</span><i data-lucide="external-link" class="ext"></i></a>
-        <div class="menu-caption">Coded by <b>Vijay Bishnoi</b></div>
-      </div>
-    </div>
-  </header>
-
   <div class="flex-1 flex flex-col lg:flex-row min-h-0 min-w-0">
-    <section id="stage" class="order-1 lg:order-2 h-[42dvh] lg:h-auto lg:flex-1 flex items-center justify-center overflow-hidden p-3 relative">
+    <section id="stage" class="order-1 lg:order-2 h-[42dvh] lg:h-auto lg:flex-1 flex items-center justify-center overflow-hidden p-6 relative">
+      <!-- Floating toolbar (back + language only) -->
+      <div class="editor-toolbar">
+        <button class="toolbar-btn" id="backBtn" title="Back to templates"><i data-lucide="arrow-left"></i></button>
+        <div class="relative">
+          <button class="toolbar-btn" data-menu-toggle="editorMenu" title="Language & Links"><i data-lucide="languages"></i></button>
+          <div id="editorMenu" class="menu hidden" style="left:0;right:auto;">
+            <div class="menu-section">Page Language</div>
+            <button class="menu-item lang-opt active" data-lang="en"><span class="lang-badge">EN</span><span class="lang-name">English</span><i data-lucide="check" class="chk"></i></button>
+            <button class="menu-item lang-opt" data-lang="hi"><span class="lang-badge">हि</span><span class="lang-name">हिंदी</span><i data-lucide="check" class="chk"></i></button>
+            <button class="menu-item lang-opt" data-lang="ne"><span class="lang-badge">ने</span><span class="lang-name">नेपाली</span><i data-lucide="check" class="chk"></i></button>
+            <div class="menu-hint">Only the cover page content changes. UI stays English.</div>
+            <div class="menu-divider"></div>
+            <div class="menu-section">Links</div>
+            <a href="#" class="menu-item link-item" data-link="website"><i data-lucide="globe"></i><span>Visit Website</span><i data-lucide="external-link" class="ext"></i></a>
+            <a href="#" class="menu-item link-item" data-link="docs"><i data-lucide="book-open"></i><span>Documentation</span><i data-lucide="external-link" class="ext"></i></a>
+            <a href="#" class="menu-item link-item" data-link="feedback"><i data-lucide="message-circle"></i><span>Give Feedback</span><i data-lucide="external-link" class="ext"></i></a>
+            <div class="menu-caption">Coded by <b>Vijay Bishnoi</b></div>
+          </div>
+        </div>
+      </div>
+
       <div id="pageWrap"><div id="page" class="page"></div></div>
       <button id="expandBtn" class="absolute top-3 right-3 z-10 rounded-full flex items-center justify-center shadow-sm" style="width:40px;height:40px;background:#fff;border:1px solid #e2e8f0;color:#475569;cursor:pointer;">
         <i data-lucide="maximize-2" style="width:16px;height:16px;"></i>
@@ -394,9 +452,7 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
       <div class="tabs" id="tabs">
         <button class="tab active" data-tab="templates"><i data-lucide="layout-grid"></i>Templates</button>
         <button class="tab" data-tab="design"><i data-lucide="type"></i>Design</button>
-        <button class="tab" data-tab="sizing"><i data-lucide="sliders-vertical"></i>Sizing</button>
         <button class="tab" data-tab="background"><i data-lucide="image"></i>Background</button>
-        <button class="tab" data-tab="border"><i data-lucide="square-dashed"></i>Border</button>
         <button class="tab" data-tab="page"><i data-lucide="file-text"></i>Page</button>
         <button class="tab" data-tab="export"><i data-lucide="download"></i>Export</button>
       </div>
@@ -412,50 +468,136 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <div id="templateGrid" class="grid grid-cols-2 gap-3 mt-3"></div>
       </section>
 
+      <!-- ============ DESIGN TAB (Reorganized) ============ -->
       <section class="pane" data-pane="design">
-        <div class="sec-title"><i data-lucide="school"></i>Institution</div>
-        <label class="lbl">Institution / School Name</label>
-        <input class="fld" id="inInstitution">
-        <div class="mt-2"><label class="lbl">Affiliation / Tagline</label><input class="fld" id="inAffiliation"></div>
 
-        <div class="mt-3">
-          <label class="lbl">Logo</label>
+        <!-- SECTION 1: INSTITUTION -->
+        <div class="sec-title"><i data-lucide="school"></i>Institution</div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">School Name</span>
+            <button class="field-x" data-field-hide="inst" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inInstitution">
+          <div id="instSizeRow" class="mt-2"></div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">Affiliation / Tagline</span>
+            <button class="field-x" data-field-hide="affil" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inAffiliation">
+          <div id="affilSizeRow" class="mt-2"></div>
+        </div>
+
+        <!-- SECTION 2: LOGO -->
+        <div class="sec-title"><i data-lucide="image"></i>Logo</div>
+
+        <div class="field-group">
           <div class="num-grid">
             <button class="btn-outline w-full" id="logoBtn"><i data-lucide="upload"></i>Upload</button>
             <button class="btn-outline w-full" id="logoRemove"><i data-lucide="trash-2"></i>Remove</button>
           </div>
           <input type="file" id="logoFile" accept="image/*" class="hidden">
+
+          <div class="mt-3">
+            <label class="lbl">Frame</label>
+            <div class="frame-btns" id="frameBtns">
+              <button class="frame-btn" data-frame="none"><i data-lucide="square"></i>None</button>
+              <button class="frame-btn active" data-frame="circle"><i data-lucide="circle"></i>Circle</button>
+              <button class="frame-btn" data-frame="rounded"><i data-lucide="square-round-corner"></i>Rounded</button>
+              <button class="frame-btn" data-frame="square"><i data-lucide="square"></i>Square</button>
+            </div>
+          </div>
+
           <div id="logoSizeRow" class="mt-2"></div>
         </div>
 
+        <!-- SECTION 3: TEXT CONTENT -->
         <div class="sec-title"><i data-lucide="heading"></i>Text Content</div>
-        <label class="lbl">Project Title</label>
-        <textarea class="fld" id="inTitle" rows="2"></textarea>
-        <div class="mt-2"><label class="lbl">Topic / Subtitle <span class="text-slate-400 font-normal normal-case">(optional)</span></label><input class="fld" id="inSubtitle"></div>
-        <div class="mt-2 num-grid">
-          <div><label class="lbl">Subject Badge</label><input class="fld" id="inBadge"></div>
-          <div><label class="lbl">Footer</label><input class="fld" id="inFooter"></div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">Project Title</span>
+            <button class="field-x" data-field-hide="title" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inTitle">
+          <div id="titleSizeRow" class="mt-2"></div>
         </div>
 
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">Topic / Subtitle</span>
+            <button class="field-x" data-field-hide="subtitle" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inSubtitle">
+          <div id="subtitleSizeRow" class="mt-2"></div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">Subject Badge</span>
+            <button class="field-x" data-field-hide="badge" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inBadge">
+          <div id="badgeSizeRow" class="mt-2"></div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label-row">
+            <span class="field-label">Footer</span>
+            <button class="field-x" data-field-hide="footer" style="position:static;transform:none;"><i data-lucide="x"></i></button>
+          </div>
+          <input class="fld" id="inFooter">
+          <div id="footerSizeRow" class="mt-2"></div>
+        </div>
+
+        <!-- SECTION 4: PARTICULARS -->
         <div class="sec-title"><i data-lucide="users"></i>Particulars</div>
-        <div id="particularList"></div>
-        <button class="btn-outline w-full mt-2" id="addPart"><i data-lucide="plus"></i>Add Field</button>
 
+        <div class="field-group">
+          <div id="particularList"></div>
+          <button class="btn-outline w-full mt-2" id="addPart"><i data-lucide="plus"></i>Add Field</button>
+        </div>
+
+        <div class="field-group">
+          <div id="plabelSizeRow"></div>
+          <div id="pvalueSizeRow" class="mt-2"></div>
+          <button class="btn-outline w-full mt-2" id="hideParticularsBtn"><i data-lucide="eye-off"></i>Hide Particulars Block</button>
+        </div>
+
+        <!-- SECTION 5: COLORS -->
         <div class="sec-title"><i data-lucide="palette"></i>Colors</div>
-        <div class="grid grid-cols-4 gap-2">
-          <div><label class="lbl text-center">Primary</label><input type="color" id="colPrimary"></div>
-          <div><label class="lbl text-center">Accent</label><input type="color" id="colAccent"></div>
-          <div><label class="lbl text-center">Ink</label><input type="color" id="colInk"></div>
-          <div><label class="lbl text-center">Paper</label><input type="color" id="colPaper"></div>
-        </div>
-      </section>
 
-      <section class="pane" data-pane="sizing">
-        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-3 mb-3">
-          <p class="text-[11.5px] leading-relaxed text-slate-700">Use <b>−</b> / <b>+</b> to fine-tune. Click the percentage to pick from a big menu. Red X hides a block.</p>
+        <div class="field-group">
+          <div class="grid grid-cols-4 gap-2">
+            <div><label class="lbl text-center">Primary</label><input type="color" id="colPrimary"></div>
+            <div><label class="lbl text-center">Accent</label><input type="color" id="colAccent"></div>
+            <div><label class="lbl text-center">Ink</label><input type="color" id="colInk"></div>
+            <div><label class="lbl text-center">Paper</label><input type="color" id="colPaper"></div>
+          </div>
         </div>
-        <button class="btn-outline w-full mb-3" id="resetSizes"><i data-lucide="rotate-ccw"></i>Reset All Sizes & Visibility</button>
-        <div id="sizingPanel"></div>
+
+        <!-- SECTION 6: TYPOGRAPHY -->
+        <div class="sec-title"><i data-lucide="case-sensitive"></i>Typography</div>
+
+        <div class="field-group">
+          <label class="lbl">Heading Font</label>
+          <select class="fld" id="fontHeading"></select>
+          <label class="lbl mt-3">Body Font</label>
+          <select class="fld" id="fontBody"></select>
+        </div>
+
+        <!-- SECTION 7: SPACING -->
+        <div class="sec-title"><i data-lucide="sliders-vertical"></i>Spacing & Layout</div>
+
+        <div class="field-group">
+          <div id="fitPanel"></div>
+        </div>
+
+        <button class="btn-outline w-full mt-4" id="resetSizes"><i data-lucide="rotate-ccw"></i>Reset All Sizes</button>
       </section>
 
       <section class="pane" data-pane="background">
@@ -467,24 +609,20 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
         <input type="file" id="bgFile" accept="image/*" class="hidden">
         <div class="mt-3"><label class="lbl">Crop / Fit</label><div class="seg" id="bgFitSeg"><button data-fit="cover">Cover</button><button data-fit="contain">Contain</button></div></div>
         <div class="mt-3" id="bgOpacityRow"></div>
+
+        <div class="sec-title"><i data-lucide="sparkles"></i>Gradients</div>
+        <div class="grad-grid" id="gradGrid"></div>
+        <p class="text-[10.5px] text-slate-500 mt-2">Pick a gradient to instantly apply. This overrides paper color.</p>
+
         <div class="sec-title"><i data-lucide="droplet"></i>Tint</div>
         <div class="mt-1 num-grid items-end">
           <div><label class="lbl text-center">Color</label><input type="color" id="tintColor"></div>
           <div id="tintStrengthRow"></div>
         </div>
+
         <div class="sec-title"><i data-lucide="sliders-horizontal"></i>Filters</div>
         <div id="filterRows"></div>
         <button class="btn-outline w-full mt-2" id="resetFilters"><i data-lucide="rotate-ccw"></i>Reset Filters</button>
-      </section>
-
-      <section class="pane" data-pane="border">
-        <label class="lbl">Border Style</label>
-        <div id="borderGrid" class="grid grid-cols-3 gap-2"></div>
-        <div class="sec-title"><i data-lucide="paintbrush"></i>Border Appearance</div>
-        <label class="lbl">Border Color</label>
-        <input type="color" id="borderColor">
-        <div class="mt-3" id="borderWidthRow"></div>
-        <button class="btn-outline w-full mt-2" id="borderUseAccent"><i data-lucide="pipette"></i>Use Accent Color</button>
       </section>
 
       <section class="pane" data-pane="page">
@@ -498,10 +636,17 @@ body.exporting #pageWrap{transform:none !important;box-shadow:none;}
           <button data-orient="landscape"><i data-lucide="rectangle-horizontal"></i>Landscape</button>
         </div>
         <p class="text-[11px] text-slate-500 mt-2" id="dimInfo"></p>
+
+        <div class="sec-title"><i data-lucide="square-dashed"></i>Border Style</div>
+        <div id="borderGrid" class="grid grid-cols-3 gap-2"></div>
+        <label class="lbl mt-3">Border Color</label>
+        <input type="color" id="borderColor">
+        <div class="mt-3" id="borderWidthRow"></div>
+        <button class="btn-outline w-full mt-2" id="borderUseAccent"><i data-lucide="pipette"></i>Use Accent Color</button>
+
         <div class="sec-title"><i data-lucide="sparkles"></i>Fit Engine</div>
         <div class="flex items-center justify-between mb-3"><span class="lbl mb-0">Auto Fit</span><button id="autoFitToggle" class="chip active">ON</button></div>
-        <div id="fitPanel"></div>
-        <button class="btn-outline w-full mt-3" id="resetSpacing"><i data-lucide="rotate-ccw"></i>Reset Spacing</button>
+        <button class="btn-outline w-full" id="resetSpacing"><i data-lucide="rotate-ccw"></i>Reset Spacing</button>
       </section>
 
       <section class="pane" data-pane="export">
@@ -563,28 +708,31 @@ const BORDERS = [
   { id:'dashed-fancy', name:'Dashed Fancy' },{ id:'corner', name:'Corner Brackets' },{ id:'diamond', name:'Diamond' },
 ];
 
+const GRADIENTS = [
+  { name:'Blue→Purple', css:'linear-gradient(160deg, #F8FAFF 0%, #EFF6FF 50%, #F5F3FF 100%)' },
+  { name:'Sunset', css:'linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 50%, #FCE7F3 100%)' },
+  { name:'Mint', css:'linear-gradient(160deg, #F0FDF4 0%, #ECFDF5 50%, #FEFCE8 100%)' },
+  { name:'Lavender', css:'linear-gradient(160deg, #F5F3FF 0%, #FAE8FF 50%, #EDE9FE 100%)' },
+  { name:'Peach', css:'linear-gradient(135deg, #FEF3C7 0%, #FEE2E2 50%, #FCE7F3 100%)' },
+  { name:'Sky', css:'linear-gradient(160deg, #F0F9FF 0%, #E0F2FE 50%, #F5F3FF 100%)' },
+  { name:'Ocean', css:'linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 100%)' },
+  { name:'Emerald', css:'linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%)' },
+  { name:'Rose', css:'linear-gradient(135deg, #FFF1F2 0%, #FCE7F3 100%)' },
+  { name:'Gold', css:'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)' },
+  { name:'Violet', css:'linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%)' },
+  { name:'Mono', css:'linear-gradient(160deg, #F8FAFC 0%, #E2E8F0 100%)' },
+];
+
 const LAYOUT_LABELS = { centered:'Center', editorial:'Editorial', band:'Band', sidebar:'Sidebar', twotone:'Two-Tone', minimal:'Minimal', crest:'Crest' };
 const LINK_URLS = { website:'#', docs:'#', feedback:'#' };
-
-/* Numeric configs — all +/− menus */
-const MENU_CONFIG = {
-  logoSize:     { label: 'Logo Size',         min: 60, max: 160, step: 5,  displayMode: 'percent' },
-  bgOpacity:    { label: 'Masking Opacity',   min: 0,  max: 100, step: 5,  displayMode: 'percent' },
-  tintStrength: { label: 'Tint Strength',     min: 0,  max: 100, step: 5,  displayMode: 'percent' },
-  fBlur:        { label: 'Blur',              min: 0,  max: 20,  step: 1,  displayMode: 'number', suffix: 'px' },
-  fBright:      { label: 'Brightness',        min: 30, max: 180, step: 10, displayMode: 'number', suffix: '%' },
-  fContrast:    { label: 'Contrast',          min: 30, max: 200, step: 10, displayMode: 'number', suffix: '%' },
-  borderWidth:  { label: 'Border Thickness',  min: 5,  max: 40,  step: 1,  displayMode: 'decimal', suffix: '×' },
-  exportScale:  { label: 'Quality',           min: 1,  max: 4,   step: 1,  displayMode: 'number', suffix: '×' },
-};
 
 const SIZE_ROWS = [
   { key: 'instScale',     label: 'School Name',        hideKey: 'inst' },
   { key: 'affilScale',    label: 'Affiliation',        hideKey: 'affil' },
-  { key: 'titleScale',    label: 'Project Title',      hideKey: 'title' },
+  { key: 'titleScale',    label: 'Project Title',      hideKey: 'title', min: 30, max: 300, step: 10 },
   { key: 'subtitleScale', label: 'Topic / Subtitle',   hideKey: 'subtitle' },
   { key: 'badgeScale',    label: 'Subject Badge',      hideKey: 'badge' },
-  { key: 'plabelScale',   label: 'Particulars Label',  hideKey: 'particulars' },
+  { key: 'plabelScale',   label: 'Particulars Label',  hideKey: null },
   { key: 'pvalueScale',   label: 'Particulars Value',  hideKey: null },
   { key: 'footerScale',   label: 'Footer',             hideKey: 'footer' },
 ];
@@ -596,14 +744,26 @@ const FIT_ROWS = [
   { key: 'lineHeight',label: 'Line Height',  min: 90, max: 200, step: 10 },
 ];
 
+const MENU_CONFIG = {
+  logoSize:     { label: 'Logo Size',         min: 60, max: 160, step: 5,  displayMode: 'percent' },
+  bgOpacity:    { label: 'Masking Opacity',   min: 0,  max: 100, step: 5,  displayMode: 'percent' },
+  tintStrength: { label: 'Tint Strength',     min: 0,  max: 100, step: 5,  displayMode: 'percent' },
+  fBlur:        { label: 'Blur',              min: 0,  max: 20,  step: 1,  displayMode: 'number', suffix: 'px' },
+  fBright:      { label: 'Brightness',        min: 30, max: 180, step: 10, displayMode: 'number', suffix: '%' },
+  fContrast:    { label: 'Contrast',          min: 30, max: 200, step: 10, displayMode: 'number', suffix: '%' },
+  borderWidth:  { label: 'Border Thickness',  min: 5,  max: 40,  step: 1,  displayMode: 'decimal', suffix: '×' },
+  exportScale:  { label: 'Quality',           min: 1,  max: 4,   step: 1,  displayMode: 'number', suffix: '×' },
+};
+
 function getRowConfig(key){
   if (MENU_CONFIG[key]) return MENU_CONFIG[key];
   const fit = FIT_ROWS.find(r => r.key === key);
   if (fit) return fit;
+  const sz = SIZE_ROWS.find(r => r.key === key);
+  if (sz) return { label: sz.label, min: sz.min || 30, max: sz.max || 300, step: sz.step || 10, displayMode: 'percent' };
   return { min: 30, max: 300, step: 10, displayMode: 'percent' };
 }
 
-/* ✅ REAL default content — सब details दिखेंगे */
 const LANGS = {
   en: { label:'English', data: {
     institution:'Delhi Public School',
@@ -659,8 +819,8 @@ const DEFAULTS = {
   bgOriginal:null, bgImage:null, bgFit:'cover', bgOpacity:100,
   tint:'#1A237E', tintStrength:0, blur:0, brightness:100, contrast:100,
   textScale:100, gapScale:100, padScale:100, lineHeight:115,
-  instScale:1, affilScale:1, titleScale:1, subtitleScale:1, badgeScale:1,
-  plabelScale:1, pvalueScale:1, footerScale:1,
+  instScale:100, affilScale:100, titleScale:100, subtitleScale:100, badgeScale:100,
+  plabelScale:100, pvalueScale:100, footerScale:100,
   hidden: { inst:false, affil:false, title:false, subtitle:false, badge:false, particulars:false, footer:false },
   autoFit:true, exportFormat:'jpg', exportScale:2, category:'All',
 };
@@ -708,6 +868,35 @@ function closeAllSizeMenus(){
 }
 function updateActiveLang(){ document.querySelectorAll('.lang-opt').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang)); }
 
+const defaultTextValues = new WeakMap();
+function registerDefaultValue(el, key, initialValue){
+  if (!el) return;
+  el._defaultKey = key;
+  if (initialValue !== undefined) defaultTextValues.set(el, initialValue);
+  if (el._smartBound) return;
+  el._smartBound = true;
+  el.addEventListener('focus', () => {
+    const cur = el.value;
+    const def = defaultTextValues.get(el);
+    if (def !== undefined && cur === def){ el.value = ''; }
+  });
+}
+function refreshDefaultValues(){
+  const d = LANGS[currentLang].data;
+  const map = {
+    '#inInstitution': ['institution', d.institution],
+    '#inAffiliation': ['affiliation', d.affiliation],
+    '#inTitle': ['title', d.title],
+    '#inSubtitle': ['subtitle', d.subtitle],
+    '#inBadge': ['badge', d.badge],
+    '#inFooter': ['footer', d.footer],
+  };
+  for (const [sel, [key, val]] of Object.entries(map)){
+    const el = $(sel);
+    if (el) defaultTextValues.set(el, val);
+  }
+}
+
 function applyLanguage(lang){
   if (!LANGS[lang]) return;
   currentLang = lang;
@@ -720,6 +909,7 @@ function applyLanguage(lang){
     state.particulars = d.particulars.map(p => ({...p}));
     if (isDev() && state.lineHeight < 135) state.lineHeight = 135;
     syncControls(); renderParticulars(); renderPage();
+    refreshDefaultValues();
   }
   renderLandingGrid(); renderTemplateGrid();
   lucide.createIcons();
@@ -765,13 +955,13 @@ function renderPage(){
   page.style.setProperty('--gapm', state.gapScale / 100);
   page.style.setProperty('--padm', state.padScale / 100);
   page.style.setProperty('--lh', state.lineHeight / 100);
-  page.style.setProperty('--inst-scale', state.instScale);
-  page.style.setProperty('--affil-scale', state.affilScale);
-  page.style.setProperty('--subtitle-scale', state.subtitleScale);
-  page.style.setProperty('--badge-scale', state.badgeScale);
-  page.style.setProperty('--plabel-scale', state.plabelScale);
-  page.style.setProperty('--pvalue-scale', state.pvalueScale);
-  page.style.setProperty('--footer-scale', state.footerScale);
+  page.style.setProperty('--inst-scale', state.instScale / 100);
+  page.style.setProperty('--affil-scale', state.affilScale / 100);
+  page.style.setProperty('--subtitle-scale', state.subtitleScale / 100);
+  page.style.setProperty('--badge-scale', state.badgeScale / 100);
+  page.style.setProperty('--plabel-scale', state.plabelScale / 100);
+  page.style.setProperty('--pvalue-scale', state.pvalueScale / 100);
+  page.style.setProperty('--footer-scale', state.footerScale / 100);
   page.style.setProperty('--logoSize', state.logoSize / 100);
 
   const oldFrame = $('#frame', page); if (oldFrame) oldFrame.remove();
@@ -804,7 +994,11 @@ function particularsHTML(s){
   if (state.hidden.particulars) return '';
   const parts = s.particulars.filter(p => (p.label||'').trim() || (p.value||'').trim());
   if (!parts.length) return '';
-  return `<div class="particulars">${parts.map(p=>`<div class="p-item"><div class="p-label">${esc(p.label)}</div><div class="p-value">${esc(p.value)}</div></div>`).join('')}</div>`;
+  return `<div class="particulars">${parts.map(p=>{
+    const lbl = (p.label||'').trim();
+    const val = (p.value||'').trim();
+    return `<div class="p-item">${lbl ? `<div class="p-label">${esc(lbl)}</div>` : ''}${val ? `<div class="p-value">${esc(val)}</div>` : ''}</div>`;
+  }).join('')}</div>`;
 }
 function logoHTML(s, extra=''){ if (!s.logo) return ''; return `<div class="logo-wrap lf-${s.logoFrame} ${extra}" style="background-image:url('${s.logo}')"></div>`; }
 function instHTML(s, extra=''){ if (state.hidden.inst) return ''; return s.institution ? `<div class="inst ${extra}">${esc(s.institution)}</div>` : ''; }
@@ -880,7 +1074,7 @@ function fitTitle(){
   const pageH = pageDims()[1]; const maxH = pageH * 0.32;
   const fs0 = baseFS();
   const base = isDev() ? fs0 * 3.2 : fs0 * 3.8;
-  let size = base * state.titleScale;
+  let size = base * (state.titleScale / 100);
   size = Math.max(12, Math.min(size, 400));
   t.style.fontSize = size + 'px';
   void t.offsetWidth;
@@ -964,7 +1158,7 @@ function fitStage(){
   if (!stage || !wrap) return;
   if ($('#editor').classList.contains('hidden')) return;
   const [w,h] = pageDims();
-  const aw = stage.clientWidth - 36, ah = stage.clientHeight - 36;
+  const aw = stage.clientWidth - 48, ah = stage.clientHeight - 48;
   if (aw <= 0 || ah <= 0){ setTimeout(fitStage, 60); return; }
   let k = Math.min(aw / w, ah / h);
   k = Math.max(0.04, Math.min(k, 1.6));
@@ -1008,12 +1202,12 @@ function tplPreviewHTML(t){
   const bandStyle = t.primaryGradient ? `background:${t.primaryGradient}` : `background:${p}`;
   switch(t.layout){
     case 'band': return `<div class="tpl-prev" style="${bgStyle}"><div style="${bandStyle};height:40px;display:flex;align-items:center;gap:8px;padding:0 12px"><div style="width:20px;height:20px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:6px;width:48%;background:${paper};border-radius:3px;opacity:.95"></div></div><div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px;align-items:center"><div style="height:4px;width:60%;background:${a};border-radius:2px"></div><div style="height:10px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px;margin-top:6px"></div></div></div>`;
-    case 'sidebar': return `<div class="tpl-prev" style="${bgStyle};display:flex"><div style="${bandStyle};width:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 6px"><div style="width:24px;height:24px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:85%;background:${paper};opacity:.9;border-radius:2px"></div></div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:12px"><div style="height:9px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:64%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px"></div></div></div>`;
-    case 'twotone': return `<div class="tpl-prev" style="${bgStyle};padding:0;display:flex;flex-direction:column"><div style="${bandStyle};height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><div style="width:26px;height:26px;border-radius:50%;background:${paper};border:2px solid ${a}"></div><div style="height:4px;width:62%;background:${paper};border-radius:2px"></div></div><div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center"><div style="height:8px;width:82%;background:${ink};border-radius:2px"></div><div style="height:4px;width:56%;background:${ink};opacity:.35;border-radius:2px"></div></div></div>`;
+    case 'sidebar': return `<div class="tpl-prev" style="${bgStyle};display:flex"><div style="${bandStyle};width:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 6px"><div style="width:24px;height:24px;border-radius:50%;background:${paper};border:2px solid ${a}"></div></div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:12px"><div style="height:9px;width:88%;background:${ink};border-radius:2px"></div><div style="height:4px;width:64%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:4px;width:46%;background:${a};border-radius:2px"></div></div></div>`;
+    case 'twotone': return `<div class="tpl-prev" style="${bgStyle};padding:0;display:flex;flex-direction:column"><div style="${bandStyle};height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px"><div style="width:26px;height:26px;border-radius:50%;background:${paper};border:2px solid ${a}"></div></div><div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:5px;align-items:center;justify-content:center"><div style="height:8px;width:82%;background:${ink};border-radius:2px"></div><div style="height:4px;width:56%;background:${ink};opacity:.35;border-radius:2px"></div></div></div>`;
     case 'editorial': return `<div class="tpl-prev" style="${bgStyle};padding:12px 14px;align-items:flex-start;display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:8px;align-items:center;width:100%"><div style="width:22px;height:22px;border-radius:50%;background:${p};border:2px solid ${a}"></div><div style="height:7px;width:56%;background:${p};border-radius:2px"></div></div><div style="height:4px;width:100%;background:${a};border-radius:2px"></div><div style="height:12px;width:96%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:7px;width:76%;background:${ink};border-radius:2px"></div></div>`;
     case 'minimal': return `<div class="tpl-prev" style="${bgStyle};padding:14px 16px;align-items:flex-start;display:flex;flex-direction:column;gap:3px"><div style="height:3px;width:16%;background:${a};border-radius:2px"></div><div style="height:3px;width:38%;background:${p};opacity:.85;border-radius:2px"></div><div style="height:14px;width:98%;background:${ink};border-radius:2px;margin-top:10px"></div><div style="height:6px;width:82%;background:${ink};opacity:.5;border-radius:2px"></div></div>`;
-    case 'crest': return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:5px"><div style="width:48px;height:48px;border-radius:50%;border:3px solid ${a};background:${p};margin-top:4px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px;margin-top:8px"></div><div style="height:3px;width:46%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:82%;background:${ink};border-radius:2px"></div></div>`;
-    default: return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:${p};border:2px solid ${a};margin-top:6px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px"></div><div style="height:3px;width:44%;background:${ink};opacity:.35;border-radius:2px"></div><div style="height:9px;width:86%;background:${ink};border-radius:2px"></div></div>`;
+    case 'crest': return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:5px"><div style="width:48px;height:48px;border-radius:50%;border:3px solid ${a};background:${p};margin-top:4px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px;margin-top:8px"></div><div style="height:9px;width:82%;background:${ink};border-radius:2px"></div></div>`;
+    default: return `<div class="tpl-prev" style="${bgStyle};padding:10px 14px;align-items:center;display:flex;flex-direction:column;gap:4px"><div style="width:24px;height:24px;border-radius:50%;background:${p};border:2px solid ${a};margin-top:6px"></div><div style="height:4px;width:66%;background:${p};border-radius:2px"></div><div style="height:9px;width:86%;background:${ink};border-radius:2px"></div></div>`;
   }
 }
 function tplCardHTML(t){
@@ -1043,7 +1237,6 @@ function applyTemplate(id){
   state.headingFont = t.heading; state.bodyFont = t.body;
   state.border = t.border; state.borderColor = t.primary;
   syncControls(); renderTemplateGrid(); renderBorders(); renderPage(); fitStage();
-  if ($('#tplLabel')) $('#tplLabel').textContent = t.name;
   toast(t.name);
 }
 function openEditor(templateId){
@@ -1065,13 +1258,18 @@ function renderBorders(){
   grid.innerHTML = BORDERS.map(b => `<button class="bd-opt ${state.border === b.id ? 'active' : ''}" data-border="${b.id}"><div class="bd-swatch bd bd-${b.id}">${decorHTML(b.id)}</div><span class="nm">${b.name}</span></button>`).join('');
   $$('.bd-swatch').forEach(s => { s.style.setProperty('--bc', state.borderColor); s.style.setProperty('--bw', (state.borderWidth/10) + 'px'); });
 }
+function renderGradients(){
+  const grid = $('#gradGrid'); if (!grid) return;
+  const clearHTML = `<button class="grad-swatch clear-grad" data-grad="" title="No gradient"><i data-lucide="x"></i></button>`;
+  grid.innerHTML = clearHTML + GRADIENTS.map((g, i) => `<button class="grad-swatch ${state.paperGradient === g.css ? 'active' : ''}" data-grad="${i}" title="${g.name}" style="background:${g.css}"></button>`).join('');
+  lucide.createIcons();
+}
 function renderParticulars(){
   const wrap = $('#particularList'); if (!wrap) return;
   wrap.innerHTML = state.particulars.map((p, i) => `<div class="part-row"><input class="fld" style="flex:1;min-width:0" data-pi="${i}" data-pf="label" placeholder="Label" value="${esc(p.label)}"><input class="fld" style="flex:1.2;min-width:0" data-pi="${i}" data-pf="value" placeholder="Value" value="${esc(p.value)}"><button class="part-del" data-pdel="${i}"><i data-lucide="x"></i></button></div>`).join('');
   lucide.createIcons();
 }
 
-/* UNIVERSAL MENU */
 function formatDisplay(key, cfg, val){
   const suffix = cfg.suffix || '';
   if (cfg.displayMode === 'percent') return Math.round(val) + '%';
@@ -1089,7 +1287,7 @@ function renderMenuRow(key, cfg, currentValue, opts = {}){
     <div class="size-row ${isHidden ? 'is-hidden' : ''}">
       <div class="size-row-head">
         <span class="size-row-label">${cfg.label}</span>
-        ${hideKey ? `<button class="size-hide ${isHidden ? 'is-off' : ''}" data-hide="${hideKey}" type="button"><i data-lucide="${isHidden ? 'eye' : 'x'}"></i></button>` : '<span style="width:28px"></span>'}
+        ${hideKey ? `<button class="size-hide ${isHidden ? 'is-off' : ''}" data-hide="${hideKey}" type="button"><i data-lucide="${isHidden ? 'eye' : 'x'}"></i></button>` : '<span style="width:26px"></span>'}
       </div>
       <div class="size-control">
         <button class="size-btn" data-dec="${key}" type="button">−</button>
@@ -1167,24 +1365,36 @@ function onValueChange(key){
   else if (key === 'bgOpacity' || key === 'tintStrength') applyBackground();
   else if (key === 'fBlur' || key === 'fBright' || key === 'fContrast') processBg().then(() => renderPage());
   else if (key === 'borderWidth'){ renderBorders(); scheduleRender(); }
-  else if (key === 'exportScale'){ /* preview unchanged */ }
+  else if (key === 'exportScale'){ /* no preview */ }
   else scheduleRender();
 }
 
-function renderSizingPanel(){
-  const wrap = $('#sizingPanel'); if (!wrap) return;
-  wrap.innerHTML = SIZE_ROWS.map(row => {
-    const cfg = { label: row.label, min: 30, max: 300, step: 10, displayMode: 'percent' };
-    const val = Math.round((state[row.key] || 1) * 100);
-    return renderMenuRow(row.key, cfg, val, { hideKey: row.hideKey });
-  }).join('');
+function renderSizingInline(){
+  const inlines = {
+    instSizeRow: 'instScale',
+    affilSizeRow: 'affilScale',
+    titleSizeRow: 'titleScale',
+    subtitleSizeRow: 'subtitleScale',
+    badgeSizeRow: 'badgeScale',
+    plabelSizeRow: 'plabelScale',
+    pvalueSizeRow: 'pvalueScale',
+    footerSizeRow: 'footerScale',
+  };
+  for (const [elId, key] of Object.entries(inlines)){
+    const row = SIZE_ROWS.find(r => r.key === key);
+    const wrap = $('#' + elId);
+    if (row && wrap){
+      const cfg = { label: row.label, min: row.min || 30, max: row.max || 300, step: row.step || 10, displayMode: 'percent' };
+      wrap.innerHTML = renderMenuRow(key, cfg, state[key], { hideKey: row.hideKey });
+    }
+  }
   lucide.createIcons();
 }
 
 function renderFitPanel(){
   const wrap = $('#fitPanel'); if (!wrap) return;
   wrap.innerHTML = FIT_ROWS.map(row => {
-    const val = Math.round(state[row.key]);
+    const val = state[row.key];
     return renderMenuRow(row.key, row, val);
   }).join('');
   lucide.createIcons();
@@ -1224,9 +1434,35 @@ function syncControls(){
   $$('#bgFitSeg button').forEach(b => b.classList.toggle('active', b.dataset.fit === state.bgFit));
   $$('#catChips .chip').forEach(b => b.classList.toggle('active', b.dataset.cat === state.category));
   $$('#landingCats .chip').forEach(b => b.classList.toggle('active', b.dataset.cat === state.category));
+  $$('#frameBtns button').forEach(b => b.classList.toggle('active', b.dataset.frame === state.logoFrame));
+  document.querySelectorAll('[data-field-hide]').forEach(btn => {
+    const k = btn.dataset.fieldHide;
+    const isHidden = state.hidden[k];
+    btn.classList.toggle('is-off', isHidden);
+    btn.innerHTML = `<i data-lucide="${isHidden ? 'eye' : 'x'}"></i>`;
+  });
+  const hidePartBtn = $('#hideParticularsBtn');
+  if (hidePartBtn){
+    const h = state.hidden.particulars;
+    hidePartBtn.innerHTML = `<i data-lucide="${h ? 'eye' : 'eye-off'}"></i>${h ? 'Show' : 'Hide'} Particulars Block`;
+  }
+  const FONTS_EN_HEADING = ['Playfair Display','Poppins','Montserrat','Lora','Merriweather','Oswald','Space Grotesk'];
+  const FONTS_EN_BODY    = ['Inter','Poppins','Montserrat','Lora','Merriweather','Oswald','Space Grotesk'];
+  const FONTS_HI_HEADING = ['Noto Serif Devanagari','Noto Sans Devanagari','Tiro Devanagari Hindi','Poppins','Inter'];
+  const FONTS_HI_BODY    = ['Noto Sans Devanagari','Noto Serif Devanagari','Tiro Devanagari Hindi','Poppins','Inter'];
+  const hList = isDev() ? FONTS_HI_HEADING : FONTS_EN_HEADING;
+  const bList = isDev() ? FONTS_HI_BODY : FONTS_EN_BODY;
+  if (!hList.includes(state.headingFont)) state.headingFont = hList[0];
+  if (!bList.includes(state.bodyFont)) state.bodyFont = bList[0];
+  const fh = $('#fontHeading'); if (fh){ fh.innerHTML = hList.map(f => `<option value="${f}">${f}</option>`).join(''); fh.value = state.headingFont; }
+  const fb = $('#fontBody'); if (fb){ fb.innerHTML = bList.map(f => `<option value="${f}">${f}</option>`).join(''); fb.value = state.bodyFont; }
+
+  refreshDefaultValues();
+  renderGradients();
   renderAllNumericRows();
-  renderSizingPanel();
+  renderSizingInline();
   renderFitPanel();
+  lucide.createIcons();
 }
 
 function bind(){
@@ -1251,7 +1487,37 @@ function bind(){
     if (hide){
       e.stopPropagation();
       state.hidden[hide.dataset.hide] = !state.hidden[hide.dataset.hide];
-      renderSizingPanel(); renderPage(); fitStage(); return;
+      renderSizingInline(); renderPage(); fitStage(); return;
+    }
+    const fx = e.target.closest('[data-field-hide]');
+    if (fx){
+      e.stopPropagation();
+      const k = fx.dataset.fieldHide;
+      state.hidden[k] = !state.hidden[k];
+      syncControls(); renderPage(); fitStage();
+      return;
+    }
+    if (e.target.closest('#hideParticularsBtn')){
+      e.stopPropagation();
+      state.hidden.particulars = !state.hidden.particulars;
+      syncControls(); renderPage(); fitStage();
+      return;
+    }
+    const fbtn = e.target.closest('[data-frame]');
+    if (fbtn){
+      e.stopPropagation();
+      state.logoFrame = fbtn.dataset.frame;
+      syncControls(); renderPage();
+      return;
+    }
+    const gradBtn = e.target.closest('[data-grad]');
+    if (gradBtn){
+      e.stopPropagation();
+      const idx = gradBtn.dataset.grad;
+      state.paperGradient = idx === '' ? null : GRADIENTS[parseInt(idx)].css;
+      renderGradients();
+      scheduleRender();
+      return;
     }
     if (!e.target.closest('.size-menu')) closeAllSizeMenus();
 
@@ -1313,6 +1579,13 @@ function bind(){
   bindText('#inInstitution', 'institution'); bindText('#inAffiliation', 'affiliation');
   bindText('#inTitle', 'title'); bindText('#inSubtitle', 'subtitle');
   bindText('#inBadge', 'badge'); bindText('#inFooter', 'footer');
+  registerDefaultValue($('#inInstitution'), 'institution');
+  registerDefaultValue($('#inAffiliation'), 'affiliation');
+  registerDefaultValue($('#inTitle'), 'title');
+  registerDefaultValue($('#inSubtitle'), 'subtitle');
+  registerDefaultValue($('#inBadge'), 'badge');
+  registerDefaultValue($('#inFooter'), 'footer');
+
   $('#logoBtn').addEventListener('click', () => $('#logoFile').click());
   $('#logoFile').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return;
@@ -1321,6 +1594,7 @@ function bind(){
     rd.readAsDataURL(f); e.target.value = '';
   });
   $('#logoRemove').addEventListener('click', () => { state.logo = null; renderPage(); });
+
   $('#particularList').addEventListener('input', e => {
     const inp = e.target.closest('input[data-pi]'); if (!inp) return;
     state.particulars[+inp.dataset.pi][inp.dataset.pf] = inp.value; scheduleRender();
@@ -1329,10 +1603,13 @@ function bind(){
     const del = e.target.closest('[data-pdel]'); if (!del) return;
     state.particulars.splice(+del.dataset.pdel, 1); renderParticulars(); renderPage();
   });
-  $('#addPart').addEventListener('click', () => { state.particulars.push({ label:'New Field', value:'' }); renderParticulars(); renderPage(); });
+  $('#addPart').addEventListener('click', () => { state.particulars.push({ label:'', value:'' }); renderParticulars(); renderPage(); });
+
   const bindColor = (sel, key) => { const el = $(sel); if (!el) return; el.addEventListener('input', () => { state[key] = el.value; scheduleRender(); }); };
   bindColor('#colPrimary', 'primary'); bindColor('#colAccent', 'accent');
   bindColor('#colInk', 'ink'); bindColor('#colPaper', 'paper'); bindColor('#borderColor', 'borderColor');
+  $('#fontHeading').addEventListener('change', e => { state.headingFont = e.target.value; renderPage(); });
+  $('#fontBody').addEventListener('change', e => { state.bodyFont = e.target.value; renderPage(); });
   $('#borderGrid').addEventListener('click', e => {
     const opt = e.target.closest('[data-border]'); if (!opt) return;
     state.border = opt.dataset.border; renderBorders(); renderPage();
@@ -1373,8 +1650,8 @@ function bind(){
     syncControls(); renderPage(); fitStage(); toast('Spacing reset');
   });
   $('#resetSizes').addEventListener('click', () => {
-    state.instScale = 1; state.affilScale = 1; state.titleScale = 1; state.subtitleScale = 1;
-    state.badgeScale = 1; state.plabelScale = 1; state.pvalueScale = 1; state.footerScale = 1;
+    state.instScale = 100; state.affilScale = 100; state.titleScale = 100; state.subtitleScale = 100;
+    state.badgeScale = 100; state.plabelScale = 100; state.pvalueScale = 100; state.footerScale = 100;
     state.hidden = { inst:false, affil:false, title:false, subtitle:false, badge:false, particulars:false, footer:false };
     syncControls(); renderPage(); fitStage(); toast('Sizes reset');
   });
